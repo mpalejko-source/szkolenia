@@ -1,0 +1,61 @@
+name: Email - manifest updates today
+
+on:
+  push:
+    paths:
+      - "manifest.json"
+  workflow_dispatch: {}
+
+jobs:
+  send_email:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: DEBUG - workflow is running
+        run: |
+          echo "Workflow started OK"
+          echo "Event name: $GITHUB_EVENT_NAME"
+          echo "UTC now: $(date -u)"
+          echo "Warsaw now: $(TZ=Europe/Warsaw date)"
+          echo "Files in repo root:"
+          ls -la
+          echo "manifest.json preview:"
+          head -n 20 manifest.json || true
+
+      - name: Save previous manifest (push only)
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = "push" ]; then
+            echo "Saving manifest.json from BEFORE commit: ${{ github.event.before }}"
+            git show ${{ github.event.before }}:manifest.json > manifest_before.json || echo "{}" > manifest_before.json
+          else
+            echo "Not a push event. Using empty previous manifest."
+            echo "{}" > manifest_before.json
+          fi
+          echo "manifest_before.json preview:"
+          head -n 20 manifest_before.json || true
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm i nodemailer
+
+      - name: Send email if manifest has today's NEW updates (diff-based)
+        if: github.event_name == 'push'
+        env:
+          SMTP_HOST: ${{ secrets.SMTP_SERVER }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          MAIL_FROM: ${{ secrets.FROM_EMAIL }}
+          MAIL_TO: ${{ secrets.TO_EMAILS }}
+          BASE_URL: ${{ secrets.BASE_URL }}
+          TZ: "Europe/Warsaw"
+        run: node .github/scripts/send_manifest_today.js manifest_before.json manifest.json

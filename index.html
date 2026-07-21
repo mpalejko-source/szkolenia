@@ -1,0 +1,2007 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ACE – Panel monitorowania rynku</title>
+
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+
+  <script>
+    const BASE = location.hostname.endsWith("github.io")
+      ? "/" + (location.pathname.split("/").filter(Boolean)[0] || "") + "/"
+      : "/";
+
+    function url(path){
+      return BASE + String(path || "").replace(/^\/+/, "");
+    }
+  </script>
+
+  <style>
+    :root{
+      --bg:#0b1220;
+      --border:rgba(255,255,255,.10);
+      --text:#eaf0ff;
+      --muted:rgba(234,240,255,.72);
+      --muted2:rgba(234,240,255,.55);
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius:16px;
+
+      --hiBorder: rgba(125,211,252,.70);
+      --hiBg1: rgba(125,211,252,.12);
+      --hiBg2: rgba(167,139,250,.08);
+      --hiShadow: 0 18px 46px rgba(0,0,0,.48);
+
+      --todayYellow: rgba(250,204,21,.95);
+      --todayYellowText: #0b1220;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: Arial, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: radial-gradient(1200px 600px at 10% 0%, rgba(125,211,252,.14), transparent 60%),
+                  radial-gradient(900px 500px at 90% 10%, rgba(167,139,250,.12), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+      padding:26px 18px 44px;
+      width:100%;
+      flex:1;
+      display:flex;
+      flex-direction:column;
+    }
+
+    header{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      margin-bottom:18px;
+    }
+
+    .topTitle{
+      text-align:center;
+      font-size:33px;
+      font-weight:950;
+      letter-spacing:.12px;
+      color:#ffffff;
+      line-height:1.12;
+      text-shadow: 0 10px 24px rgba(0,0,0,.35);
+      margin:0;
+    }
+
+    .headerRow{
+      display:grid;
+      grid-template-columns: auto 1fr auto;
+      gap:14px;
+      align-items:center;
+    }
+
+    .logo{
+      height:56px;
+      width:auto;
+      display:block;
+      filter: drop-shadow(0 10px 24px rgba(0,0,0,.45));
+    }
+
+    .rightSlogan{
+      text-align:right;
+      font-style:italic;
+      color: rgba(250,204,21,.78);
+      text-shadow: 0 10px 24px rgba(0,0,0,.35);
+      line-height:1.08;
+      margin:0;
+      font-size:29px;
+      font-weight:500;
+      max-width: 360px;
+    }
+    .rightSlogan .l1{ display:block; }
+    .rightSlogan .l2{ display:block; }
+
+    .userBar{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .pill{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.05);
+      padding:8px 10px;
+      border-radius:999px;
+      color:var(--muted2);
+      font-size:12px;
+      box-shadow: var(--shadow);
+      white-space:nowrap;
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      text-decoration:none;
+      opacity:.9;
+    }
+
+    .sectionDivider{
+      margin:16px 0 6px;
+      height:1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
+      border:0;
+    }
+
+    .sectionHead{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:14px;
+    }
+    .h2{ margin:0; font-size:20px; font-weight:950; letter-spacing:.2px; }
+    .hint{ margin:0; color: var(--muted2); font-size:12px; }
+
+    a.card, .cardStatic{
+      display:flex;
+      flex-direction:column;
+      text-decoration:none;
+      color:inherit;
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow: var(--shadow);
+      padding:16px;
+      position:relative;
+      overflow:hidden;
+    }
+    a.card{ transition: transform .08s ease, border-color .08s ease; }
+    a.card:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.18); }
+    a.card{ height:100%; }
+    a.card:before, .cardStatic:before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      background: radial-gradient(600px 180px at 10% 0%, rgba(125,211,252,.15), transparent 60%),
+                  radial-gradient(600px 220px at 90% 0%, rgba(167,139,250,.14), transparent 60%);
+      pointer-events:none;
+    }
+    a.card > *, .cardStatic > *{ position:relative; }
+
+    a.card.today{
+      border:2px solid var(--hiBorder);
+      background: linear-gradient(135deg, var(--hiBg1), var(--hiBg2));
+      box-shadow: var(--hiShadow);
+    }
+
+    .topMeta{
+      display:flex;
+      justify-content:flex-end;
+      gap:10px;
+      flex-wrap:nowrap;
+      align-items:flex-start;
+      margin-bottom:10px;
+      color: rgba(234,240,255,.78);
+      font-size:12px;
+      min-height:34px;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 12px;
+      border-radius:999px;
+      font-size:12px;
+      color: rgba(234,240,255,.92);
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      box-shadow: 0 10px 24px rgba(0,0,0,.20);
+      white-space:nowrap;
+      flex:0 0 auto;
+      max-width:none;
+    }
+
+    .badge.primary{
+      border-color: rgba(125,211,252,.45);
+      background: rgba(125,211,252,.16);
+      color:#ffffff;
+      font-weight:900;
+    }
+
+    .badge.updToday{
+      border-color: rgba(250,204,21,.70);
+      background: var(--todayYellow);
+      color: var(--todayYellowText);
+      font-weight:950;
+      box-shadow:
+        0 10px 24px rgba(0,0,0,.20),
+        0 0 0 1px rgba(250,204,21,.18);
+    }
+
+    .title{margin:0; font-size:16px; font-weight:950; line-height:1.15; color:#fff}
+    .desc{
+      margin:10px 0 0 0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.35;
+      display:-webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow:hidden;
+      min-height: calc(1.35em * 3);
+    }
+
+    .metaLine{
+      margin-top:auto;
+      padding-top:10px;
+      border-top:1px solid rgba(255,255,255,.10);
+      font-size:12px;
+      color: var(--muted2);
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .metaLine strong{color: rgba(234,240,255,.92); font-weight:900;}
+
+    .bottomMeta{
+      margin-top:auto;
+      padding-top:12px;
+      border-top:1px solid rgba(255,255,255,.10);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:nowrap;
+      font-size:12px;
+      color:var(--muted2);
+    }
+
+    .bottomMeta .left{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      min-width:0;
+      flex:1 1 auto;
+    }
+
+    .bottomMeta .right{
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      gap:8px;
+      text-align:right;
+      min-width:0;
+      flex:0 0 auto;
+      margin-left:auto;
+    }
+
+    .bottomMeta strong{
+      color:rgba(234,240,255,.92);
+      font-weight:900;
+    }
+
+    .bottomMeta .nextText{
+      color:var(--muted2);
+      white-space:nowrap;
+    }
+
+    .updateLine{
+      margin-top:16px;
+      padding-top:12px;
+      border-top:1px solid rgba(255,255,255,.08);
+      display:flex;
+      justify-content:center;
+    }
+
+    .updateBadge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:6px 14px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      border:1px solid rgba(255,255,255,.15);
+      background:rgba(255,255,255,.06);
+      color:rgba(234,240,255,.92);
+      white-space:nowrap;
+    }
+
+    .updateBadge.today{
+      background:#FACC15;
+      border-color:#FACC15;
+      color:#111827;
+      font-weight:900;
+    }
+
+    .ticker{
+      margin-top:10px;
+      border:1px solid rgba(250,204,21,.45);
+      background: rgba(15,23,42,.78);
+      border-radius: 999px;
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      height:42px;
+      display:flex;
+      align-items:center;
+    }
+    .ticker .label{
+      flex:0 0 auto;
+      padding:0 14px;
+      color:#0b1220;
+      background: rgba(250,204,21,.95);
+      font-weight: 950;
+      letter-spacing:.04em;
+      height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:13px;
+    }
+    .ticker .track{
+      position:relative;
+      flex:1 1 auto;
+      overflow:hidden;
+      height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .ticker .marquee{
+      position:absolute;
+      white-space:nowrap;
+      will-change: transform;
+      display:inline-flex;
+      align-items:center;
+      height:100%;
+      padding-left: 100%;
+      animation: aceTicker 36s linear infinite;
+      color: rgba(234,240,255,.92);
+      font-size: 14.5px;
+      line-height: 1;
+    }
+    .ticker .marquee strong{ color: rgba(250,204,21,.95); }
+    @keyframes aceTicker{
+      0%{ transform: translateX(0); }
+      100%{ transform: translateX(-100%); }
+    }
+
+    .calLine2{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      padding:12px 12px 12px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .calHdr{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .calHdrLeft{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+    }
+
+    .calIco{
+      width:28px;
+      height:28px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:14px;
+      flex:0 0 auto;
+      box-shadow: 0 10px 24px rgba(0,0,0,.18);
+    }
+
+    .calHdrTitle{
+      margin:0;
+      font-size:14px;
+      font-weight:950;
+      color:#fff;
+      letter-spacing:.2px;
+      white-space:nowrap;
+    }
+
+    .calHdrRange{
+      margin:0;
+      font-size:12px;
+      color: rgba(234,240,255,.65);
+      font-weight:900;
+      white-space:nowrap;
+    }
+
+    .calRow{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      border-radius: 14px;
+      padding:10px;
+      display:grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap:10px;
+    }
+
+    @media (max-width: 900px){
+      .calRow{ grid-template-columns: 1fr; }
+    }
+
+    .calPill{
+      width:100%;
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      cursor:pointer;
+      user-select:none;
+      transition: transform .08s ease, border-color .08s ease, background .08s ease;
+      min-width:0;
+    }
+
+    .calPill:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.18);
+      background: rgba(255,255,255,.04);
+    }
+
+    .calPill .top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      min-width:0;
+    }
+
+    .calPill .d{
+      font-weight:950;
+      letter-spacing:.06em;
+      font-size:10px;
+      color: rgba(234,240,255,.78);
+      white-space:nowrap;
+    }
+
+    .calPill .dt{
+      font-size:10px;
+      color: rgba(234,240,255,.55);
+      font-weight:900;
+      white-space:nowrap;
+    }
+
+    .calPill .n{
+      font-size:11.5px;
+      color: rgba(234,240,255,.92);
+      font-weight:900;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+
+    .calPill.today{
+      border:2px solid var(--hiBorder);
+      background: linear-gradient(135deg, var(--hiBg1), var(--hiBg2));
+      box-shadow: var(--hiShadow);
+    }
+
+    .topRowGrid{
+      display:grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.78fr);
+      gap:12px;
+      margin-top:12px;
+      align-items:stretch;
+    }
+    .topRowGrid > div{
+      height:100%;
+      display:flex;
+      min-width:0;
+    }
+    @media (max-width: 1100px){
+      .topRowGrid{ grid-template-columns: 1fr; }
+    }
+
+    a.featured, div.featured{
+      width:100%;
+      border: 2px solid rgba(125,211,252,.70);
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, rgba(125,211,252,.18), rgba(167,139,250,.10));
+      box-shadow: 0 18px 46px rgba(0,0,0,.48);
+      padding:18px 18px 16px;
+      position:relative;
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      height:100%;
+      min-height:420px;
+      color:inherit;
+    }
+    a.featured{text-decoration:none; transition: transform .08s ease, border-color .08s ease;}
+    a.featured:hover{ transform: translateY(-2px); border-color: rgba(125,211,252,.92); }
+    a.featured:before, div.featured:before{
+      content:"";
+      position:absolute; inset:-1px;
+      background: radial-gradient(680px 220px at 10% 0%, rgba(125,211,252,.18), transparent 60%),
+                  radial-gradient(680px 260px at 90% 0%, rgba(167,139,250,.16), transparent 60%);
+      pointer-events:none;
+    }
+    a.featured > *, div.featured > *{ position:relative; }
+
+    .fMetaLine{
+      display:flex;
+      align-items:center;
+      justify-content:flex-start;
+      gap:10px;
+      flex-wrap:nowrap;
+      margin-bottom:10px;
+      font-size:12px;
+      color: rgba(234,240,255,.78);
+      min-height:34px;
+    }
+
+    .fMetaLine .leftBox{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      min-width:0;
+      flex:1 1 auto;
+    }
+
+    .fTitle{
+      margin:0;
+      font-size:20px;
+      font-weight:950;
+      line-height:1.15;
+      color:#ffffff;
+      min-height:46px;
+      display:flex;
+      align-items:flex-start;
+    }
+
+    .fHero{
+      margin-top:12px;
+      height:145px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(11,18,32,.15), rgba(11,18,32,.55)), url("");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      box-shadow: inset 0 18px 40px rgba(0,0,0,.45), 0 10px 30px rgba(0,0,0,.35);
+    }
+    .fHeroNote{
+      margin-top:8px;
+      font-size:12px;
+      color: rgba(234,240,255,.62);
+    }
+
+    .portfolioFeatured{
+      border:2px solid rgba(250,204,21,.65);
+      background: linear-gradient(135deg, rgba(250,204,21,.14), rgba(125,211,252,.08));
+      box-shadow: 0 18px 46px rgba(0,0,0,.48);
+    }
+    .portfolioFeatured:hover{
+      border-color: rgba(250,204,21,.90);
+    }
+    .portfolioFeatured .fTitle{
+      font-size:20px;
+      line-height:1.15;
+      text-align:center;
+      white-space:normal;
+      overflow:visible;
+      text-overflow:clip;
+      max-width:100%;
+      margin:4px 0 0 0;
+      min-height:46px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .pHero{
+      margin-top:12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      padding:12px;
+    }
+    .thumbGrid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:10px;
+    }
+    @media (max-width: 520px){
+      .thumbGrid{ grid-template-columns: 1fr; }
+    }
+
+    .thumb{
+      display:block;
+      border-radius:12px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      box-shadow: 0 10px 24px rgba(0,0,0,.22);
+      text-decoration:none;
+      color:inherit;
+      transition: transform .08s ease, border-color .08s ease, background .08s ease;
+      position:relative;
+    }
+
+    .thumbToday{
+      border:1px solid rgba(250,204,21,.75) !important;
+      box-shadow:
+        0 10px 24px rgba(0,0,0,.22),
+        0 0 0 1px rgba(250,204,21,.20);
+      background: linear-gradient(180deg, rgba(250,204,21,.10), rgba(255,255,255,.03));
+    }
+
+    .thumb:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.20);
+      background: rgba(255,255,255,.05);
+    }
+
+    .thumb img{
+      width:100%;
+      height:56px;
+      object-fit:cover;
+      display:block;
+      filter: contrast(1.02) saturate(1.04);
+    }
+
+    .thumb .cap{
+      padding:8px 10px;
+      font-size:12px;
+      font-weight:950;
+      color: rgba(234,240,255,.92);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+    }
+
+    .thumb .cap span.small{
+      font-weight:800;
+      color: rgba(234,240,255,.60);
+      font-size:11.5px;
+      white-space:nowrap;
+    }
+
+    a.analysisFeatured{
+      width:100%;
+      height:100%;
+      min-height:420px;
+      border: 2px solid rgba(125,211,252,.70);
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, rgba(125,211,252,.18), rgba(167,139,250,.10));
+      box-shadow: 0 18px 46px rgba(0,0,0,.48);
+      padding:18px 18px 16px;
+      position:relative;
+      overflow:hidden;
+      text-decoration:none;
+      color:inherit;
+      transition: transform .08s ease, border-color .08s ease;
+      display:flex;
+      flex-direction:column;
+    }
+    a.analysisFeatured:before{
+      content:"";
+      position:absolute; inset:-1px;
+      background: radial-gradient(680px 220px at 10% 0%, rgba(125,211,252,.18), transparent 60%),
+                  radial-gradient(680px 260px at 90% 0%, rgba(167,139,250,.16), transparent 60%);
+      pointer-events:none;
+    }
+    a.analysisFeatured > *{ position:relative; }
+    a.analysisFeatured:hover{ transform: translateY(-2px); border-color: rgba(125,211,252,.92); }
+
+    .analysisBox{
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-start;
+      gap:12px;
+      min-height:0;
+      height:100%;
+    }
+
+    .analysisTitle{
+      margin:0;
+      font-size:22px;
+      font-weight:950;
+      line-height:1.08;
+      color:#ffffff;
+      min-height:46px;
+      display:flex;
+      align-items:flex-start;
+    }
+
+    .analysisDesc{
+      margin:0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.45;
+    }
+
+    .analysisHeroMini{
+      margin-top:10px;
+      height:96px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background-image:
+        linear-gradient(rgba(11,18,32,.35), rgba(11,18,32,.55)),
+        url("raporty/analiza-ace/analiza-ace-chart.jpg");
+      background-size:cover;
+      background-position:center;
+      box-shadow: inset 0 18px 40px rgba(0,0,0,.38), 0 10px 30px rgba(0,0,0,.28);
+    }
+
+    .quickGrid{
+      display:grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap:12px;
+      margin-top:14px;
+    }
+    .quickCard{ padding:14px; min-height:140px; }
+    .quickCard .title{ font-size:14px; }
+    .quickCard .desc{ font-size:12.5px; }
+    @media (max-width: 1100px){
+      .quickGrid{ grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 720px){
+      .quickGrid{ grid-template-columns: repeat(1, 1fr); }
+    }
+
+    .monthlyGrid{
+      display:grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap:12px;
+      margin-top:14px;
+    }
+    @media (max-width: 1100px){
+      .monthlyGrid{ grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 720px){
+      .monthlyGrid{ grid-template-columns: 1fr; }
+    }
+
+    .panel{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.05);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding:16px;
+      margin-top:14px;
+      position:relative;
+      overflow:hidden;
+    }
+    .panel > *{ position:relative; }
+
+    .panelHead{
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap:6px;
+      min-height:56px;
+      margin-bottom:10px;
+    }
+    .panelTitle{ margin:0; font-weight:950; font-size:16px; line-height:1.15; }
+    .panelSub{ margin:0; font-size:12px; opacity:.75; line-height:1.2; min-height:14px; }
+
+    .pricesGrid{
+      display:grid;
+      grid-template-columns: 1.7fr .8fr;
+      gap:14px;
+      margin-top:14px;
+      align-items:stretch;
+    }
+    @media (max-width: 1100px){
+      .pricesGrid{ grid-template-columns: 1fr; }
+    }
+
+    .tableScroll{
+      overflow:visible;
+      margin:0;
+      padding-bottom:0;
+    }
+
+    table.prTable{
+      width:100%;
+      table-layout:fixed;
+      border-collapse:separate;
+      border-spacing:0 8px;
+    }
+    table.prTable th{
+      text-align:left;
+      font-size:11px;
+      color: var(--muted2);
+      padding: 0 6px 6px;
+      font-weight:900;
+      letter-spacing:.01em;
+      white-space:normal;
+    }
+    table.prTable td{
+      padding:9px 6px;
+      background: rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.08);
+      font-size:11px;
+      color: rgba(234,240,255,.92);
+      vertical-align:middle;
+    }
+    table.prTable tr td:first-child{ border-radius:14px 0 0 14px; }
+    table.prTable tr td:last-child{ border-radius:0 14px 14px 0; }
+    .right{text-align:right}
+
+    #cashTable th:nth-child(1), #cashTable td:nth-child(1),
+    #futuresTable th:nth-child(1), #futuresTable td:nth-child(1){
+      width:48%;
+    }
+
+    #cashTable th:nth-child(2), #cashTable td:nth-child(2),
+    #futuresTable th:nth-child(2), #futuresTable td:nth-child(2){
+      width:12%;
+    }
+
+    #cashTable th:nth-child(3), #cashTable td:nth-child(3),
+    #cashTable th:nth-child(4), #cashTable td:nth-child(4),
+    #cashTable th:nth-child(5), #cashTable td:nth-child(5),
+    #futuresTable th:nth-child(3), #futuresTable td:nth-child(3),
+    #futuresTable th:nth-child(4), #futuresTable td:nth-child(4),
+    #futuresTable th:nth-child(5), #futuresTable td:nth-child(5){
+      width:13.3%;
+    }
+
+    #cashTable td:first-child,
+    #futuresTable td:first-child{
+      white-space:normal;
+      line-height:1.25;
+      word-break:break-word;
+    }
+
+    #cashTable td:not(:first-child),
+    #futuresTable td:not(:first-child),
+    #cashTable th:not(:first-child),
+    #futuresTable th:not(:first-child){
+      white-space:nowrap;
+    }
+
+    .quotesBox{
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .qTitle{
+      margin:0;
+      font-weight:950;
+      font-size:16px;
+      line-height:1.15;
+      color:#fff;
+    }
+    .qSub{
+      margin:0;
+      font-size:12px;
+      color: rgba(234,240,255,.60);
+      line-height:1.3;
+    }
+    .qLinks{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      margin-top:6px;
+    }
+    .qLink{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 10px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      color: rgba(234,240,255,.90);
+      text-decoration:none;
+      font-size:12.5px;
+      font-weight:950;
+      box-shadow: 0 10px 24px rgba(0,0,0,.18);
+      transition: transform .08s ease, border-color .08s ease, background .08s ease;
+    }
+    .qLink:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.20);
+      background: rgba(255,255,255,.06);
+    }
+    .qIco{
+      width:26px;
+      height:26px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      flex:0 0 auto;
+      font-size:13px;
+    }
+    .qTxt{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+      min-width:0;
+    }
+    .qMain{
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+    .qSmall{
+      font-weight:800;
+      color: rgba(234,240,255,.60);
+      font-size:11.5px;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+
+    .error{
+      border:1px solid rgba(255,120,120,.25);
+      background: rgba(255,120,120,.08);
+      padding:12px 14px;
+      border-radius:14px;
+      color:rgba(255,220,220,.92);
+      margin-top:14px;
+      font-size:13px;
+      box-shadow: var(--shadow);
+      white-space:pre-wrap;
+    }
+
+    footer{margin-top:18px; color:var(--muted2); font-size:12px}
+    code{background:rgba(255,255,255,.06);padding:2px 6px;border-radius:10px;border:1px solid rgba(255,255,255,.10)}
+
+    @media (max-width: 720px){
+      .topTitle{ font-size:28px; }
+      .headerRow{
+        grid-template-columns: 1fr;
+        justify-items:center;
+        gap:10px;
+      }
+      .rightSlogan{
+        text-align:center;
+        font-size:24px;
+        max-width:none;
+      }
+      .logo{ height:46px; }
+      .userBar{ justify-content:center; }
+    }
+
+    .pHeroTight{
+      margin-top:10px;
+      padding:10px;
+      height:170px;
+      display:flex;
+      align-items:stretch;
+    }
+
+    .thumbGridBig{
+      width:100%;
+      height:100%;
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:8px;
+      align-items:stretch;
+    }
+
+    .thumbGridBig .thumb{
+      height:100%;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .thumbGridBig .thumb img{
+      width:100%;
+      height: calc(100% - 36px);
+      object-fit:cover;
+      border-radius:10px;
+    }
+
+    .thumbGridBig .thumb .cap{
+      margin-top:auto;
+      padding:7px 8px;
+      font-weight:950;
+      font-size:11px;
+      line-height:1.1;
+    }
+    .thumbGridBig .thumb .cap .small{ display:none; }
+
+    #featuredWrap .featured .fHero{ flex:0 0 auto; }
+    #featuredWrap .featured .fHeroNote{ flex:0 0 auto; }
+    #featuredWrap .featured .fNext{ margin-top:auto; }
+    #portfolioWrap .featured, #analysisAceWrap .analysisFeatured{ height:100%; }
+    #portfolioWrap .pHero{ margin-top:12px; }
+    #analysisAceWrap .analysisBox{ height:100%; }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <header>
+      <h1 class="topTitle">ACE - Panel monitorowania rynku</h1>
+
+      <div class="headerRow">
+        <img src="" alt="ACE Group" class="logo" id="logoImg">
+
+        <div class="userBar">
+          <div class="pill" id="userEmail" title="Zalogowany użytkownik">
+            <span class="ico">👤</span>
+            <span>Zalogowany: —</span>
+          </div>
+
+          <a href="/cdn-cgi/access/logout" class="pill" title="Wyloguj się">
+            <span class="ico">🚪</span>
+            <span>Wyloguj</span>
+          </a>
+
+          <div class="pill" id="asof">
+            <span class="ico">📍</span>
+            <span>Olsztyn —</span>
+          </div>
+        </div>
+
+        <p class="rightSlogan">
+          <span class="l1">Nasza współpraca</span>
+          <span class="l2">buduje sukces !</span>
+        </p>
+      </div>
+    </header>
+
+    <div id="todayTicker" class="ticker" style="display:none"></div>
+
+    <div class="calLineWrap" id="calLineWrap"></div>
+
+    <section class="topRowGrid">
+      <div id="featuredWrap"></div>
+      <div id="portfolioWrap"></div>
+      <div id="analysisAceWrap"></div>
+    </section>
+
+    <div class="sectionHead" style="margin-top:16px;">
+      <p class="h2">Cenniki i notowania</p>
+      <p class="hint">Szybki podgląd cen spot i giełdowych + linki do notowań</p>
+    </div>
+
+    <section class="pricesGrid">
+      <section class="panel" id="pricesLeftPanel">
+        <div class="panelHead">
+          <div class="panelTitle">Ceny najważniejszych surowców rolniczych</div>
+          <div class="panelSub" id="pricesAsOf">Aktualizacja: —</div>
+        </div>
+        <div class="tableScroll">
+          <table id="cashTable" class="prTable"></table>
+        </div>
+        <div style="margin-top:8px;font-size:12px;color:rgba(234,240,255,.55)">Źródło: ACE Group • rynek spot</div>
+
+        <div class="sectionDivider" style="margin:14px 0 10px;"></div>
+
+        <div class="panelHead" style="min-height:auto; margin-bottom:10px;">
+          <div class="panelTitle">Ceny giełdowe (close)</div>
+          <div class="panelSub" id="futuresAsOf">&nbsp;</div>
+        </div>
+        <div class="tableScroll">
+          <table id="futuresTable" class="prTable"></table>
+        </div>
+        <div style="margin-top:8px;font-size:12px;color:rgba(234,240,255,.55)">Źródło: ACE Group • futures</div>
+      </section>
+
+      <section class="panel">
+        <div class="quotesBox">
+          <div>
+            <p class="qTitle">Link do notowań</p>
+            <p class="qSub">Oficjalne strony giełdowe – dane źródłowe.</p>
+          </div>
+
+          <div class="qLinks">
+            <a class="qLink" href="https://www.cmegroup.com/markets/agriculture/oilseeds/soybean-meal.html" target="_blank" rel="noreferrer">
+              <span class="qIco">🇺🇸</span>
+              <span class="qTxt">
+                <span class="qMain">Śruta sojowa – CBOT (CME)</span>
+                <span class="qSmall">USA • Chicago Board of Trade</span>
+              </span>
+            </a>
+
+            <a class="qLink" href="https://www.barchart.com/futures/prices-by-exchange/euronext-commodities?future=ML" target="_blank" rel="noreferrer">
+              <span class="qIco">🇪🇺</span>
+              <span class="qTxt">
+                <span class="qMain">Pszenica – MATIF (ML)</span>
+                <span class="qSmall">UE • Euronext Paris</span>
+              </span>
+            </a>
+
+            <a class="qLink" href="https://www.barchart.com/futures/prices-by-exchange/euronext-commodities?future=XB" target="_blank" rel="noreferrer">
+              <span class="qIco">🇪🇺</span>
+              <span class="qTxt">
+                <span class="qMain">Kukurydza – MATIF (XB)</span>
+                <span class="qSmall">UE • Euronext Paris</span>
+              </span>
+            </a>
+
+            <a class="qLink" href="https://www.barchart.com/futures/prices-by-exchange/euronext-commodities?future=XR" target="_blank" rel="noreferrer">
+              <span class="qIco">🇪🇺</span>
+              <span class="qTxt">
+                <span class="qMain">Rzepak – MATIF (XR)</span>
+                <span class="qSmall">UE • Euronext Paris</span>
+              </span>
+            </a>
+
+            <a class="qLink" href="https://www.rscom.nl/nl/prices/prices-rape" target="_blank" rel="noreferrer">
+              <span class="qIco">🇩🇪</span>
+              <span class="qTxt">
+                <span class="qMain">Rape meal – Neuss / Spyck</span>
+                <span class="qSmall">Niemcy • Dolny Ren</span>
+              </span>
+            </a>
+
+            <a class="qLink" href="https://www.barchart.com/futures/prices-by-exchange/ice-eu-energies?future=CB" target="_blank" rel="noreferrer">
+              <span class="qIco">🛢️</span>
+              <span class="qTxt">
+                <span class="qMain">ICE Brent Crude Oil</span>
+                <span class="qSmall">Benchmark ropy Brent</span>
+              </span>
+            </a>
+
+            <a class="qLink" href="https://stooq.pl/q/?s=usdpln" target="_blank" rel="noreferrer">
+              <span class="qIco">💱</span>
+              <span class="qTxt">
+                <span class="qMain">USD/PLN</span>
+                <span class="qSmall">Kurs dolara do złotego</span>
+              </span>
+            </a>
+
+            <a class="qLink" href="https://stooq.pl/q/?s=eurpln" target="_blank" rel="noreferrer">
+              <span class="qIco">💱</span>
+              <span class="qTxt">
+                <span class="qMain">EUR/PLN</span>
+                <span class="qSmall">Kurs euro do złotego</span>
+              </span>
+            </a>
+
+            <a class="qLink" href="https://stooq.pl/q/?s=eurusd" target="_blank" rel="noreferrer">
+              <span class="qIco">💱</span>
+              <span class="qTxt">
+                <span class="qMain">EUR/USD</span>
+                <span class="qSmall">Główna para walutowa FX</span>
+              </span>
+            </a>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <hr class="sectionDivider" />
+
+    <div class="sectionHead">
+      <p class="h2">Monit tygodniowy - ANALIZA | STATYSTYKA | TECHNIKA | PORTFEL ACE</p>
+    </div>
+    <section class="quickGrid" id="quickGrid"></section>
+
+    <hr class="sectionDivider" />
+
+    <div class="sectionHead">
+      <p class="h2">Monit miesięczny - FUNDAMENTY | BILANSE | PROGNOZY</p>
+    </div>
+    <section class="monthlyGrid" id="monthlyGrid"></section>
+
+    <div id="err" class="error" style="display:none"></div>
+
+    <footer>
+      Agri Commodity Experts Sp. z o.o. • <code>biuro@ace-group.pl</code> • <code>ACE Reserved 2026</code>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById("logoImg").src = url("logo.png");
+    const CONFIG = { location: "Olsztyn" };
+
+    const FEATURED_KEY = "Poranny Skan Rynku";
+    const PORTFOLIO_KEY = "Portfele-ACE";
+    const ANALYSIS_ACE_KEY = "ACE Market View";
+    const ANALYSIS_ACE_FALLBACK_PATH = "raporty/analiza-ace/";
+
+    const PORTFOLIO_THUMBS = [
+      { label:"Śruta sojowa",    img:"portfele/soymeal.png",  hash:"#soymeal" },
+      { label:"USD/PLN",         img:"portfele/usdpln.png",   hash:"#usdpln" },
+      { label:"Śruta rzepakowa", img:"portfele/rapemeal.png", hash:"#rapemeal" }
+    ];
+
+    const QUICK_KEYS  = [
+      "Rynek na wykresach - Surowce i Waluty",
+      "Pozycje Funduszy",
+      "Portfele-ACE",
+      "Analizy statystyczno-techniczne",
+      "Pogoda"
+    ];
+
+    const MONTHLY_KEYS = ["wasde","igc","fao","Indexy-światowe"];
+
+    const EXTRA_MONTHLY_CARD = {
+      id: "wskazniki",
+      name: "Wskaźniki",
+      description: "Analiza relacji cenowych między surowcami i wskaźników względem ceny.",
+      path: "raporty-fundamentalne/wskazniki/",
+      updated: "",
+      next_issue: ""
+    };
+
+    const CAL = [
+      { dow:1, short:"PN", key:"Pozycje Funduszy" },
+      { dow:2, short:"WT", key:"Analizy statystyczno-techniczne" },
+      { dow:3, short:"ŚR", key:"Portfele-ACE" },
+      { dow:4, short:"CZ", key:"Rynek na wykresach - Surowce i Waluty" },
+      { dow:5, short:"PT", key:"Pogoda" }
+    ];
+
+    function fmtDatePL(iso){
+      if(!iso || typeof iso !== "string") return "—";
+      const p = iso.split("-");
+      if(p.length !== 3) return iso;
+      return `${p[2]}.${p[1]}.${p[0]}`;
+    }
+
+    function parseISO(iso){
+      if(!iso || typeof iso !== "string") return -Infinity;
+      const t = Date.parse(iso + "T00:00:00Z");
+      return isNaN(t) ? -Infinity : t;
+    }
+
+    function parseISODateLocal(iso){
+      const p = (iso || "").split("-");
+      if(p.length !== 3) return null;
+      const dt = new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+      return isNaN(dt.getTime()) ? null : dt;
+    }
+
+    function nextBusinessDay(dateObj){
+      const d = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate());
+      do { d.setDate(d.getDate() + 1); } while (d.getDay() === 0 || d.getDay() === 6);
+      return d;
+    }
+
+    function fmtDatePrettyPL(dt){
+      if(!(dt instanceof Date)) return "—";
+      return dt.toLocaleDateString("pl-PL", { day:"2-digit", month:"2-digit", year:"numeric" });
+    }
+
+    function todayISO(){
+      const d = new Date();
+      const y = d.getFullYear();
+      const m = String(d.getMonth()+1).padStart(2,"0");
+      const day = String(d.getDate()).padStart(2,"0");
+      return `${y}-${m}-${day}`;
+    }
+
+    function isToday(iso){
+      return (iso || "").trim() === todayISO();
+    }
+
+    function safePath(p){
+      const s = (p || "").toString();
+      if(/^https?:\/\//i.test(s)) return s;
+      return url(s);
+    }
+
+    function pickTodayFromScan(scan){
+      const items = scan && Array.isArray(scan.items) ? scan.items : [];
+      if(!items.length) return null;
+      return [...items].sort((a,b)=>parseISO(b.date)-parseISO(a.date))[0] || null;
+    }
+
+    function portfolioLink(baseHref, hash){
+      const href = baseHref || "";
+      const h = (hash || "").toString().trim();
+      if(!h) return href;
+      return href.replace(/#.*$/, "") + h;
+    }
+
+    async function loadManifest(){
+      const finalUrl = url("manifest.json?ts=" + Date.now());
+      const res = await fetch(finalUrl, { cache:"no-store" });
+      if(!res.ok) throw new Error("Nie mogę wczytać manifest.json (" + res.status + ")");
+      return await res.json();
+    }
+
+    async function loadPorannyScanJSON(){
+      const res = await fetch(url("raporty/poranny-skan/scan.json?ts=" + Date.now()), { cache:"no-store" });
+      if(!res.ok) return null;
+      return await res.json();
+    }
+
+    function toItems(manifest){
+      return Object.entries(manifest).map(([id, r]) => ({
+        id,
+        type: (r.type || "report").toString().toLowerCase(),
+        name: r.name || id,
+        description: r.description || "",
+        path: r.path || ("raporty/" + id + "/"),
+        updated: r.updated || "",
+        next_issue: (r.next_issue || "").toString(),
+        group: (r.group || "").toString()
+      }));
+    }
+
+    function renderTodayTicker(items, scan){
+      const box = document.getElementById("todayTicker");
+      const today = todayISO();
+
+      let porannyToday = false;
+      const todayScan = pickTodayFromScan(scan);
+      if(todayScan && todayScan.date === today) porannyToday = true;
+
+      const updatedToday = items.filter(x => (x.updated || "") === today);
+
+      const names = [];
+      const used = new Set();
+
+      if(porannyToday){
+        const ps = items.find(x=>x.id === FEATURED_KEY);
+        if(ps){ names.push(ps.name); used.add(ps.id); }
+      }
+      for(const it of updatedToday){
+        if(used.has(it.id)) continue;
+        names.push(it.name);
+        used.add(it.id);
+      }
+
+      if(!names.length){
+        box.style.display = "none";
+        box.innerHTML = "";
+        return;
+      }
+
+      const text = `DZISIEJSZE AKTUALIZACJE: <strong>${names.join(" • ")}</strong>`;
+      box.style.display = "flex";
+      box.innerHTML = `
+        <div class="label">NOWE DZISIAJ</div>
+        <div class="track">
+          <div class="marquee">${text} &nbsp;&nbsp;&nbsp; ${text}</div>
+        </div>
+      `;
+    }
+
+    function renderFeatured(items, scan){
+      const wrap = document.getElementById("featuredWrap");
+      const ps = items.find(x => x.id === FEATURED_KEY);
+
+      if(!ps){
+        wrap.innerHTML = `<div class="error">Brak wpisu <code>${FEATURED_KEY}</code> w <code>manifest.json</code>.</div>`;
+        return;
+      }
+
+      const todayScan = pickTodayFromScan(scan);
+
+      const updatedISO  = (todayScan && todayScan.date) ? todayScan.date : (ps.updated || "");
+      const updatedTime = (todayScan && todayScan.time) ? todayScan.time : "";
+      const updatedLabel = updatedISO
+        ? (updatedTime ? `${fmtDatePL(updatedISO)} | ${updatedTime}` : fmtDatePL(updatedISO))
+        : "—";
+
+      let nextTxt = "—";
+      if(todayScan && todayScan.date){
+        const dt = parseISODateLocal(todayScan.date);
+        if(dt) nextTxt = fmtDatePrettyPL(nextBusinessDay(dt));
+      } else if ((ps.next_issue || "").trim()){
+        nextTxt = fmtDatePL(ps.next_issue.trim());
+      }
+
+      wrap.innerHTML = `
+        <a class="featured" href="${safePath(ps.path)}">
+          <div class="fMetaLine">
+            <div class="leftBox">
+              <span class="badge primary">Poranny skan</span>
+            </div>
+          </div>
+
+          <p class="fTitle">${ps.name}</p>
+
+          <div class="fHero" id="psHero"></div>
+          <div class="fHeroNote">Skan newsów + szybki kontekst rynkowy (agro • FX)</div>
+
+          <div class="updateLine">
+            <span class="updateBadge ${isToday(updatedISO) ? "today" : ""}">
+              Aktualizacja: ${updatedLabel}
+            </span>
+          </div>
+
+          <div class="bottomMeta">
+            <div class="left"></div>
+            <div class="right">
+              ${nextTxt !== "—" ? `<span class="nextText"><strong>Kolejne wydanie:</strong> ${nextTxt}</span>` : ``}
+            </div>
+          </div>
+        </a>
+      `;
+
+      const hero = document.getElementById("psHero");
+      if(hero){
+        hero.style.backgroundImage =
+          `linear-gradient(180deg, rgba(11,18,32,.15), rgba(11,18,32,.55)), url("${url("poranny-skan.png")}")`;
+      }
+    }
+
+    function renderPortfolioFeatured(items){
+      const wrap = document.getElementById("portfolioWrap");
+      if(!wrap) return;
+
+      const mapById   = Object.fromEntries(items.map(x => [x.id, x]));
+      const mapByName = Object.fromEntries(items.map(x => [x.name, x]));
+      const pick = (key) => mapById[key] || mapByName[key];
+
+      const pf = pick(PORTFOLIO_KEY);
+
+      if(!pf){
+        wrap.innerHTML = `<div class="error">Brak wpisu <code>${PORTFOLIO_KEY}</code> w <code>manifest.json</code>.</div>`;
+        return;
+      }
+
+      const baseHref = safePath(pf.path);
+      const today = todayISO();
+
+      const portfolioChildren = PORTFOLIO_THUMBS
+        .map(t => {
+          const href = portfolioLink(baseHref, t.hash);
+          const cleanHref = (href || "").replace(/#.*$/, "");
+
+          return items.find(it => {
+            const itemPath = safePath(it.path || "").replace(/#.*$/, "");
+            return itemPath === cleanHref;
+          }) || null;
+        })
+        .filter(Boolean);
+
+      const updISO = (pf.updated || "").trim();
+      const updLabel = updISO ? fmtDatePL(updISO) : "—";
+      const isPortfolioToday = isToday(updISO);
+
+      const thumbs = PORTFOLIO_THUMBS.map(t => {
+        const imgSrc = url(t.img);
+        const href   = portfolioLink(baseHref, t.hash);
+
+        const child = portfolioChildren.find(x => {
+          const childPath = safePath(x.path || "").replace(/#.*$/, "");
+          const targetPath = href.replace(/#.*$/, "");
+          return childPath === targetPath;
+        });
+
+        const childUpd = child && child.updated ? child.updated.trim() : "";
+        const thumbTodayClass = childUpd === today ? " thumbToday" : "";
+
+        return `
+          <a class="thumb${thumbTodayClass}" href="${href}" title="Otwórz: ${t.label}">
+            <img src="${imgSrc}" alt="${t.label}">
+            <div class="cap">
+              <span>${t.label}</span>
+            </div>
+          </a>
+        `;
+      }).join("");
+
+      wrap.innerHTML = `
+        <div class="featured portfolioFeatured cardStatic">
+          <div class="fMetaLine">
+            <div class="leftBox">
+              <span class="badge primary">Portfele zakupowe ACE</span>
+            </div>
+          </div>
+
+          <p class="fTitle">ZAKUPY ACE - REKOMENDACJE<br>BENCHMARK</p>
+
+          <div class="pHero pHeroTight">
+            <div class="thumbGrid thumbGridBig">${thumbs}</div>
+          </div>
+
+          <div class="updateLine">
+            <span class="updateBadge ${isPortfolioToday ? "today" : ""}">
+              Aktualizacja: ${updLabel}
+            </span>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderAnalysisAceFeatured(items){
+      const wrap = document.getElementById("analysisAceWrap");
+      if(!wrap) return;
+
+      const mapById   = Object.fromEntries(items.map(x => [x.id, x]));
+      const mapByName = Object.fromEntries(items.map(x => [x.name, x]));
+      const pick = (key) => mapById[key] || mapByName[key];
+
+      const aa = pick(ANALYSIS_ACE_KEY);
+
+      const href = aa ? safePath(aa.path) : safePath(ANALYSIS_ACE_FALLBACK_PATH);
+      const updISO = aa ? (aa.updated || "").trim() : "";
+      const updLabel = updISO ? fmtDatePL(updISO) : "—";
+
+      wrap.innerHTML = `
+        <a class="analysisFeatured" href="${href}">
+          <div class="fMetaLine">
+            <div class="leftBox">
+              <span class="badge primary">ACE Market View</span>
+            </div>
+          </div>
+
+          <div class="analysisBox">
+            <p class="analysisTitle">Nasze spojrzenie na rynek</p>
+            <p class="analysisDesc">
+              Autorski komentarz rynkowy ACE: syntetyczne spojrzenie na rynek,
+              najważniejsze impulsy cenowe i praktyczne wnioski.
+            </p>
+
+            <div class="analysisHeroMini"></div>
+
+            <div class="updateLine">
+              <span class="updateBadge ${isToday(updISO) ? "today" : ""}">
+                Aktualizacja: ${updLabel}
+              </span>
+            </div>
+          </div>
+        </a>
+      `;
+    }
+
+    function renderCalendarLine(items){
+      const wrap = document.getElementById("calLineWrap");
+      if(!wrap) return;
+
+      const mapById   = Object.fromEntries(items.map(x => [x.id, x]));
+      const mapByName = Object.fromEntries(items.map(x => [x.name, x]));
+      const pick = (key) => mapById[key] || mapByName[key];
+
+      const nameOf = (key) => (pick(key) && pick(key).name) ? pick(key).name : (key || "—");
+      const pathOf = (key) => (pick(key) && pick(key).path) ? safePath(pick(key).path) : null;
+
+      const now = new Date();
+      const jsDay = now.getDay();
+      const isoDay = (jsDay === 0) ? 7 : jsDay;
+
+      const monday = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate() - (isoDay - 1)
+      );
+
+      function dateForDow(dow){
+        return new Date(
+          monday.getFullYear(),
+          monday.getMonth(),
+          monday.getDate() + (dow - 1)
+        );
+      }
+
+      function fmtDDMM(dt){
+        const dd = String(dt.getDate()).padStart(2,"0");
+        const mm = String(dt.getMonth()+1).padStart(2,"0");
+        return `${dd}.${mm}`;
+      }
+
+      function fmtRange(mon, fri){
+        const monDD = String(mon.getDate()).padStart(2,"0");
+        const monMM = String(mon.getMonth()+1).padStart(2,"0");
+        const friDD = String(fri.getDate()).padStart(2,"0");
+        const friMM = String(fri.getMonth()+1).padStart(2,"0");
+
+        if(monMM === friMM) return `${monDD}–${friDD}.${friMM}`;
+        return `${monDD}.${monMM}–${friDD}.${friMM}`;
+      }
+
+      const weekFrom = dateForDow(1);
+      const weekTo   = dateForDow(5);
+      const rangeTxt = fmtRange(weekFrom, weekTo);
+
+      const pillHTML = (r) => {
+        const dt = dateForDow(r.dow);
+        const ddmm = fmtDDMM(dt);
+
+        const titleText = nameOf(r.key);
+        const href = pathOf(r.key);
+
+        const cls = (r.dow === isoDay) ? "calPill today" : "calPill";
+        const dataHref = href ? `data-href="${href}"` : "";
+        const tab = href ? `tabindex="0"` : `tabindex="-1"`;
+
+        return `
+          <div class="${cls}" role="link" ${tab} ${dataHref}
+               title="${href ? `Otwórz: ${titleText}` : titleText}">
+            <div class="top">
+              <span class="d">${r.short}</span>
+              <span class="dt">${ddmm}</span>
+            </div>
+            <div class="n">${titleText}</div>
+          </div>
+        `;
+      };
+
+      const days = CAL.map(pillHTML).join("");
+
+      wrap.innerHTML = `
+        <div class="calLine2">
+          <div class="calHdr">
+            <div class="calHdrLeft">
+              <div class="calIco">📅</div>
+              <p class="calHdrTitle">Kalendarz publikacji tygodniowych</p>
+            </div>
+            <p class="calHdrRange">${rangeTxt}</p>
+          </div>
+
+          <div class="calRow">
+            ${days}
+          </div>
+        </div>
+      `;
+
+      wrap.querySelectorAll(".calPill[data-href]").forEach(el=>{
+        const go = () => {
+          const href = el.getAttribute("data-href");
+          if(href) window.location.href = href;
+        };
+        el.addEventListener("click", go);
+        el.addEventListener("keydown", (e)=>{
+          if(e.key === "Enter" || e.key === " "){
+            e.preventDefault();
+            go();
+          }
+        });
+      });
+    }
+
+    function renderQuick(items){
+      const wrap = document.getElementById("quickGrid");
+      if(!wrap) return;
+
+      const mapById   = Object.fromEntries(items.map(x => [x.id, x]));
+      const mapByName = Object.fromEntries(items.map(x => [x.name, x]));
+      const pick = (key) => mapById[key] || mapByName[key];
+
+      const listRaw = QUICK_KEYS.map(k => pick(k)).filter(Boolean);
+      if(!listRaw.length){
+        wrap.innerHTML = `<div class="error">Brak dopasowań dla <code>QUICK_KEYS</code> w <code>manifest.json</code>.</div>`;
+        return;
+      }
+
+      const list = [...listRaw].sort((a,b)=>parseISO(b.updated)-parseISO(a.updated));
+
+      function childrenOf(folder){
+        const folderPath = (folder.path || "").toString();
+
+        let children = [];
+        if(folderPath){
+          children = items.filter(it =>
+            it.type !== "folder" &&
+            it.id !== folder.id &&
+            (it.path || "").toString().startsWith(folderPath)
+          );
+        }
+
+        if(!children.length){
+          children = items.filter(it =>
+            it.type !== "folder" &&
+            it.id !== folder.id &&
+            it.group &&
+            it.group === folder.id
+          );
+        }
+
+        if(!children.length && folderPath.includes("analizy-stat-tech")){
+          children = items.filter(it => it.type !== "folder" && it.group === "analizy-stat-tech");
+        }
+
+        return children;
+      }
+
+      function folderMeta(folder){
+        const kids = childrenOf(folder);
+        if(!kids.length) return { updISO:"", nextISO:"", todayCount:0 };
+
+        const updISO = kids
+          .map(k => (k.updated || "").trim())
+          .filter(Boolean)
+          .sort((a,b)=>parseISO(b)-parseISO(a))[0] || "";
+
+        const today = todayISO();
+        const nextISO = kids
+          .map(k => (k.next_issue || "").trim())
+          .filter(Boolean)
+          .filter(d => parseISO(d) >= parseISO(today))
+          .sort((a,b)=>parseISO(a)-parseISO(b))[0] || "";
+
+        const todayCount = kids.filter(k => (k.updated || "") === today).length;
+
+        return { updISO, nextISO, todayCount };
+      }
+
+      wrap.innerHTML = list.map(r => {
+        const isFolderLike = (r.type || "").toLowerCase() === "folder";
+
+        let updISO = (r.updated || "").trim();
+        let nxtISO = (r.next_issue || "").trim();
+
+        if(isFolderLike){
+          const meta = folderMeta(r);
+          if(!updISO) updISO = meta.updISO;
+          if(!nxtISO) nxtISO = meta.nextISO;
+        }
+
+        const upd = updISO ? fmtDatePL(updISO) : "—";
+        const nxt = nxtISO ? fmtDatePL(nxtISO) : "—";
+
+        const clsToday = isToday(updISO) ? "today" : "";
+
+        const updBadge = updISO
+          ? (isToday(updISO)
+              ? `<span class="badge updToday">Aktualizacja: ${upd}</span>`
+              : `<span class="badge">Aktualizacja: ${upd}</span>`)
+          : "";
+
+        return `
+          <a class="card quickCard ${clsToday}" href="${safePath(r.path)}">
+            <div class="topMeta">
+              ${updBadge}
+            </div>
+            <p class="title">${r.name}</p>
+            <p class="desc">${r.description}</p>
+            <div class="metaLine">
+              <span><strong>Kolejne:</strong> ${nxt}</span>
+            </div>
+          </a>
+        `;
+      }).join("");
+    }
+
+    function renderMonthly(items){
+      const wrap = document.getElementById("monthlyGrid");
+      if(!wrap) return;
+
+      const mapById   = Object.fromEntries(items.map(x => [x.id, x]));
+      const mapByName = Object.fromEntries(items.map(x => [x.name, x]));
+      const pick = (key) => mapById[key] || mapByName[key];
+
+      const listRaw = MONTHLY_KEYS.map(k => pick(k)).filter(Boolean);
+
+      const wskaznikiFromManifest = items.find(r => {
+        const id = (r.id || "").toString().toLowerCase();
+        const name = (r.name || "").toString().toLowerCase();
+        const path = (r.path || "").toString().replace(/^\/+|\/+$/g, "").toLowerCase();
+
+        return (
+          id === "wskazniki" ||
+          id === "wskaźniki" ||
+          name === "wskazniki" ||
+          name === "wskaźniki" ||
+          path === "raporty-fundamentalne/wskazniki"
+        );
+      });
+
+      const alreadyExistsInList = listRaw.some(r => {
+        const id = (r.id || "").toString().toLowerCase();
+        const name = (r.name || "").toString().toLowerCase();
+        const path = (r.path || "").toString().replace(/^\/+|\/+$/g, "").toLowerCase();
+
+        return (
+          id === "wskazniki" ||
+          id === "wskaźniki" ||
+          name === "wskazniki" ||
+          name === "wskaźniki" ||
+          path === "raporty-fundamentalne/wskazniki"
+        );
+      });
+
+      if(!alreadyExistsInList){
+        listRaw.push(wskaznikiFromManifest || EXTRA_MONTHLY_CARD);
+      }
+
+      if(!listRaw.length){
+        wrap.innerHTML = `<div class="error">Brak pozycji z <code>MONTHLY_KEYS</code> w <code>manifest.json</code>.</div>`;
+        return;
+      }
+
+      const list = [...listRaw].sort((a,b)=>parseISO(b.updated)-parseISO(a.updated));
+
+      wrap.innerHTML = list.map(r => {
+        const updISO = (r.updated || "").trim();
+        const upd = updISO ? fmtDatePL(updISO) : "—";
+        const clsToday = isToday(updISO) ? "today" : "";
+
+        const updBadge = updISO
+          ? (isToday(updISO)
+              ? `<span class="badge updToday">Aktualizacja: ${upd}</span>`
+              : `<span class="badge">Aktualizacja: ${upd}</span>`)
+          : "";
+
+        return `
+          <a class="card quickCard ${clsToday}" href="${safePath(r.path)}">
+            <div class="topMeta">${updBadge}</div>
+            <p class="title">${r.name}</p>
+            <p class="desc">${r.description}</p>
+          </a>
+        `;
+      }).join("");
+    }
+
+    function arrowCell(n){
+      if(n === null || n === undefined || n === "" || Number.isNaN(Number(n))) {
+        return { sym:"—", col:"rgba(234,240,255,.70)", txt:"—" };
+      }
+      const v = Number(n);
+      if(v > 0) return { sym:"▲", col:"rgba(125,211,252,.95)", txt:`+${v}` };
+      if(v < 0) return { sym:"▼", col:"rgba(255,160,160,.95)", txt:`${v}` };
+      return { sym:"—", col:"rgba(234,240,255,.70)", txt:"0" };
+    }
+
+    function renderCashTable(rows){
+      const tbl = document.getElementById("cashTable");
+      const header = `
+        <tr>
+          <th>Surowiec</th>
+          <th class="right">Cena</th>
+          <th class="right">1 dzień</th>
+          <th class="right">1 tydzień</th>
+          <th class="right">1 miesiąc</th>
+        </tr>
+      `;
+      const body = rows.map(r=>{
+        const d = arrowCell(r.d);
+        const w = arrowCell(r.w);
+        const m = arrowCell(r.m);
+        return `
+          <tr>
+            <td>${r.name ?? ""}</td>
+            <td class="right" style="font-weight:900">${r.price ?? ""}</td>
+            <td class="right" style="color:${d.col}">${d.sym} ${d.txt}</td>
+            <td class="right" style="color:${w.col}">${w.sym} ${w.txt}</td>
+            <td class="right" style="color:${m.col}">${m.sym} ${m.txt}</td>
+          </tr>
+        `;
+      }).join("");
+      tbl.innerHTML = header + body;
+    }
+
+    function renderFuturesTable(rows){
+      const tbl = document.getElementById("futuresTable");
+      const header = `
+        <tr>
+          <th>Instrument</th>
+          <th class="right">Close</th>
+          <th class="right">1 dzień</th>
+          <th class="right">1 tydzień</th>
+          <th class="right">1 miesiąc</th>
+        </tr>
+      `;
+      const body = rows.map(r=>{
+        const d = arrowCell(r.d);
+        const w = arrowCell(r.w);
+        const m = arrowCell(r.m);
+        return `
+          <tr>
+            <td>${r.name ?? ""}</td>
+            <td class="right" style="font-weight:900">${r.close ?? ""}</td>
+            <td class="right" style="color:${d.col}">${d.sym} ${d.txt}</td>
+            <td class="right" style="color:${w.col}">${w.sym} ${w.txt}</td>
+            <td class="right" style="color:${m.col}">${m.sym} ${m.txt}</td>
+          </tr>
+        `;
+      }).join("");
+      tbl.innerHTML = header + body;
+    }
+
+    async function loadPrices(){
+      try{
+        const res = await fetch(url("prices.json?ts=" + Date.now()), { cache:"no-store" });
+        if(!res.ok) throw new Error("prices.json (" + res.status + ")");
+        const data = await res.json();
+
+        const asof = (data.asof || "—");
+        document.getElementById("pricesAsOf").textContent = "Aktualizacja: " + asof;
+        document.getElementById("futuresAsOf").innerHTML = "Aktualizacja: " + asof;
+
+        const cashRows = Array.isArray(data.cash) ? data.cash : [];
+        const futRows  = Array.isArray(data.futures) ? data.futures : [];
+
+        renderCashTable(cashRows);
+        renderFuturesTable(futRows);
+      } catch(e){
+        document.getElementById("pricesLeftPanel").innerHTML = `<div class="error">Błąd cenników: ${e.message}</div>`;
+      }
+    }
+
+    async function loadUserEmail(){
+      const box = document.getElementById("userEmail");
+      if(!box) return;
+
+      box.innerHTML = `<span class="ico">👤</span><span>Zalogowany: <strong>…</strong></span>`;
+
+      try{
+        const res = await fetch("/cdn-cgi/access/get-identity", {
+          cache: "no-store",
+          credentials: "same-origin"
+        });
+
+        if(!res.ok){
+          box.innerHTML = `<span class="ico">👤</span><span>Zalogowany: — <span style="opacity:.65">(HTTP ${res.status})</span></span>`;
+          return;
+        }
+
+        const data = await res.json();
+        const email = (data?.email || "").toString().trim();
+        const name  = (data?.name  || "").toString().trim();
+
+        if(email){
+          box.innerHTML = `<span class="ico">👤</span><span>Zalogowany: <strong>${email}</strong></span>`;
+          box.title = name ? `Zalogowany: ${name} (${email})` : `Zalogowany: ${email}`;
+        } else {
+          box.innerHTML = `<span class="ico">👤</span><span>Zalogowany: — <span style="opacity:.65">(brak email w JSON)</span></span>`;
+        }
+      } catch(e){
+        box.innerHTML = `<span class="ico">👤</span><span>Zalogowany: — <span style="opacity:.65">(błąd fetch)</span></span>`;
+      }
+    }
+
+    (async () => {
+      const errBox = document.getElementById("err");
+      const showErr = (msg) => {
+        if(!errBox) return;
+        errBox.style.display = "block";
+        errBox.textContent = msg;
+      };
+
+      try { loadUserEmail(); } catch(e) {}
+      try {
+        const now = new Date();
+        const date = now.toLocaleDateString("pl-PL");
+        const time = now.toLocaleTimeString("pl-PL", { hour: "2-digit", minute: "2-digit" });
+        const asofEl = document.getElementById("asof");
+        if(asofEl){
+          asofEl.innerHTML = `<span class="ico">📍</span><strong>${CONFIG.location}</strong> <span class="ico">🕒</span>${date} ${time}`;
+        }
+      } catch(e) {}
+
+      try { await loadPrices(); }
+      catch(e){ showErr("Błąd cenników: " + (e?.message || e)); }
+
+      try{
+        const manifest = await loadManifest();
+        const items = toItems(manifest);
+        const scan = await loadPorannyScanJSON();
+
+        try { renderTodayTicker(items, scan); } catch(e) { showErr("Błąd tickera: " + (e?.message || e)); }
+        try { renderCalendarLine(items); } catch(e) { showErr("Błąd kalendarza (linia): " + (e?.message || e)); }
+        try { renderFeatured(items, scan); } catch(e) { showErr("Błąd porannego skanu: " + (e?.message || e)); }
+        try { renderPortfolioFeatured(items); } catch(e) { showErr("Błąd portfeli ACE (góra): " + (e?.message || e)); }
+        try { renderAnalysisAceFeatured(items); } catch(e) { showErr("Błąd Analizy wg ACE: " + (e?.message || e)); }
+        try { renderQuick(items); } catch(e) { showErr("Błąd raportów tygodniowych: " + (e?.message || e)); }
+        try { renderMonthly(items); } catch(e) { showErr("Błąd raportów miesięcznych: " + (e?.message || e)); }
+
+      } catch(e){
+        showErr("Błąd manifest/scan: " + (e?.message || e));
+      }
+    })();
+  </script>
+
+</body>
+</html>

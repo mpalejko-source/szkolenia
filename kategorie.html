@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ACE – Kategorie raportów</title>
+
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+
+  <script>
+    // Jedno źródło prawdy dla ścieżek:
+    // - GitHub Pages project site: /{repo}/
+    // - własna domena/subdomena: /
+    const ROOT = location.hostname.endsWith("github.io")
+      ? "/" + (location.pathname.split("/").filter(Boolean)[0] || "") + "/"
+      : "/";
+
+    function url(path){
+      return ROOT + String(path || "").replace(/^\/+/, "");
+    }
+
+    // Redirect: analizy-stat-tech -> nowa strona sekcyjna
+    const p = new URLSearchParams(location.search);
+    const cat = (p.get("cat") || "").trim().toLowerCase();
+
+    if(cat === "analizy-stat-tech"){
+      location.replace(url("raporty/analizy-stat-tech/index.html"));
+    }
+  </script>
+
+  <style>
+    :root{
+      --bg:#0b1220;
+      --border:rgba(255,255,255,.10);
+      --text:#eaf0ff;
+      --muted:rgba(234,240,255,.72);
+      --muted2:rgba(234,240,255,.55);
+      --accent:#7dd3fc;
+      --accent2:#a78bfa;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: Arial, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: radial-gradient(1200px 600px at 10% 0%, rgba(125,211,252,.14), transparent 60%),
+                  radial-gradient(900px 500px at 90% 10%, rgba(167,139,250,.12), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+      min-height:100vh;
+    }
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+      padding:26px 18px 44px;
+    }
+
+    header{
+      display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap;
+      margin-bottom:18px;
+    }
+    .brand{display:flex; gap:14px; align-items:center;}
+    .logo{
+      height:54px;
+      filter: drop-shadow(0 10px 24px rgba(0,0,0,.45));
+    }
+    h1{margin:0; font-size:22px}
+    .sub{margin:6px 0 0; color:var(--muted); font-size:13px}
+
+    .pill{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.05);
+      padding:8px 12px;
+      border-radius:999px;
+      color:var(--muted2);
+      font-size:12px;
+      box-shadow: var(--shadow);
+      white-space:nowrap;
+    }
+
+    .backRow{
+      margin-bottom:14px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .backBtn{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      padding:8px 12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: rgba(234,240,255,.92);
+      font-size:13px;
+      text-decoration:none;
+      box-shadow: 0 10px 24px rgba(0,0,0,.25);
+    }
+    .backBtn:hover{ background: rgba(255,255,255,.10); }
+
+    .catHead{ margin-bottom:18px; }
+    .catTitle{ margin:0; font-size:20px; font-weight:950; }
+    .catDesc{
+      margin:8px 0 0;
+      color:var(--muted);
+      font-size:13px;
+      max-width:720px;
+      line-height:1.45;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap:14px;
+    }
+    a.card{
+      display:block;
+      text-decoration:none;
+      color:inherit;
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow: var(--shadow);
+      padding:16px;
+      position:relative;
+      overflow:hidden;
+      transition: transform .08s ease, border-color .08s ease;
+    }
+    a.card:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.18); }
+    a.card:before{
+      content:"";
+      position:absolute; inset:-1px;
+      background: radial-gradient(600px 180px at 10% 0%, rgba(125,211,252,.15), transparent 60%),
+                  radial-gradient(600px 220px at 90% 0%, rgba(167,139,250,.14), transparent 60%);
+      pointer-events:none;
+    }
+    a.card > *{ position:relative; }
+
+    .topMeta{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:center;
+      margin-bottom:8px;
+      flex-wrap:wrap;
+    }
+    .badge{
+      display:inline-flex;
+      gap:6px;
+      align-items:center;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: rgba(234,240,255,.90);
+      white-space:nowrap;
+    }
+
+    .title{ margin:0; font-size:16px; font-weight:900; line-height:1.2; }
+    .desc{ margin:8px 0 10px; color:var(--muted); font-size:13px; line-height:1.35; }
+
+    .meta{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+      font-size:12px;
+      color:var(--muted2);
+      padding-top:10px;
+      border-top:1px solid rgba(255,255,255,.08);
+    }
+    .meta strong{ color: rgba(234,240,255,.92); font-weight:900; }
+
+    .error{
+      border:1px solid rgba(255,120,120,.25);
+      background: rgba(255,120,120,.08);
+      padding:12px 14px;
+      border-radius:14px;
+      color:rgba(255,220,220,.92);
+      margin-top:14px;
+      font-size:13px;
+      box-shadow: var(--shadow);
+      white-space:pre-wrap;
+    }
+    code{background:rgba(255,255,255,.06);padding:2px 6px;border-radius:10px;border:1px solid rgba(255,255,255,.10)}
+  </style>
+</head>
+
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <img id="logoImg" src="" class="logo" alt="ACE Group">
+      <div>
+        <h1 id="pageTitle">Kategoria</h1>
+        <p class="sub" id="pageSub">Lista raportów</p>
+      </div>
+    </div>
+    <div class="pill" id="asof">Aktualizacja: —</div>
+  </header>
+
+  <div class="backRow">
+    <a class="backBtn" id="backBtn" href="#">← Panel główny</a>
+  </div>
+
+  <div class="catHead">
+    <p class="catTitle" id="catTitle">—</p>
+    <p class="catDesc" id="catDesc">—</p>
+  </div>
+
+  <section class="grid" id="grid"></section>
+  <div id="err" class="error" style="display:none"></div>
+</div>
+
+<script>
+/* ===== KATEGORIE = GRUPY/FOLDERY Z manifest.json ===== */
+const CATEGORY_META = {
+  glowne: {
+    title: "Raporty główne",
+    desc: "Stałe produkty ACE (Skan, Chart Pack, Quadrants, Weather Watch itd.)."
+  },
+  "analizy-stat-tech": {
+    title: "Analizy statystyczno-techniczne",
+    desc: "Waluty, zboża, śruty i energia — w układzie sekcji."
+  },
+  "raporty-fundamentalne": {
+    title: "Raporty fundamentalne",
+    desc: "WASDE, IGC, FAO oraz ACE Indexy Światowe."
+  }
+};
+
+// ===== helpers =====
+function qs(name){
+  return new URLSearchParams(window.location.search).get(name);
+}
+function fmtDatePL(iso){
+  if(!iso || typeof iso !== "string") return "—";
+  const parts = iso.split("-");
+  if(parts.length !== 3) return iso;
+  const [y,m,d] = parts;
+  return `${d}.${m}.${y}`;
+}
+function parseISO(iso){
+  if(!iso) return -Infinity;
+  const t = Date.parse(iso + "T00:00:00Z");
+  return isNaN(t) ? -Infinity : t;
+}
+function daysUntil(iso){
+  if(!iso) return null;
+  const t = Date.parse(iso + "T00:00:00Z");
+  if(isNaN(t)) return null;
+  const now = new Date();
+  const today = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+  return Math.round((t - today)/(24*60*60*1000));
+}
+
+async function loadManifest(){
+  const res = await fetch(url("manifest.json?ts=" + Date.now()), { cache:"no-store" });
+  if(!res.ok) throw new Error("manifest.json ("+res.status+")");
+  return await res.json();
+}
+
+function normalizeEntry(id, r){
+  return {
+    id,
+    name: r.name || id,
+    description: r.description || "",
+    path: (r.path || ("raporty/"+id+"/")).toString(),
+    updated: r.updated || "",
+    frequency: r.frequency || "",
+    next: r.next_issue || "",
+    group: (r.group || "").toString().toLowerCase(),
+    section: (r.section || "").toString(),
+    type: (r.type || "").toString().toLowerCase()
+  };
+}
+
+function matchesCategory(entry, cat, section){
+  const isFolder = entry.type === "folder";
+  if(isFolder) return false;
+
+  if(cat === "glowne"){
+    if(entry.group) return false;
+    return true;
+  }
+  if(entry.group === cat){
+    if(section) return (entry.section || "") === section;
+    return true;
+  }
+  return false;
+}
+
+function safeHrefPath(p){
+  const s = (p || "").toString();
+  if(/^https?:\/\//i.test(s)) return s;
+  return url(s.replace(/^\/+/, ""));
+}
+
+(async ()=> {
+  try{
+    document.getElementById("logoImg").src = url("logo.png");
+    document.getElementById("backBtn").href = url("index.html");
+
+    document.getElementById("asof").textContent =
+      "Aktualizacja: " + new Date().toLocaleString("pl-PL");
+
+    const cat = (qs("cat") || "").toLowerCase();
+    const section = qs("section"); // opcjonalnie
+
+    if(!cat || !CATEGORY_META[cat]) throw new Error("Nieznana kategoria (cat)");
+
+    const meta = CATEGORY_META[cat];
+    document.getElementById("catTitle").textContent = meta.title + (section ? ` — ${section}` : "");
+    document.getElementById("catDesc").textContent = meta.desc;
+    document.getElementById("pageTitle").textContent = meta.title;
+
+    const manifestRaw = await loadManifest();
+    let items = Object.entries(manifestRaw)
+      .map(([id, r]) => normalizeEntry(id, r))
+      .filter(e => matchesCategory(e, cat, section));
+
+    items.sort((a,b)=> parseISO(b.updated) - parseISO(a.updated));
+
+    const grid = document.getElementById("grid");
+
+    if(items.length === 0){
+      grid.innerHTML = `<div class="error">Brak raportów w tej kategorii${section ? " / sekcji" : ""}.</div>`;
+      return;
+    }
+
+    grid.innerHTML = items.map(r => {
+      let nextTxt = "—";
+      if(r.next){
+        const d = daysUntil(r.next);
+        nextTxt = fmtDatePL(r.next) + (d!==null ? ` (za ${d} dni)`:"");
+      }
+
+      const secBadge = (r.section && !section) ? `<span class="badge">${r.section}</span>` : "";
+      const upd = r.updated ? fmtDatePL(r.updated) : "—";
+      const freq = (r.frequency || "raport").toString().trim() || "raport";
+
+      return `
+        <a class="card" href="${safeHrefPath(r.path)}">
+          <div class="topMeta">
+            <span class="badge">${freq}</span>
+            ${secBadge}
+            <span class="badge">Aktualizacja: ${upd}</span>
+          </div>
+          <p class="title">${r.name}</p>
+          <p class="desc">${r.description}</p>
+          <div class="meta">
+            <span><strong>Kolejne wydanie:</strong> ${nextTxt}</span>
+          </div>
+        </a>
+      `;
+    }).join("");
+
+  } catch(e){
+    const err = document.getElementById("err");
+    err.style.display="block";
+    err.textContent = "Błąd: " + (e && e.message ? e.message : e);
+  }
+})();
+</script>
+</body>
+</html>

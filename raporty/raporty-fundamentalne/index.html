@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<script>
+  // BASE działa i na GitHub Pages, i na subdomenie
+  const BASE = "/";
+
+  function url(path){
+    return BASE + String(path || "").replace(/^\/+/, "");
+  }
+</script>
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ACE – Raporty Fundamentalne</title>
+
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+
+<style>
+  :root{
+    --bg:#0b1220;
+    --border:rgba(255,255,255,.10);
+    --text:#eaf0ff;
+    --muted:rgba(234,240,255,.72);
+    --muted2:rgba(234,240,255,.55);
+    --shadow: 0 10px 30px rgba(0,0,0,.35);
+    --radius:16px;
+
+    /* żółty "Aktualizacja" jak NOWE (dziś/wczoraj) */
+    --todayYellow: rgba(250,204,21,.95);
+    --todayYellowText: #0b1220;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family: Arial, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    background: radial-gradient(1200px 600px at 10% 0%, rgba(125,211,252,.14), transparent 60%),
+                radial-gradient(900px 500px at 90% 10%, rgba(167,139,250,.12), transparent 55%),
+                var(--bg);
+    color:var(--text);
+    min-height:100vh;
+  }
+  .wrap{max-width:1100px;margin:0 auto;padding:26px 18px 44px}
+  header{
+    display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:16px;
+    align-items:flex-start;
+  }
+  .brand{display:flex;gap:14px;align-items:center}
+  .logo{height:54px;filter: drop-shadow(0 10px 24px rgba(0,0,0,.45))}
+  h1{margin:0;font-size:22px}
+  .sub{margin:6px 0 0;color:var(--muted);font-size:13px;line-height:1.35;max-width:720px}
+
+  .pill{
+    border:1px solid var(--border);
+    background: rgba(255,255,255,.05);
+    padding:8px 12px;
+    border-radius:999px;
+    color:var(--muted2);
+    font-size:12px;
+    box-shadow: var(--shadow);
+    white-space:nowrap;
+    display:inline-flex;gap:8px;align-items:center;
+  }
+
+  .backRow{margin:8px 0 18px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .backBtn{
+    display:inline-flex;gap:8px;align-items:center;
+    padding:8px 12px;border-radius:12px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(255,255,255,.06);
+    color: rgba(234,240,255,.92);
+    font-size:13px;text-decoration:none;
+    box-shadow: 0 10px 24px rgba(0,0,0,.25);
+  }
+  .backBtn:hover{background: rgba(255,255,255,.10)}
+
+  .grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap:14px;
+  }
+  a.card{
+    display:block;text-decoration:none;color:inherit;
+    border:1px solid var(--border);
+    border-radius: var(--radius);
+    background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+    box-shadow: var(--shadow);
+    padding:16px;
+    position:relative;overflow:hidden;
+    transition: transform .08s ease, border-color .08s ease;
+  }
+  a.card:hover{transform: translateY(-1px);border-color: rgba(255,255,255,.18)}
+  a.card:before{
+    content:"";position:absolute;inset:-1px;
+    background: radial-gradient(600px 180px at 10% 0%, rgba(125,211,252,.14), transparent 60%),
+                radial-gradient(600px 220px at 90% 0%, rgba(167,139,250,.12), transparent 60%);
+    pointer-events:none;
+  }
+  a.card > *{position:relative}
+
+  .topMeta{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:8px;
+    align-items:center;
+  }
+  .badge{
+    display:inline-flex;gap:6px;align-items:center;
+    padding:6px 10px;border-radius:999px;
+    font-size:12px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(255,255,255,.06);
+    color: rgba(234,240,255,.90);
+    white-space:nowrap;
+  }
+
+  /* NOWE (gradient) */
+  .badgeNew{
+    font-size:11px;
+    padding:6px 10px;
+    border-radius:999px;
+    font-weight:900;
+    letter-spacing:.3px;
+    color:#081018;
+    background:linear-gradient(90deg,#7dd3fc,#a78bfa);
+    box-shadow:0 6px 18px rgba(125,211,252,.35);
+    white-space:nowrap;
+  }
+
+  /* ŻÓŁTA RAMKA dla "Aktualizacja: data" gdy NOWE */
+  .badgeUpdToday{
+    font-size:12px;
+    padding:6px 10px;
+    border-radius:999px;
+    font-weight:950;
+    border:1px solid rgba(250,204,21,.70);
+    background: var(--todayYellow);
+    color: var(--todayYellowText);
+    box-shadow: 0 10px 24px rgba(0,0,0,.20);
+    white-space:nowrap;
+  }
+  /* wyśrodkowanie żółtej daty w wierszu badge */
+  .topMeta .badgeUpdToday{
+    margin-left:auto;
+    margin-right:auto;
+  }
+
+  .title{margin:0;font-size:16px;font-weight:950;line-height:1.2}
+  .desc{margin:8px 0 0;color:var(--muted);font-size:13px;line-height:1.35}
+
+  .error{
+    border:1px solid rgba(255,120,120,.25);
+    background: rgba(255,120,120,.08);
+    padding:12px 14px;border-radius:14px;
+    color:rgba(255,220,220,.92);
+    margin-top:14px;font-size:13px;
+    box-shadow: var(--shadow);
+    white-space:pre-wrap;
+    display:none;
+  }
+</style>
+</head>
+
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+     <img src="" class="logo" alt="ACE Group" id="logoImg">
+      <div>
+        <h1>Raporty Fundamentalne</h1>
+        <p class="sub">WASDE, IGC, FAO, ACE Indexy Światowe – kafelki do raportów.</p>
+      </div>
+    </div>
+    <div class="pill" id="asof">📍 Olsztyn • 🕒 —</div>
+  </header>
+
+  <div class="backRow">
+    <a class="backBtn" href="/index.html">← Panel główny</a>
+  </div>
+
+  <section class="grid" id="grid"></section>
+  <div id="err" class="error"></div>
+</div>
+
+<script>
+
+  document.getElementById("logoImg").src = url("logo.png");
+  function fmtDatePL(iso){
+    if(!iso || typeof iso !== "string") return "—";
+    const p = iso.split("-");
+    if(p.length !== 3) return iso;
+    return `${p[2]}.${p[1]}.${p[0]}`;
+  }
+  function parseISO(iso){
+    if(!iso) return -Infinity;
+    const t = Date.parse(iso + "T00:00:00Z");
+    return isNaN(t) ? -Infinity : t;
+  }
+  function esc(s){
+    return String(s ?? "")
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;");
+  }
+
+  // dziś / wczoraj = NOWE (jak w stat-tech)
+  function isNew(dateStr){
+    if(!dateStr) return false;
+    const d = new Date(dateStr + "T00:00:00");
+    if(isNaN(d)) return false;
+    const now = new Date();
+    const diffDays = (now - d) / (1000*60*60*24);
+    return diffDays <= 1.5;
+  }
+
+  async function loadManifest(){
+  const res = await fetch(url("manifest.json?ts=" + Date.now()), { cache:"no-store" });
+    if(!res.ok) throw new Error("Nie mogę wczytać manifest.json (" + res.status + ")");
+    return await res.json();
+  }
+
+  (async ()=>{
+    const err = document.getElementById("err");
+    const showErr = (msg) => { err.style.display="block"; err.textContent = msg; };
+
+    const now = new Date();
+    const date = now.toLocaleDateString("pl-PL");
+    const time = now.toLocaleTimeString("pl-PL", { hour:"2-digit", minute:"2-digit" });
+    document.getElementById("asof").textContent = `📍 Olsztyn • 🕒 ${date} ${time}`;
+
+    try{
+      const manifest = await loadManifest();
+
+      const items = Object.entries(manifest).map(([id, r]) => ({
+        id,
+        name: r.name || id,
+        description: r.description || "",
+        path: r.path || "",
+        updated: r.updated || "",
+        group: (r.group || "").toString().trim().toLowerCase()
+      })).filter(x => x.group === "raporty-fundamentalne");
+
+      if(!items.length){
+        showErr("Brak pozycji w manifest.json z group = \"raporty-fundamentalne\".");
+        return;
+      }
+
+      items.sort((a,b)=>parseISO(b.updated)-parseISO(a.updated));
+
+      document.getElementById("grid").innerHTML = items.map(r => {
+        const newFlag = isNew(r.updated);
+        const newBadge = newFlag ? `<span class="badgeNew">NOWE</span>` : ``;
+
+        const updBadge = newFlag
+          ? `<span class="badgeUpdToday">Aktualizacja: ${esc(fmtDatePL(r.updated))}</span>`
+          : `<span class="badge">Aktualizacja: ${esc(fmtDatePL(r.updated))}</span>`;
+
+        return `
+         <a class="card" href="${url(String(r.path || '').replace(/^\/+/,''))}">
+            <div class="topMeta">
+              ${newBadge}
+              ${updBadge}
+            </div>
+            <p class="title">${esc(r.name)}</p>
+            <p class="desc">${esc(r.description)}</p>
+          </a>
+        `;
+      }).join("");
+
+    }catch(e){
+      showErr("Błąd: " + (e && e.message ? e.message : e));
+    }
+  })();
+</script>
+</body>
+</html>

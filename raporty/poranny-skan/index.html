@@ -1,0 +1,711 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ACE – Poranny Skan Rynku</title>
+
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#0f1a33;
+      --border:rgba(255,255,255,.10);
+      --text:#eaf0ff;
+      --muted:rgba(234,240,255,.72);
+      --muted2:rgba(234,240,255,.55);
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius:16px;
+      --accent:#7dd3fc;
+      --accent2:#a78bfa;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: Arial, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: radial-gradient(1200px 600px at 10% 0%, rgba(125,211,252,.14), transparent 60%),
+                  radial-gradient(900px 500px at 90% 10%, rgba(167,139,250,.12), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+    }
+    .wrap{max-width:980px; margin:0 auto; padding:26px 18px 54px}
+    header{display:flex; align-items:flex-start; justify-content:space-between; gap:14px; flex-wrap:wrap; margin-bottom:14px}
+    .brand{display:flex; gap:14px; align-items:center}
+
+    .logo{
+      height:56px;
+      width:auto;
+      display:block;
+      flex:0 0 auto;
+      filter: drop-shadow(0 10px 24px rgba(0,0,0,.45));
+    }
+
+    h1{margin:0; font-size:24px; letter-spacing:.2px}
+    .sub{margin:6px 0 0 0; color:var(--muted); font-size:13px; line-height:1.35}
+
+    .topbar{display:flex; gap:10px; align-items:center; justify-content:space-between; flex-wrap:wrap; margin:14px 0}
+    .pill{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.05);
+      padding:8px 10px;
+      border-radius:999px;
+      color:var(--muted2);
+      font-size:12px;
+      box-shadow: var(--shadow);
+      white-space:nowrap;
+      display:inline-flex; align-items:center; gap:8px;
+    }
+    .btn{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      padding:8px 10px;
+      border-radius:12px;
+      cursor:pointer;
+      box-shadow: var(--shadow);
+      font-size:12px;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      user-select:none;
+    }
+    .btn.active{ border-color: rgba(125,211,252,.55); background: rgba(125,211,252,.10); }
+    .btn.disabled{
+      opacity:.45;
+      cursor:not-allowed;
+      filter:saturate(.6);
+    }
+
+    .panel{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.05);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding:16px;
+    }
+    .date{color:var(--muted2); font-size:13px; margin-top:4px}
+
+    /* lead = pierwszy fragment (wstęp) */
+    .lead{
+      margin:0;
+      font-size:16px;
+      font-weight:500;
+      line-height:1.55;
+      color:rgba(234,240,255,.92);
+      white-space:pre-wrap;
+    }
+
+    .sec{margin-top:18px}
+    .sec h2{
+      margin:0 0 10px 0; font-size:16px;
+      display:flex; align-items:center; gap:10px;
+    }
+    .icon{
+      width:28px; height:28px;
+      display:inline-flex; align-items:center; justify-content:center;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      box-shadow: var(--shadow);
+      font-size:16px;
+      flex:0 0 auto;
+    }
+
+    /* ====== Layout tekst+media (60/40) ====== */
+    .row{
+      display:grid;
+      grid-template-columns: 1.55fr 1fr; /* ~60/40 */
+      gap:14px;
+      align-items:start;
+    }
+    @media (max-width: 760px){
+      .row{ grid-template-columns: 1fr; }
+    }
+
+    /* sekcje: białe, normalne */
+    .text{
+      margin:0;
+      color: rgba(234,240,255,.92);
+      line-height:1.6;
+      font-size:14px;
+      font-style: normal;
+      white-space:pre-wrap;
+    }
+
+    .mediaCol{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      align-items:flex-end;
+    }
+    @media (max-width: 760px){
+      .mediaCol{ align-items:stretch; }
+    }
+
+    .imgCard{
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      border-radius:14px;
+      padding:8px;
+      box-shadow: var(--shadow);
+      max-width: 360px;
+      width:100%;
+    }
+    .imgCard img{
+      width:100%;
+      height:auto;
+      display:block;
+      border-radius:10px;
+      cursor: zoom-in;
+    }
+
+    .archive{
+      margin-top:16px;
+      border-top:1px solid rgba(255,255,255,.10);
+      padding-top:14px;
+    }
+    .archive h3{margin:0 0 10px 0; font-size:20px; color:rgba(234,240,255,.9)}
+    .archgrid{display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:10px}
+    .architem{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      border-radius:14px;
+      padding:12px;
+      cursor:pointer;
+      transition: transform .08s ease, border-color .08s ease;
+    }
+    .architem:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.18); }
+    .archmeta{display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; color:var(--muted2); font-size:12px; margin-top:6px}
+
+    /* wyróżnienie daty/godziny w archiwum */
+    .archdate{
+      color: rgba(234,240,255,.92);
+      font-weight:700;
+    }
+
+    .footer{
+      margin-top:20px;
+      padding-top:14px;
+      border-top:1px solid rgba(255,255,255,.10);
+      font-size:12px;
+      color:rgba(234,240,255,.55);
+    }
+    code{background: rgba(255,255,255,.06); padding:2px 6px; border-radius:10px; border:1px solid rgba(255,255,255,.10)}
+    .error{
+      margin-top:14px;
+      border:1px solid rgba(255,120,120,.25);
+      background: rgba(255,120,120,.08);
+      padding:12px 14px; border-radius:14px; color:rgba(255,220,220,.92);
+      box-shadow: var(--shadow);
+      font-size:13px;
+      white-space:pre-wrap;
+    }
+
+    /* ====== Lightbox (klik w obraz) ====== */
+    .lb{
+      position:fixed; inset:0;
+      background: rgba(0,0,0,.72);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      z-index:9999;
+    }
+    .lb.open{ display:flex; }
+    .lbInner{
+      max-width:min(1100px, 96vw);
+      max-height:88vh;
+      position:relative;
+    }
+    .lbImg{
+      max-width:100%;
+      max-height:88vh;
+      display:block;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow: 0 18px 60px rgba(0,0,0,.55);
+      cursor: zoom-out;
+    }
+    .lbClose{
+      position:absolute;
+      top:-12px; right:-12px;
+      width:36px; height:36px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.10);
+      color: rgba(234,240,255,.95);
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer;
+      box-shadow: var(--shadow);
+      font-size:18px;
+    }
+
+    /* ====== BLOK KOMENTARZA PORANNEGO ====== */
+    .reportBlock{
+      padding: 22px;
+      border-radius: 18px;
+      border: 1px solid rgba(125,211,252,.35);
+      background: linear-gradient(145deg,
+                  rgba(125,211,252,.10),
+                  rgba(167,139,250,.06));
+      box-shadow: 0 18px 45px rgba(0,0,0,.35);
+      margin-bottom: 22px;
+    }
+
+    /* Tytuł + data w reportHeader mają być BIAŁE */
+    .reportHeader{
+      color: rgba(234,240,255,.95);
+      font-style: normal;
+      font-weight: 600;
+      letter-spacing: .3px;
+      margin-bottom: 14px;
+    }
+    .reportHeader .date{
+      color: rgba(234,240,255,.70);
+      font-style: normal;
+    }
+    .reportHeader .pill{
+      background: rgba(125,211,252,.12);
+      border-color: rgba(125,211,252,.35);
+      color: rgba(234,240,255,.95);
+      box-shadow:none;
+    }
+
+    /* TYLKO lead (pierwszy fragment) ma być niebieski + kursywa */
+    .leadBlue{
+      color: var(--accent) !important;
+      font-style: italic;
+    }
+  </style>
+</head>
+
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <img src="logo.png" alt="ACE Group" class="logo">
+      <div>
+        <h1>ACE – Poranny Skan Rynku</h1>
+        <p class="sub">Szybkie newsy ze świata i Polski</p>
+      </div>
+    </div>
+
+    <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap">
+      <a class="btn" id="btnHome" href="../../index.html" title="Wróć do panelu">← Panel główny</a>
+      <div class="pill" id="asof">Aktualizacja: —</div>
+      <div class="pill" id="next">Kolejne wydanie: —</div>
+    </div>
+  </header>
+
+  <div class="topbar">
+    <div>
+      <button class="btn active" id="btnPL" type="button">PL</button>
+      <button class="btn" id="btnEN" type="button">EN</button>
+    </div>
+    <div class="pill">Źródło: <strong>ACE Group</strong></div>
+  </div>
+
+  <section class="panel" id="main"></section>
+  <div id="err" class="error" style="display:none"></div>
+
+  <section class="panel archive" id="archive"></section>
+
+  <div class="footer">
+    To nie jest porada inwestycyjna. Treści są poglądem Autora <code>Agri Commodity Experts Sp. z o.o.</code>
+  </div>
+</div>
+
+<!-- Lightbox -->
+<div class="lb" id="lb">
+  <div class="lbInner">
+    <button class="lbClose" id="lbClose" type="button" title="Zamknij">✕</button>
+    <img class="lbImg" id="lbImg" alt="Podgląd" />
+  </div>
+</div>
+
+<script>
+  const DATA_URL = "scan.json?ts=" + Date.now();
+
+  let LANG = "pl";
+  let ITEMS = [];
+  let ACTIVE_ID = null;
+
+  function setLang(lang){
+    LANG = lang;
+    document.getElementById("btnPL").classList.toggle("active", lang==="pl");
+    document.getElementById("btnEN").classList.toggle("active", lang==="en");
+    updateHeaderFromToday();
+    render();
+  }
+
+  function fmtDate(iso){
+    if(!iso) return "—";
+    const p = iso.split("-");
+    if(p.length!==3) return iso;
+    return (LANG==="pl") ? `${p[2]}.${p[1]}.${p[0]}` : `${p[0]}-${p[1]}-${p[2]}`;
+  }
+
+  function esc(s){
+    return (s||"").toString()
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;");
+  }
+
+  function parseISODate(iso){
+    const p = (iso||"").split("-");
+    if(p.length!==3) return null;
+    const y = Number(p[0]), m = Number(p[1])-1, d = Number(p[2]);
+    const dt = new Date(y, m, d);
+    return isNaN(dt.getTime()) ? null : dt;
+  }
+
+  // next business day (Mon–Fri); without holidays
+  function nextBusinessDay(dateObj){
+    const d = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate());
+    do { d.setDate(d.getDate() + 1); } while (d.getDay() === 0 || d.getDay() === 6);
+    return d;
+  }
+
+  function fmtDatePretty(dt){
+    if(!(dt instanceof Date)) return "—";
+    if(LANG==="pl"){
+      return dt.toLocaleDateString("pl-PL", { day:"2-digit", month:"2-digit", year:"numeric" });
+    }
+    return dt.toLocaleDateString("en-GB", { day:"2-digit", month:"short", year:"numeric" });
+  }
+
+  function isNonEmptyText(x){
+    return (x||"").toString().trim().length > 0;
+  }
+
+  function openLightbox(src){
+    const lb = document.getElementById("lb");
+    const img = document.getElementById("lbImg");
+    img.src = src;
+    lb.classList.add("open");
+  }
+  function closeLightbox(){
+    const lb = document.getElementById("lb");
+    const img = document.getElementById("lbImg");
+    img.src = "";
+    lb.classList.remove("open");
+  }
+  document.getElementById("lbClose").onclick = closeLightbox;
+  document.getElementById("lb").addEventListener("click", (e)=>{
+    if(e.target.id === "lb" || e.target.id === "lbImg") closeLightbox();
+  });
+
+  function renderMediaColumn(mediaArr){
+    if(!mediaArr || !mediaArr.length) return "";
+    const cards = mediaArr.map(raw => {
+      const src = normalizeMediaSrc(raw);
+      if(!src) return "";
+      return `
+        <div class="imgCard">
+          <img src="${esc(src)}" alt="media" data-zoom="${esc(src)}"
+               onerror="this.closest('.imgCard')?.remove()" />
+        </div>
+      `;
+    }).join("");
+    return `<div class="mediaCol">${cards}</div>`;
+  }
+
+  function section(icon, title, text, mediaArr){
+    const hasIcon = (icon||"").toString().trim().length > 0;
+    const textHtml = isNonEmptyText(text) ? `<p class="text">${esc(text)}</p>` : `<p class="text">—</p>`;
+    const mediaHtml = renderMediaColumn(mediaArr);
+
+    if(!mediaHtml){
+      return `
+        <div class="sec">
+          <h2>${hasIcon ? `<span class="icon">${esc(icon)}</span>` : ``}${esc(title)}</h2>
+          ${textHtml}
+        </div>
+      `;
+    }
+
+    return `
+      <div class="sec">
+        <h2>${hasIcon ? `<span class="icon">${esc(icon)}</span>` : ``}${esc(title)}</h2>
+        <div class="row">
+          <div>${textHtml}</div>
+          ${mediaHtml}
+        </div>
+      </div>
+    `;
+  }
+
+  function normalizeMediaSrc(src){
+    let s = (src ?? "").toString();
+
+    s = s
+      .replace(/[\u200B-\u200D\uFEFF]/g, "")
+      .replace(/\u00A0/g, " ")
+      .trim();
+
+    s = s.replace(/([^:])\/{2,}/g, "$1/");
+
+    if(!s) return "";
+
+    if(!/^https?:\/\//i.test(s) && !s.startsWith("scan_media/")) {
+      s = "scan_media/" + s;
+    }
+    return s;
+  }
+
+  function renderMain(item){
+    const t = item[LANG] || null;
+
+    const hasLang = t && (
+      isNonEmptyText(t.title) ||
+      isNonEmptyText(t.lead) ||
+      isNonEmptyText(t.fx) ||
+      isNonEmptyText(t.agri) ||
+      (Array.isArray(t.blocks) && t.blocks.length)
+    );
+
+    if(!hasLang){
+      document.getElementById("main").innerHTML = `<div class="text">Brak treści w tym języku.</div>`;
+      return;
+    }
+
+    const dateLine = `${fmtDate(item.date)} | ${item.time || "—"}`;
+    const title = (t.title || "").toString().trim() || (LANG==="pl" ? "ACE – Poranny Skan Rynku" : "ACE – Morning Market Scan");
+    const lead = (t.lead || "").toString();
+
+    let leadMedia = [];
+    if (Array.isArray(t.lead_media) && t.lead_media.length) {
+      leadMedia = t.lead_media
+        .filter(m => m && m.type === "image" && isNonEmptyText(m.src))
+        .map(m => normalizeMediaSrc(m.src))
+        .filter(Boolean);
+    }
+
+    const leadHtml = isNonEmptyText(lead)
+      ? (leadMedia.length
+          ? `<div class="row" style="margin-top:12px">
+               <div><p class="lead leadBlue">${esc(lead)}</p></div>
+               ${renderMediaColumn(leadMedia)}
+             </div>`
+          : `<p class="lead leadBlue" style="margin-top:12px">${esc(lead)}</p>`
+        )
+      : "";
+
+    const blocks = Array.isArray(t.blocks) ? t.blocks : [];
+    let blocksHtml = "";
+
+    for (let i = 0; i < blocks.length; i++){
+      const b = blocks[i] || {};
+      const bTitle = (b.title || "").toString().trim();
+      const bText  = (b.text  || "").toString();
+
+      if(!isNonEmptyText(bTitle) || !isNonEmptyText(bText)) continue;
+
+      const tl = bTitle.toLowerCase();
+      const introLike =
+        tl === "tytuł" ||
+        tl === "wprowadzenie" ||
+        tl === "krótki wstęp do dnia:" ||
+        tl === "krótki wstęp do dnia" ||
+        tl === "na co dziś zwracamy uwagę ?" ||
+        tl === "na co dziś zwracamy uwagę?" ||
+        tl === "co dziś ważnego ?" ||
+        tl === "co dziś ważnego";
+
+      if(introLike) continue;
+      if(lead && bText.trim() === lead.trim()) continue;
+      if(title && bText.trim() === title.trim()) continue;
+
+      let mediaArr = [];
+      if(Array.isArray(b.media) && b.media.length){
+        mediaArr = b.media
+          .filter(m => m && m.type === "image" && isNonEmptyText(m.src))
+          .map(m => normalizeMediaSrc(m.src))
+          .filter(Boolean);
+      }
+
+      blocksHtml += section(b.icon || "", bTitle, bText, mediaArr);
+    }
+
+    if(!blocksHtml){
+      const fx = (t.fx||"").toString();
+      const agri = (t.agri||"").toString();
+      if(isNonEmptyText(agri)) blocksHtml += section("🌾", (LANG==="pl"?"Zboża i oleiste":"Grains & Oilseeds"), agri, []);
+      if(isNonEmptyText(fx)) blocksHtml += section("💵", (LANG==="pl"?"FX / Makro":"FX / Macro"), fx, []);
+      if(!blocksHtml) blocksHtml = `<p class="text">—</p>`;
+    }
+
+    document.getElementById("main").innerHTML = `
+      <div>
+        <div class="reportBlock">
+          <div class="reportHeader">
+            <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap">
+              <div>
+                <div style="font-weight:700; font-size:18px">${esc(title)}</div>
+                <div class="date">${esc(dateLine)}</div>
+              </div>
+              <div class="pill">ID: <strong>${esc(item.id)}</strong></div>
+            </div>
+          </div>
+
+          ${leadHtml}
+          ${blocksHtml}
+        </div>
+      </div>
+    `;
+
+    document.getElementById("main").querySelectorAll("img[data-zoom]").forEach(img=>{
+      img.addEventListener("click", ()=>openLightbox(img.dataset.zoom));
+    });
+  }
+
+  function renderArchive(){
+    const box = document.getElementById("archive");
+
+    const t = (LANG==="pl")
+      ? {h:"Archiwum", open:"Otwórz", empty:"Brak archiwum.", today:"DZIŚ"}
+      : {h:"Archive", open:"Open", empty:"No archive yet.", today:"TODAY"};
+
+    const pad2 = (n)=> String(n).padStart(2,"0");
+    const now = new Date();
+    const todayIso = `${now.getFullYear()}-${pad2(now.getMonth()+1)}-${pad2(now.getDate())}`;
+
+    const today = ITEMS[0] || null;
+    const isToday = !!(today && today.date && today.date === todayIso);
+
+    const startIdx = isToday ? 1 : 0;
+    const firstId = (ITEMS[0] || {}).id;
+
+    const archItems = ITEMS
+      .slice(startIdx)
+      .filter(x => x && x.id !== firstId)
+      .slice(0, 10);
+
+    const todayTile = isToday ? `
+      <div class="architem" data-id="${esc(today.id)}" data-today="1">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap">
+          <div style="font-weight:700">${esc(((today[LANG]||{})?.title) || (LANG==="pl"?"Poranny Skan":"Morning Scan"))}</div>
+          <div class="pill" style="padding:4px 8px; font-size:11px; box-shadow:none; background: rgba(125,211,252,.10); border-color: rgba(125,211,252,.35); color: rgba(234,240,255,.9)">
+            ${t.today}
+          </div>
+        </div>
+        <div class="archmeta">
+          <span class="archdate">${fmtDate(today.date)} | ${today.time || "—"}</span>
+          <span>${t.open} →</span>
+        </div>
+      </div>
+    ` : "";
+
+    box.innerHTML = `
+      <h3>${t.h}</h3>
+      ${todayTile}
+      ${archItems.length ? `
+        <div class="archgrid" style="margin-top:10px">
+          ${archItems.map(it => {
+            const tt = it[LANG] || {};
+            return `
+              <div class="architem" data-id="${esc(it.id)}">
+                <div style="font-weight:700">${esc(tt.title || (LANG==="pl"?"Poranny Skan":"Morning Scan"))}</div>
+                <div class="archmeta">
+                  <span class="archdate">${fmtDate(it.date)} | ${it.time || "—"}</span>
+                  <span>${t.open} →</span>
+                </div>
+              </div>
+            `;
+          }).join("")}
+        </div>
+      ` : `<p class="text">${t.empty}</p>`}
+    `;
+
+    box.querySelectorAll(".architem").forEach(el=>{
+      el.addEventListener("click",()=>{
+        ACTIVE_ID = el.dataset.id;
+        render();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    });
+  }
+
+  function render(){
+    const current = ITEMS.find(x => x.id === ACTIVE_ID) || ITEMS[0];
+    if(!current) return;
+    ACTIVE_ID = current.id;
+    renderMain(current);
+    renderArchive();
+  }
+
+  function updateHeaderFromToday(){
+    const today = ITEMS[0];
+    if(!today){
+      document.getElementById("asof").textContent = (LANG==="pl") ? "Aktualizacja: —" : "Updated: —";
+      document.getElementById("next").textContent = (LANG==="pl") ? "Kolejne wydanie: —" : "Next edition: —";
+      return;
+    }
+
+    document.getElementById("asof").textContent =
+      (LANG==="pl")
+        ? `Aktualizacja: ${fmtDate(today.date)} | ${today.time || "—"}`
+        : `Updated: ${today.date || "—"} | ${today.time || "—"}`;
+
+    const dt = parseISODate(today.date);
+    if(dt){
+      const nxt = nextBusinessDay(dt);
+      document.getElementById("next").textContent =
+        (LANG==="pl") ? `Kolejne wydanie: ${fmtDatePretty(nxt)}` : `Next edition: ${fmtDatePretty(nxt)}`;
+    } else {
+      document.getElementById("next").textContent =
+        (LANG==="pl") ? "Kolejne wydanie: —" : "Next edition: —";
+    }
+  }
+
+  function updateLangButtons(){
+    const today = ITEMS[0] || null;
+    const btnEN = document.getElementById("btnEN");
+    if(!today || !today.en){
+      btnEN.classList.add("disabled");
+      return;
+    }
+    const en = today.en;
+    const ok = (
+      isNonEmptyText(en.title) ||
+      isNonEmptyText(en.lead) ||
+      isNonEmptyText(en.fx) ||
+      isNonEmptyText(en.agri) ||
+      (Array.isArray(en.blocks) && en.blocks.length) ||
+      (Array.isArray(en.lead_media) && en.lead_media.length)
+    );
+    btnEN.classList.toggle("disabled", !ok);
+  }
+
+  async function init(){
+    try{
+      const res = await fetch(DATA_URL, {cache:"no-store"});
+      if(!res.ok) throw new Error("Nie mogę wczytać scan.json");
+      const data = await res.json();
+      ITEMS = Array.isArray(data.items) ? data.items : [];
+
+      updateLangButtons();
+      updateHeaderFromToday();
+      render();
+    } catch(e){
+      const err = document.getElementById("err");
+      err.style.display = "block";
+      err.textContent = "Błąd: " + (e && e.message ? e.message : e);
+    }
+  }
+
+  document.getElementById("btnPL").onclick = ()=>setLang("pl");
+  document.getElementById("btnEN").onclick = ()=>{
+    if(document.getElementById("btnEN").classList.contains("disabled")) return;
+    setLang("en");
+  };
+
+  init();
+</script>
+</body>
+</html>

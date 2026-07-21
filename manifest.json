@@ -1,0 +1,264 @@
+{
+  "Poranny Skan Rynku": {
+    "name": "Poranny Skan Rynku",
+    "description": "Codzienny skan newsów i poranny komentarz (PL/EN) + archiwum.",
+    "path": "raporty/poranny-skan/",
+    "updated": "2026-07-17",
+    "frequency": "dziennie",
+    "next_issue": "2026-07-18",
+    "category": "zboza",
+    "alert_comment": "W dzisiejszym Porannym Skanie o rosnącym ryzyku El Niño, eskalacji na Morzu Czarnym, prognozach IGC oraz coraz ciaśniejszych bilansach zbóż, które mogą wspierać ceny i zwiększać szanse eksportowe Polski."
+  },
+
+  "ACE Market View": {
+  "name": "ACE Market View",
+  "description": "Autorska analiza rynkowa ACE.",
+  "path": "raporty/analiza-ace/",
+  "updated": "2026-06-15",
+  "type": "report",
+  "alert_comment": "Analiza terminowa Rynku Śruty Sojowej: Anatomia Dołków z 2025 roku a Obecna Wycena Futures. Pozytywna ocena zachowania Polski."
+  },
+
+  "Rynek na wykresach - Surowce i Waluty": {
+    "name": "Rynek na wykresach - Surowce i Waluty",
+    "description": "Pakiet wykresów spot do szybkiego przeglądu trendów.",
+    "path": "raporty/chart-pack/",
+    "updated": "2026-07-16",
+    "frequency": "tygodniowo",
+    "next_issue": "2026-07-23",
+    "category": "zboza",
+    "alert_comment": ""
+
+  },
+  "Pozycje Funduszy": {
+    "name": "Pozycje Funduszy",
+    "description": "Pozycjonowanie spekulantów / funduszy i wnioski rynkowe.",
+    "path": "raporty/pozycje-funduszy/",
+    "updated": "2026-07-13",
+    "frequency": "tygodniowo",
+    "next_issue": "2026-07-20",
+    "category": "zboza",
+    "alert_comment": "W najnowszym zestawieniu fundusze ponownie mocniej weszły w ziarna CBOT, szczególnie w soję, kukurydzę i śrutę sojową. To ważny sygnał dla rynku paszowego, bo po wcześniejszych redukcjach kapitał spekulacyjny znów zaczyna budować ekspozycję na kluczowe komponenty. Jednocześnie obraz nie jest jednolity — pszenica pozostaje słabsza, a w rzepaku widać realizację części wcześniejszych zysków. W pełnym komentarzu pokazujemy, gdzie fundusze faktycznie wracają do zakupów, a gdzie nadal zachowują ostrożność."
+
+  },
+  "Portfele-ACE": {
+    "name": "Portfele-ACE",
+    "description": "Szybkie podsumowanie i ruchy zakupowe ACE w trakcie tygodnia.",
+    "path": "raporty/benchmark-tygodnia/",
+    "updated": "2026-07-15",
+    "frequency": "tygodniowo",
+    "next_issue": "2026-07-22",
+    "category": "zboza",
+    "alert_comment": "Komentarz ruchów zakupowych ACE"
+  },
+  "Analizy statystyczno-techniczne": {
+    "name": "Analizy statystyczno-techniczne",
+    "description": "Pakiet szczegółowych analiz liczbowych dla wszystkich surowców i walut",
+     "path": "raporty/analizy-stat-tech/",
+      "type": "folder",
+    "category": "foldery",
+    "alert_comment": ""
+
+  },
+  
+  "Pogoda": {
+    "name": "Warunki pogodowe dla upraw kluczowych surowców",
+    "description": "Mapki pogodowe z krótką prognozą i wpływem na uprawy.",
+    "path": "raporty/weather-watch/",
+    "updated": "2026-07-17",
+    "frequency": "tygodniowo",
+    "next_issue": "2026-07-24",
+    "category": "zboza",
+    "alert_comment": "Europa pozostaje ciepła i sucha na zachodzie, co wspiera żniwa pszenicy i rzepaku, ale zwiększa presję na kukurydzę, podczas gdy opady w Polsce, Alpach i Rumunii lokalnie poprawiają wilgotność. W USA rośnie ryzyko cieplejszego i suchszego końca lipca dla kukurydzy i soi, Kanada wygląda korzystniej dzięki opadom, a w Ameryce Południowej deszcze w południowej Brazylii i Pampie wspierają gleby, ale mogą utrudniać prace polowe. Australia pozostaje neutralna dla pszenicy i rzepaku dzięki dobrym zapasom wilgoci na południowym wschodzie."
+
+  },
+
+
+  "raporty-fundamentalne": {
+    "name": "Raporty Fundamentalne",
+    "description": "WASDE, IGC, FAO i ACE Indexy Światowe – kluczowe wnioski.",
+    "path": "raporty/raporty-fundamentalne/",
+    "type": "folder",
+    "category": "foldery"
+  },
+
+  "usdpln": {
+    "name": "USD/PLN",
+    "description": "Analiza statystyczno-techniczna pary USD/PLN.",
+    "path": "raporty/analizy-stat-tech/waluty/usdpln/",
+    "updated": "2026-07-14",
+    "frequency": "tygodniowo",
+    "group": "analizy-stat-tech",
+    "section": "Waluty",
+    "category": "fx"
+  },
+  "eurpln": {
+    "name": "EUR/PLN",
+    "description": "Analiza statystyczno-techniczna pary EUR/PLN.",
+    "path": "raporty/analizy-stat-tech/waluty/eurpln/",
+    "updated": "2026-07-14",
+    "frequency": "tygodniowo",
+    "group": "analizy-stat-tech",
+    "section": "Waluty",
+    "category": "fx"
+  },
+  "eurusd": {
+    "name": "EUR/USD",
+    "description": "Analiza statystyczno-techniczna pary EUR/USD.",
+    "path": "raporty/analizy-stat-tech/waluty/eurusd/",
+    "updated": "2026-07-14",
+    "frequency": "tygodniowo",
+    "group": "analizy-stat-tech",
+    "section": "Waluty",
+    "category": "fx"
+  },
+
+  "pszenica": {
+    "name": "Pszenica",
+    "description": "Analiza statystyczno-techniczna pszenicy.",
+    "path": "raporty/analizy-stat-tech/zboza/pszenica/",
+    "updated": "2026-07-14",
+    "frequency": "tygodniowo",
+    "group": "analizy-stat-tech",
+    "section": "Zboża",
+    "category": "zboza"
+  },
+  "kukurydza": {
+    "name": "Kukurydza",
+    "description": "Analiza statystyczno-techniczna kukurydzy.",
+    "path": "raporty/analizy-stat-tech/zboza/kukurydza/",
+    "updated": "2026-07-14",
+    "frequency": "tygodniowo",
+    "group": "analizy-stat-tech",
+    "section": "Zboża",
+    "category": "zboza"
+  },
+  "rzepak": {
+    "name": "Rzepak",
+    "description": "Analiza statystyczno-techniczna rzepaku.",
+    "path": "raporty/analizy-stat-tech/zboza/rzepak/",
+    "updated": "2026-07-14",
+    "frequency": "tygodniowo",
+    "group": "analizy-stat-tech",
+    "section": "Zboża",
+    "category": "zboza"
+  },
+
+  "sojowa": {
+    "name": "Śruta sojowa",
+    "description": "Analiza statystyczno-techniczna śruty sojowej.",
+    "path": "raporty/analizy-stat-tech/sruty/sojowa/",
+    "updated": "2026-07-14",
+    "frequency": "tygodniowo",
+    "group": "analizy-stat-tech",
+    "section": "Śruty",
+    "category": "bialko"
+  },
+  "rzepakowa": {
+    "name": "Śruta rzepakowa",
+    "description": "Analiza statystyczno-techniczna śruty rzepakowej.",
+    "path": "raporty/analizy-stat-tech/sruty/rzepakowa/",
+    "updated": "2026-07-14",
+    "frequency": "tygodniowo",
+    "group": "analizy-stat-tech",
+    "section": "Śruty",
+    "category": "bialko"
+  },
+
+  "gaz": {
+    "name": "Gaz",
+    "description": "Analiza statystyczno-techniczna rynku gazu.",
+    "path": "raporty/analizy-stat-tech/energia/gaz/",
+    "updated": "2026-07-14",
+    "frequency": "tygodniowo",
+    "group": "analizy-stat-tech",
+    "section": "Energia",
+    "category": "energia"
+  },
+  "prad": {
+    "name": "Prąd",
+    "description": "Analiza statystyczno-techniczna rynku energii elektrycznej.",
+    "path": "raporty/analizy-stat-tech/energia/prad/",
+    "updated": "2026-07-14",
+    "frequency": "tygodniowo",
+    "group": "analizy-stat-tech",
+    "section": "Energia",
+    "category": "energia"
+  },
+  "ropa": {
+    "name": "Ropa",
+    "description": "Analiza statystyczno-techniczna rynku energii elektrycznej.",
+    "path": "raporty/analizy-stat-tech/energia/ropa/",
+    "updated": "2026-07-14",
+    "frequency": "tygodniowo",
+    "group": "analizy-stat-tech",
+    "section": "Energia",
+    "category": "energia"
+  },
+  
+  "wasde": {
+    "name": "WASDE",
+    "description": "USDA: bilanse, zmiany i konsekwencje rynkowe.",
+    "path": "raporty/raporty-fundamentalne/wasde/",
+    "updated": "2026-07-13",
+    "frequency": "miesięcznie",
+    "next_issue": "2026-08-12",
+    "group": "raporty-fundamentalne",
+    "section": "Raporty",
+    "category": "zboza",
+    "alert_comment": "Raport ma ogólnie prowzrostowy wydźwięk dla pszenicy i kukurydzy, ponieważ wskazuje na niższą podaż, wyraźny spadek zapasów oraz większe wykorzystanie i handel, szczególnie w USA. W przypadku soi obraz jest bardziej neutralny: wyższa produkcja i podaż w USA równoważą wzrost eksportu, choć globalne zapasy zostały lekko obniżone."
+
+  },
+  "igc": {
+    "name": "IGC",
+    "description": "International Grain Council: bilanse, handel, prognozy.",
+    "path": "raporty/raporty-fundamentalne/igc/",
+    "updated": "2026-06-26",
+    "frequency": "miesięcznie",
+    "next_issue": "2026-07",
+    "group": "raporty-fundamentalne",
+    "section": "Raporty",
+    "category": "zboza",
+    "alert_comment": "Czerwcowy raport International Grains Council pokazuje wyraźną poprawę krótkoterminowego obrazu podaży – prognozy produkcji zbóż na sezony 2025/26 i 2026/27 zostały podniesione głównie dzięki lepszym perspektywom kukurydzy w Ameryce Południowej, Indiach i RPA, a w sezonie 2025/26 produkcja, konsumpcja i handel mają osiągnąć rekordowe poziomy. Jednocześnie w sezonie 2026/27 globalny bilans może ponownie się pogorszyć: produkcja zbóż ma spaść o ok. 2%, konsumpcja dalej rosnąć, a zapasy końcowe obniżyć się o 3%. Coraz większą niewiadomą pozostaje El Niño, a na rynku cenowym dominuje presja dobrej podaży – indeks IGC GOI spadł w skali miesiąca o 5%, najmocniej pod wpływem przeceny pszenicy, kukurydzy i soi."
+
+  },
+  "fao": {
+    "name": "FAO",
+    "description": "FAO: dane i trendy globalne w agro.",
+    "path": "raporty/raporty-fundamentalne/fao/",
+    "updated": "2026-07-03",
+    "frequency": "miesięcznie",
+    "next_issue": "2026-08-07",
+    "group": "raporty-fundamentalne",
+    "section": "Raporty",
+    "category": "zboza",
+    "alert_comment": "W czerwcu 2026 r. globalne ceny żywności lekko spadły, bo tańsze zboża, cukier i nabiał przeważyły nad dalszym wzrostem cen olejów roślinnych oraz drogim mięsem."
+
+  },
+  "Indexy-światowe": {
+    "name": "Indexy Światowe",
+    "description": "Bloomberg Commodity Index, DXY, Baltic Dry i inne",
+    "path": "raporty/raporty-fundamentalne/ace-indexy-swiatowe/",
+    "updated": "2026-07-17",
+    "frequency": "miesięcznie",
+    "next_issue": "2026-08-17",
+    "group": "raporty-fundamentalne",
+    "section": "Raporty",
+    "category": "zboza",
+    "alert_comment": "Po czerwcowym schłodzeniu światowy rynek surowców ponownie się umacnia, a wraz z nim odbija także segment agro. Jednocześnie wyższe koszty frachtu zaczynają coraz mocniej wpływać na ceny, podczas gdy dolar pozostaje względnie stabilny. W najnowszym wpisie pokazujemy, jak zmieniło się globalne otoczenie rynku w ciągu ostatniego miesiąca."
+
+  },
+    "Wskaźniki": {
+    "name": "Wskaźniki",
+    "description": "Analiza relacji cenowych między surowcami i wskaźników względem ceny.",
+    "path": "raporty/raporty-fundamentalne/wskazniki/",
+    "updated": "2026-06-25",
+    "frequency": "miesięcznie",
+    "next_issue": "2026-07-23",
+    "group": "raporty-fundamentalne",
+    "section": "Raporty",
+    "category": "zboza",
+    "alert_comment": "Nowy raport dostępny: sprawdź aktualne relacje cenowe i kluczowe wskaźniki między surowcami, które pokazują opłacalność i ukryte przewagi rynkowe."
+
+  }
+}
