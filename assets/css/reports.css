@@ -673,15 +673,15 @@ body {
     line-height: 1.1;
   }
 
-  .logoRow {
-    width: calc(100% - 20px);
-    max-width: 360px;
-
-    margin: 14px auto 18px;
-    padding: 14px 18px;
-
-    border-radius: 18px;
-  }
+   .logoRow {
+     width: calc(100% - 20px);
+     max-width: 360px;
+   
+     margin: 14px auto 18px;
+     padding: 0 10px;
+   
+     border-radius: 0;
+   }
 
   .logo {
     width: min(260px, 72vw);
@@ -762,11 +762,10 @@ body {
     gap: 10px;
   }
 
-  .card {
-    padding: 5px;
-
-    border-radius: 12px;
-  }
+   .card {
+     padding: 0;
+     border-radius: 12px;
+   }
 
 
   /* Komentarz */
