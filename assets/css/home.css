@@ -188,7 +188,7 @@ header {
 
 .headerRow {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: 170px 1fr 360px;
   gap: 14px;
   align-items: center;
 }
@@ -196,8 +196,11 @@ header {
 .logo {
   display: block;
 
-  width: auto;
-  height: 56px;
+  width: 155px;
+  height: 82px;
+
+  object-fit: contain;
+  object-position: left center;
 
   filter: drop-shadow(0 8px 18px rgba(18, 48, 31, 0.14));
 }
@@ -1708,7 +1711,9 @@ code {
   }
 
   .logo {
-    height: 46px;
+    width: 125px;
+    height: 68px;
+    object-position: center;
   }
 
   .userBar {
