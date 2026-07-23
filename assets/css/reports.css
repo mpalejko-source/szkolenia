@@ -88,13 +88,13 @@ body {
   max-width: calc(100% - 32px);
 
   margin: 18px auto 22px;
-  padding: 20px 34px;
+  padding: 4px 20px;
 
-  border: 1px solid rgba(255, 255, 255, 0.20);
-  border-radius: 22px;
+  border: 0;
+  border-radius: 0;
 
-  background: rgba(255, 255, 255, 0.96);
-  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.28);
+  background: transparent;
+  box-shadow: none;
 }
 
 .logo {
