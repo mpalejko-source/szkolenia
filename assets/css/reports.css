@@ -838,3 +838,166 @@ body {
     font-size: 24px;
   }
 }
+/* =========================================================
+   16. JASNY MOTYW — NADPISANIE KOLORÓW
+   ========================================================= */
+
+/* Jednolite tło bez rozjeżdżającego się gradientu */
+
+body {
+  background: var(--ace-background);
+}
+
+
+/* Tytuł okładki */
+
+.title {
+  color: var(--ace-text-strong);
+}
+
+.title::after {
+  display: block;
+
+  width: 72px;
+  height: 4px;
+
+  margin: 14px auto 0;
+
+  border-radius: 999px;
+
+  background: linear-gradient(
+    90deg,
+    var(--ace-primary),
+    var(--ace-secondary)
+  );
+
+  content: "";
+}
+
+
+/* Pole z głównym logo */
+
+.logoRow {
+  border-color: var(--ace-border);
+  background: var(--ace-surface);
+  box-shadow: var(--ace-shadow);
+}
+
+
+/* Data, spis treści i komentarz na okładce */
+
+.dateBox,
+.tocBox,
+.noteBox {
+  border-color: var(--ace-border);
+  color: var(--ace-text-strong);
+  background: var(--ace-surface);
+  box-shadow: var(--ace-shadow-small);
+}
+
+
+/* Przyciski powrotu */
+
+.coverBack,
+.back {
+  border-color: var(--ace-border-strong);
+  color: var(--ace-primary);
+  background: var(--ace-surface);
+  box-shadow: var(--ace-shadow-small);
+}
+
+.coverBack:hover,
+.back:hover {
+  border-color: var(--ace-primary);
+  color: var(--ace-text-strong);
+  background: var(--ace-surface-hover);
+}
+
+
+/* Spis treści */
+
+.tocItem {
+  color: var(--ace-text-strong);
+}
+
+.tocItem:hover {
+  background: var(--ace-surface-hover);
+}
+
+.tocItem .pno {
+  color: var(--ace-text-subtle);
+}
+
+
+/* Komentarz */
+
+.noteTitle {
+  color: var(--ace-primary);
+}
+
+.noteText {
+  color: var(--ace-text-muted);
+}
+
+
+/* Strony raportu */
+
+.sheet {
+  border-color: var(--ace-border);
+  background: var(--ace-surface);
+  box-shadow: var(--ace-shadow);
+}
+
+.pageTitle {
+  color: var(--ace-text-strong);
+}
+
+.backTxt {
+  color: var(--ace-text-subtle);
+}
+
+
+/* Karty z wykresami */
+
+.card,
+.report-media,
+.report-comment {
+  border-color: var(--ace-border);
+  background: var(--ace-surface-card);
+  box-shadow: var(--ace-shadow-small);
+}
+
+.report-comment {
+  color: var(--ace-text-muted);
+}
+
+.report-comment h3 {
+  color: var(--ace-primary);
+}
+
+
+/* Stopka */
+
+.footer {
+  border-top-color: var(--ace-border);
+  color: var(--ace-text-subtle);
+}
+
+.footerPage,
+.footerRight > div {
+  color: var(--ace-text-muted);
+}
+
+.footLogo {
+  border-color: var(--ace-border);
+  background: var(--ace-surface);
+  box-shadow: 0 4px 12px rgba(30, 60, 42, 0.10);
+}
+
+
+/* Zaznaczanie tekstu */
+
+::selection {
+  color: #ffffff;
+  background: var(--ace-primary);
+}
