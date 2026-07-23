@@ -194,12 +194,12 @@ header {
 }
 
 .logoBox {
-  width: 170px;
-  height: 86px;
-
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+
+  width: 170px;
+  height: 86px;
 
   overflow: hidden;
 }
@@ -211,9 +211,10 @@ header {
   height: 100%;
 
   object-fit: contain;
+  object-position: center;
 
-  transform: scale(3.2);
-  transform-origin: center center;
+  transform: scale(1.85);
+  transform-origin: center;
 
   filter: drop-shadow(0 8px 18px rgba(18, 48, 31, 0.14));
 }
