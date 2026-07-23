@@ -188,7 +188,7 @@ header {
 
 .headerRow {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: 170px 1fr 360px;
   gap: 14px;
   align-items: center;
 }
