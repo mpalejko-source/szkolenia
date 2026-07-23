@@ -24,20 +24,7 @@ body {
   margin: 0;
   font-family: var(--ace-font-family);
   color: var(--ace-text);
-
-  background:
-    radial-gradient(
-      1200px 600px at 10% 0%,
-      rgba(125, 211, 252, 0.14),
-      transparent 60%
-    ),
-    radial-gradient(
-      900px 500px at 90% 10%,
-      rgba(167, 139, 250, 0.12),
-      transparent 55%
-    ),
-    var(--ace-background);
-
+  background: var(--ace-background);
   scroll-snap-type: y mandatory;
 }
 
@@ -101,13 +88,13 @@ body {
   max-width: calc(100% - 32px);
 
   margin: 18px auto 22px;
-  padding: 20px 34px;
+  padding: 4px 20px;
 
-  border: 1px solid rgba(255, 255, 255, 0.20);
-  border-radius: 22px;
+  border: 0;
+  border-radius: 0;
 
-  background: rgba(255, 255, 255, 0.96);
-  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.28);
+  background: transparent;
+  box-shadow: none;
 }
 
 .logo {
@@ -405,12 +392,14 @@ body {
 .card {
   width: 100%;
   min-width: 0;
-  padding: 8px;
+  padding: 0;
 
-  border: 1px solid var(--ace-border);
+  border: 0;
   border-radius: var(--ace-radius-medium);
 
-  background: var(--ace-surface-card);
+  background: transparent;
+  box-shadow: none;
+  overflow: hidden;
 }
 
 .card img {
@@ -419,7 +408,11 @@ body {
   width: 100%;
   height: auto;
 
-  border-radius: var(--ace-radius-small);
+  border: 1px solid var(--ace-border);
+  border-radius: var(--ace-radius-medium);
+
+  background: var(--ace-surface-card);
+  box-shadow: var(--ace-shadow-small);
 
   cursor: zoom-in;
   object-fit: contain;
@@ -680,15 +673,15 @@ body {
     line-height: 1.1;
   }
 
-  .logoRow {
-    width: calc(100% - 20px);
-    max-width: 360px;
-
-    margin: 14px auto 18px;
-    padding: 14px 18px;
-
-    border-radius: 18px;
-  }
+   .logoRow {
+     width: calc(100% - 20px);
+     max-width: 360px;
+   
+     margin: 14px auto 18px;
+     padding: 0 10px;
+   
+     border-radius: 0;
+   }
 
   .logo {
     width: min(260px, 72vw);
@@ -769,11 +762,10 @@ body {
     gap: 10px;
   }
 
-  .card {
-    padding: 5px;
-
-    border-radius: 12px;
-  }
+   .card {
+     padding: 0;
+     border-radius: 12px;
+   }
 
 
   /* Komentarz */
