@@ -1,0 +1,11 @@
+:root {
+  --ace-background: #0b1220;
+  --ace-surface: #0f1a33;
+  --ace-text: #eaf0ff;
+  --ace-text-muted: rgba(234, 240, 255, 0.72);
+  --ace-primary: #7dd3fc;
+  --ace-secondary: #a78bfa;
+  --ace-border: rgba(255, 255, 255, 0.10);
+  --ace-radius: 18px;
+  --ace-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
