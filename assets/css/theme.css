@@ -4,7 +4,7 @@
 
 :root {
   /* Główne powierzchnie */
-  --ace-background: #0b1220;
+  --ace-background: #FFB6C1;
   --ace-surface: #0f1a33;
   --ace-surface-soft: rgba(255, 255, 255, 0.04);
   --ace-surface-card: rgba(255, 255, 255, 0.03);
