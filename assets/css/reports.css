@@ -152,7 +152,7 @@ body {
   border-radius: 14px;
 
   color: var(--ace-text-strong);
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--ace-surface-card);
   box-shadow: var(--ace-shadow-small);
 
   font-size: 14px;
@@ -207,7 +207,7 @@ body {
 }
 
 .tocItem:hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--ace-surface-hover);
 }
 
 .tocItem .pno {
@@ -253,7 +253,7 @@ body {
 .noteText {
   margin: 0;
 
-  color: rgba(234, 240, 255, 0.85);
+  color: var(--ace-text-muted);
 
   font-size: 16px;
   line-height: 1.55;
@@ -323,7 +323,7 @@ body {
   border-radius: var(--ace-radius-small);
 
   color: var(--ace-text-strong);
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--ace-surface-card);
   box-shadow: var(--ace-shadow-small);
 
   font-size: 14px;
@@ -411,8 +411,8 @@ body {
   border: 1px solid var(--ace-border);
   border-radius: var(--ace-radius-medium);
 
-  background: var(--ace-surface-card);
-  box-shadow: var(--ace-shadow-small);
+  background: transparent;
+  box-shadow: none;
 
   cursor: zoom-in;
   object-fit: contain;
@@ -507,6 +507,19 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+
+  /* Ukrywa nazwę raportu generowaną w HTML. */
+  font-size: 0;
+}
+
+.footer > div:first-child::before {
+  content: "#FUNDUSZE PROMOCJI";
+
+  color: var(--ace-primary);
+
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.05em;
 }
 
 
@@ -815,11 +828,19 @@ body {
   }
 
   .footLogo {
-    width: 72px;
-    max-height: 32px;
-    padding: 4px 6px;
+    width: 42px;
+    max-height: 40px;
+    padding: 0;
 
-    border-radius: 7px;
+    border: 0;
+    border-radius: 0;
+
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .footer > div:first-child::before {
+    font-size: 10px;
   }
 
 

@@ -41,44 +41,54 @@
     var(--ace-border, rgba(18, 48, 31, 0.13));
 
   --home-border-strong:
-    var(--ace-border-strong, rgba(8, 122, 67, 0.28));
+    var(--ace-border-strong, rgba(var(--home-green-rgb), 0.28));
 
   --home-green:
-    var(
-      --ace-accent-green,
-      var(--ace-accent, #087a43)
-    );
+    var(--ace-primary, #087a3d);
 
-  --home-green-dark: #056236;
+  --home-green-dark:
+    var(--ace-primary-dark, #056236);
 
   --home-orange:
-    var(
-      --ace-accent-orange,
-      var(--ace-accent-secondary, #e8752f)
-    );
+    var(--ace-secondary, #e96f2d);
 
   --home-yellow:
-    var(
-      --ace-accent-yellow,
-      var(--ace-warning, #d9a92c)
-    );
+    var(--ace-warning, #d9a92c);
 
-  --home-red: #c94c4c;
+  --home-red:
+    var(--ace-danger, #c94c4c);
+
+  /* Składowe RGB pozwalają sterować przezroczystością
+     przy zachowaniu kolorów z theme.css. */
+  --home-green-rgb:
+    var(--ace-primary-rgb, 8, 122, 61);
+
+  --home-orange-rgb:
+    var(--ace-secondary-rgb, 233, 111, 45);
+
+  --home-yellow-rgb:
+    var(--ace-warning-rgb, 217, 169, 44);
+
+  --home-shadow-rgb:
+    var(--ace-shadow-rgb, 18, 48, 31);
 
   --home-shadow:
     var(
       --ace-shadow,
-      0 12px 30px rgba(18, 48, 31, 0.10)
+      0 12px 30px rgba(var(--home-shadow-rgb), 0.10)
     );
 
   --home-shadow-small:
     var(
       --ace-shadow-small,
-      0 8px 20px rgba(18, 48, 31, 0.08)
+      0 8px 20px rgba(var(--home-shadow-rgb), 0.08)
     );
 
   --home-shadow-strong:
-    0 18px 42px rgba(18, 48, 31, 0.14);
+    var(
+      --ace-shadow-strong,
+      0 18px 42px rgba(var(--home-shadow-rgb), 0.14)
+    );
 
   --home-radius:
     var(--ace-radius-medium, 16px);
@@ -130,12 +140,12 @@ body {
   background:
     radial-gradient(
       1100px 560px at 8% 0%,
-      rgba(8, 122, 67, 0.10),
+      rgba(var(--home-green-rgb), 0.10),
       transparent 60%
     ),
     radial-gradient(
       850px 480px at 92% 8%,
-      rgba(232, 117, 47, 0.08),
+      rgba(var(--home-orange-rgb), 0.08),
       transparent 58%
     ),
     var(--home-bg);
@@ -162,6 +172,9 @@ body {
 
 /* =========================================================
    4. NAGŁÓWEK
+
+   UWAGA: działające ustawienia .headerRow, .logoBox i .logo
+   pozostają bez zmian.
    ========================================================= */
 
 header {
@@ -183,7 +196,7 @@ header {
   line-height: 1.12;
   text-align: center;
 
-  text-shadow: 0 8px 20px rgba(18, 48, 31, 0.08);
+  text-shadow: 0 8px 20px rgba(var(--home-shadow-rgb), 0.08);
 }
 
 .headerRow {
@@ -216,7 +229,7 @@ header {
   transform: scale(2.4);
   transform-origin: left center;
 
-  filter: drop-shadow(0 8px 18px rgba(18, 48, 31, 0.14));
+  filter: drop-shadow(0 8px 18px rgba(var(--home-shadow-rgb), 0.14));
 }
 
 .rightSlogan {
@@ -231,7 +244,7 @@ header {
   line-height: 1.08;
   text-align: right;
 
-  text-shadow: 0 6px 16px rgba(232, 117, 47, 0.10);
+  text-shadow: 0 6px 16px rgba(var(--home-orange-rgb), 0.10);
 }
 
 .rightSlogan .l1,
@@ -297,7 +310,7 @@ a.pill:hover {
     linear-gradient(
       90deg,
       transparent,
-      rgba(18, 48, 31, 0.18),
+      rgba(var(--home-shadow-rgb), 0.18),
       transparent
     );
 }
@@ -386,12 +399,12 @@ a.card::before,
   background:
     radial-gradient(
       520px 170px at 10% 0%,
-      rgba(8, 122, 67, 0.08),
+      rgba(var(--home-green-rgb), 0.08),
       transparent 62%
     ),
     radial-gradient(
       520px 190px at 90% 0%,
-      rgba(232, 117, 47, 0.06),
+      rgba(var(--home-orange-rgb), 0.06),
       transparent 62%
     );
 }
@@ -402,18 +415,18 @@ a.card > *,
 }
 
 a.card.today {
-  border: 2px solid rgba(8, 122, 67, 0.48);
+  border: 2px solid rgba(var(--home-green-rgb), 0.48);
 
   background:
     linear-gradient(
       135deg,
-      rgba(8, 122, 67, 0.10),
-      rgba(217, 169, 44, 0.07)
+      rgba(var(--home-green-rgb), 0.10),
+      rgba(var(--home-yellow-rgb), 0.07)
     );
 
   box-shadow:
-    0 16px 38px rgba(18, 48, 31, 0.14),
-    0 0 0 1px rgba(8, 122, 67, 0.05);
+    0 16px 38px rgba(var(--home-shadow-rgb), 0.14),
+    0 0 0 1px rgba(var(--home-green-rgb), 0.05);
 }
 
 
@@ -457,16 +470,16 @@ a.card.today {
 }
 
 .badge.primary {
-  border-color: rgba(8, 122, 67, 0.30);
+  border-color: rgba(var(--home-green-rgb), 0.30);
 
   color: var(--home-green-dark);
-  background: rgba(8, 122, 67, 0.10);
+  background: rgba(var(--home-green-rgb), 0.10);
 
   font-weight: 900;
 }
 
 .badge.updToday {
-  border-color: rgba(217, 169, 44, 0.62);
+  border-color: rgba(var(--home-yellow-rgb), 0.62);
 
   color: #3c3210;
   background: rgba(241, 205, 95, 0.90);
@@ -475,7 +488,7 @@ a.card.today {
 
   box-shadow:
     var(--home-shadow-small),
-    0 0 0 1px rgba(217, 169, 44, 0.12);
+    0 0 0 1px rgba(var(--home-yellow-rgb), 0.12);
 }
 
 .title {
@@ -623,7 +636,7 @@ a.card.today {
   height: 42px;
   margin-top: 10px;
 
-  border: 1px solid rgba(217, 169, 44, 0.55);
+  border: 1px solid rgba(var(--home-yellow-rgb), 0.55);
   border-radius: 999px;
 
   background: rgba(255, 255, 255, 0.92);
@@ -705,7 +718,7 @@ a.card.today {
   border: 1px solid var(--home-border);
   border-radius: var(--home-radius-large);
 
-  background: rgba(255, 255, 255, 0.82);
+  background: var(--ace-surface-glass, rgba(255, 255, 255, 0.82));
   box-shadow: var(--home-shadow);
 }
 
@@ -734,10 +747,10 @@ a.card.today {
   width: 28px;
   height: 28px;
 
-  border: 1px solid rgba(8, 122, 67, 0.20);
+  border: 1px solid rgba(var(--home-green-rgb), 0.20);
   border-radius: 10px;
 
-  background: rgba(8, 122, 67, 0.08);
+  background: rgba(var(--home-green-rgb), 0.08);
   box-shadow: var(--home-shadow-small);
 
   font-size: 14px;
@@ -846,13 +859,13 @@ a.card.today {
 }
 
 .calPill.today {
-  border: 2px solid rgba(8, 122, 67, 0.46);
+  border: 2px solid rgba(var(--home-green-rgb), 0.46);
 
   background:
     linear-gradient(
       135deg,
-      rgba(8, 122, 67, 0.10),
-      rgba(217, 169, 44, 0.08)
+      rgba(var(--home-green-rgb), 0.10),
+      rgba(var(--home-yellow-rgb), 0.08)
     );
 
   box-shadow: var(--home-shadow-strong);
@@ -895,7 +908,7 @@ a.analysisFeatured {
   min-height: 420px;
   padding: 18px 18px 16px;
 
-  border: 2px solid rgba(8, 122, 67, 0.34);
+  border: 2px solid rgba(var(--home-green-rgb), 0.34);
   border-radius: var(--home-radius);
 
   color: inherit;
@@ -923,9 +936,9 @@ a.featured:hover,
 a.analysisFeatured:hover {
   transform: translateY(-2px);
 
-  border-color: rgba(8, 122, 67, 0.60);
+  border-color: rgba(var(--home-green-rgb), 0.60);
   box-shadow:
-    0 20px 46px rgba(18, 48, 31, 0.16);
+    0 20px 46px rgba(var(--home-shadow-rgb), 0.16);
 }
 
 a.featured::before,
@@ -940,12 +953,12 @@ a.analysisFeatured::before {
   background:
     radial-gradient(
       650px 220px at 10% 0%,
-      rgba(8, 122, 67, 0.10),
+      rgba(var(--home-green-rgb), 0.10),
       transparent 62%
     ),
     radial-gradient(
       650px 250px at 90% 0%,
-      rgba(232, 117, 47, 0.07),
+      rgba(var(--home-orange-rgb), 0.07),
       transparent 62%
     );
 }
@@ -1025,7 +1038,7 @@ a.analysisFeatured > * {
    ========================================================= */
 
 .portfolioFeatured {
-  border-color: rgba(232, 117, 47, 0.42);
+  border-color: rgba(var(--home-orange-rgb), 0.42);
 
   background:
     linear-gradient(
@@ -1036,7 +1049,7 @@ a.analysisFeatured > * {
 }
 
 .portfolioFeatured:hover {
-  border-color: rgba(232, 117, 47, 0.70);
+  border-color: rgba(var(--home-orange-rgb), 0.70);
 }
 
 .portfolioFeatured .fTitle {
@@ -1093,7 +1106,7 @@ a.analysisFeatured > * {
 }
 
 .thumbToday {
-  border: 1px solid rgba(217, 169, 44, 0.72) !important;
+  border: 1px solid rgba(var(--home-yellow-rgb), 0.72) !important;
 
   background:
     linear-gradient(
@@ -1104,7 +1117,7 @@ a.analysisFeatured > * {
 
   box-shadow:
     var(--home-shadow-small),
-    0 0 0 1px rgba(217, 169, 44, 0.12);
+    0 0 0 1px rgba(var(--home-yellow-rgb), 0.12);
 }
 
 .thumb:hover {
@@ -1246,8 +1259,8 @@ a.analysisFeatured {
 
   background-image:
     linear-gradient(
-      rgba(18, 48, 31, 0.10),
-      rgba(18, 48, 31, 0.20)
+      rgba(var(--home-shadow-rgb), 0.10),
+      rgba(var(--home-shadow-rgb), 0.20)
     ),
     url("../../raporty/analiza-ace/analiza-ace-chart.jpg");
 
@@ -1567,10 +1580,10 @@ table.prTable td[style*="rgba(255, 160, 160"] {
   width: 26px;
   height: 26px;
 
-  border: 1px solid rgba(8, 122, 67, 0.16);
+  border: 1px solid rgba(var(--home-green-rgb), 0.16);
   border-radius: 10px;
 
-  background: rgba(8, 122, 67, 0.07);
+  background: rgba(var(--home-green-rgb), 0.07);
 
   font-size: 13px;
 }
