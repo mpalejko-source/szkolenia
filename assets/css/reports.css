@@ -539,16 +539,16 @@ body {
 .footLogo {
   display: block;
 
-  width: 96px;
+  width: 52px;
   height: auto;
-  max-height: 40px;
+  max-height: 48px;
 
-  padding: 5px 8px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
 
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 9px;
-
-  background: rgba(255, 255, 255, 0.94);
+  background: transparent;
+  box-shadow: none;
 
   object-fit: contain;
   opacity: 1;
@@ -673,15 +673,17 @@ body {
     line-height: 1.1;
   }
 
-   .logoRow {
-     width: calc(100% - 20px);
-     max-width: 360px;
-   
-     margin: 14px auto 18px;
-     padding: 0 10px;
-   
-     border-radius: 0;
-   }
+.footLogo {
+  width: 42px;
+  max-height: 40px;
+
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+
+  background: transparent;
+  box-shadow: none;
+}
 
   .logo {
     width: min(260px, 72vw);
