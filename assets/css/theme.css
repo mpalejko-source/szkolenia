@@ -1,11 +1,44 @@
+/* =========================================================
+   ACE — wspólne ustawienia wyglądu
+   ========================================================= */
+
 :root {
+  /* Główne powierzchnie */
   --ace-background: #0b1220;
   --ace-surface: #0f1a33;
+  --ace-surface-soft: rgba(255, 255, 255, 0.04);
+  --ace-surface-card: rgba(255, 255, 255, 0.03);
+  --ace-surface-hover: rgba(255, 255, 255, 0.08);
+
+  /* Tekst */
   --ace-text: #eaf0ff;
+  --ace-text-strong: rgba(234, 240, 255, 0.95);
   --ace-text-muted: rgba(234, 240, 255, 0.72);
+  --ace-text-subtle: rgba(234, 240, 255, 0.55);
+
+  /* Akcenty */
   --ace-primary: #7dd3fc;
   --ace-secondary: #a78bfa;
+
+  /* Obramowania */
   --ace-border: rgba(255, 255, 255, 0.10);
-  --ace-radius: 18px;
+  --ace-border-strong: rgba(255, 255, 255, 0.14);
+
+  /* Zaokrąglenia */
+  --ace-radius-small: 12px;
+  --ace-radius-medium: 16px;
+  --ace-radius-large: 18px;
+
+  /* Cienie */
   --ace-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  --ace-shadow-small: 0 10px 24px rgba(0, 0, 0, 0.22);
+
+  /* Font */
+  --ace-font-family:
+    Arial,
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
 }
