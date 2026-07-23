@@ -1,28 +1,28 @@
 /* =========================================================
-   ACE — wspólne ustawienia wyglądu
+   ACE — wspólna paleta i ustawienia wyglądu
    ========================================================= */
 
 :root {
   /* Główne powierzchnie */
-  --ace-background: #0b1220;
-  --ace-surface: #0f1a33;
-  --ace-surface-soft: rgba(255, 255, 255, 0.04);
-  --ace-surface-card: rgba(255, 255, 255, 0.03);
-  --ace-surface-hover: rgba(255, 255, 255, 0.08);
+  --ace-background: #F3F5EE;
+  --ace-surface: #FFFFFF;
+  --ace-surface-soft: #E8EFE4;
+  --ace-surface-card: #FFFFFF;
+  --ace-surface-hover: #DCE8D7;
 
   /* Tekst */
-  --ace-text: #eaf0ff;
-  --ace-text-strong: rgba(234, 240, 255, 0.95);
-  --ace-text-muted: rgba(234, 240, 255, 0.72);
-  --ace-text-subtle: rgba(234, 240, 255, 0.55);
+  --ace-text: #173426;
+  --ace-text-strong: #102A1E;
+  --ace-text-muted: #5D6F65;
+  --ace-text-subtle: #7D8C84;
 
-  /* Akcenty */
-  --ace-primary: #7dd3fc;
-  --ace-secondary: #a78bfa;
+  /* Kolory akcentowe */
+  --ace-primary: #087A3D;
+  --ace-secondary: #E96F2D;
 
   /* Obramowania */
-  --ace-border: rgba(255, 255, 255, 0.10);
-  --ace-border-strong: rgba(255, 255, 255, 0.14);
+  --ace-border: rgba(23, 52, 38, 0.14);
+  --ace-border-strong: rgba(23, 52, 38, 0.24);
 
   /* Zaokrąglenia */
   --ace-radius-small: 12px;
@@ -30,8 +30,8 @@
   --ace-radius-large: 18px;
 
   /* Cienie */
-  --ace-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-  --ace-shadow-small: 0 10px 24px rgba(0, 0, 0, 0.22);
+  --ace-shadow: 0 10px 30px rgba(30, 60, 42, 0.12);
+  --ace-shadow-small: 0 8px 20px rgba(30, 60, 42, 0.10);
 
   /* Font */
   --ace-font-family:
