@@ -24,20 +24,7 @@ body {
   margin: 0;
   font-family: var(--ace-font-family);
   color: var(--ace-text);
-
-  background:
-    radial-gradient(
-      1200px 600px at 10% 0%,
-      rgba(125, 211, 252, 0.14),
-      transparent 60%
-    ),
-    radial-gradient(
-      900px 500px at 90% 10%,
-      rgba(167, 139, 250, 0.12),
-      transparent 55%
-    ),
-    var(--ace-background);
-
+  background: var(--ace-background);
   scroll-snap-type: y mandatory;
 }
 
