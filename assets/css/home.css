@@ -193,14 +193,27 @@ header {
   align-items: center;
 }
 
+.logoBox {
+  width: 170px;
+  height: 86px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+}
+
 .logo {
   display: block;
 
-  width: 155px;
-  height: 82px;
+  width: 100%;
+  height: 100%;
 
   object-fit: contain;
-  object-position: left center;
+
+  transform: scale(3.2);
+  transform-origin: center center;
 
   filter: drop-shadow(0 8px 18px rgba(18, 48, 31, 0.14));
 }
@@ -1710,11 +1723,18 @@ code {
     text-align: center;
   }
 
-  .logo {
-    width: 125px;
-    height: 68px;
-    object-position: center;
-  }
+.logoBox {
+  width: 135px;
+  height: 72px;
+}
+
+.logo {
+  width: 100%;
+  height: 100%;
+
+  transform: scale(3);
+  transform-origin: center center;
+}
 
   .userBar {
     justify-content: center;
