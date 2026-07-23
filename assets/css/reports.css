@@ -392,12 +392,14 @@ body {
 .card {
   width: 100%;
   min-width: 0;
-  padding: 8px;
+  padding: 0;
 
-  border: 1px solid var(--ace-border);
+  border: 0;
   border-radius: var(--ace-radius-medium);
 
-  background: var(--ace-surface-card);
+  background: transparent;
+  box-shadow: none;
+  overflow: hidden;
 }
 
 .card img {
@@ -406,7 +408,11 @@ body {
   width: 100%;
   height: auto;
 
-  border-radius: var(--ace-radius-small);
+  border: 1px solid var(--ace-border);
+  border-radius: var(--ace-radius-medium);
+
+  background: var(--ace-surface-card);
+  box-shadow: var(--ace-shadow-small);
 
   cursor: zoom-in;
   object-fit: contain;
