@@ -188,7 +188,7 @@ header {
 
 .headerRow {
   display: grid;
-  grid-template-columns: 170px 1fr 360px;
+  grid-template-columns: 210px 1fr 360px;
   gap: 14px;
   align-items: center;
 }
@@ -198,23 +198,22 @@ header {
   align-items: center;
   justify-content: flex-start;
 
-  width: 170px;
-  height: 86px;
+  width: 210px;
+  height: 96px;
 
-  overflow: hidden;
+  overflow: visible;
 }
 
 .logo {
   display: block;
 
-  width: 100%;
-  height: 100%;
+  width: 210px;
+  height: 96px;
 
   object-fit: contain;
-  object-position: center;
+  object-position: left center;
 
-  transform: scale(1.85);
-  transform-origin: center;
+  transform: none;
 
   filter: drop-shadow(0 8px 18px rgba(18, 48, 31, 0.14));
 }
@@ -1725,17 +1724,20 @@ code {
   }
 
 .logoBox {
-  width: 135px;
-  height: 72px;
-}
+    width: 150px;
+    height: 78px;
+    overflow: visible;
+  }
 
-.logo {
-  width: 100%;
-  height: 100%;
+  .logo {
+    width: 150px;
+    height: 78px;
 
-  transform: scale(1.7);
-  transform-origin: center;
-}
+    object-fit: contain;
+    object-position: center;
+
+    transform: none;
+  }
 
   .userBar {
     justify-content: center;
