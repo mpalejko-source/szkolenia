@@ -213,7 +213,8 @@ header {
   object-fit: contain;
   object-position: left center;
 
-  transform: none;
+  transform: scale(2.4);
+  transform-origin: left center;
 
   filter: drop-shadow(0 8px 18px rgba(18, 48, 31, 0.14));
 }
