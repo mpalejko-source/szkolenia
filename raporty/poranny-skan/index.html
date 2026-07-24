@@ -9,278 +9,8 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
 
-  <style>
-    :root{
-      --bg:#0b1220;
-      --card:#0f1a33;
-      --border:rgba(255,255,255,.10);
-      --text:#eaf0ff;
-      --muted:rgba(234,240,255,.72);
-      --muted2:rgba(234,240,255,.55);
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --radius:16px;
-      --accent:#7dd3fc;
-      --accent2:#a78bfa;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: Arial, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      background: radial-gradient(1200px 600px at 10% 0%, rgba(125,211,252,.14), transparent 60%),
-                  radial-gradient(900px 500px at 90% 10%, rgba(167,139,250,.12), transparent 55%),
-                  var(--bg);
-      color:var(--text);
-    }
-    .wrap{max-width:980px; margin:0 auto; padding:26px 18px 54px}
-    header{display:flex; align-items:flex-start; justify-content:space-between; gap:14px; flex-wrap:wrap; margin-bottom:14px}
-    .brand{display:flex; gap:14px; align-items:center}
-
-    .logo{
-      height:56px;
-      width:auto;
-      display:block;
-      flex:0 0 auto;
-      filter: drop-shadow(0 10px 24px rgba(0,0,0,.45));
-    }
-
-    h1{margin:0; font-size:24px; letter-spacing:.2px}
-    .sub{margin:6px 0 0 0; color:var(--muted); font-size:13px; line-height:1.35}
-
-    .topbar{display:flex; gap:10px; align-items:center; justify-content:space-between; flex-wrap:wrap; margin:14px 0}
-    .pill{
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.05);
-      padding:8px 10px;
-      border-radius:999px;
-      color:var(--muted2);
-      font-size:12px;
-      box-shadow: var(--shadow);
-      white-space:nowrap;
-      display:inline-flex; align-items:center; gap:8px;
-    }
-    .btn{
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.06);
-      color:var(--text);
-      padding:8px 10px;
-      border-radius:12px;
-      cursor:pointer;
-      box-shadow: var(--shadow);
-      font-size:12px;
-      text-decoration:none;
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      user-select:none;
-    }
-    .btn.active{ border-color: rgba(125,211,252,.55); background: rgba(125,211,252,.10); }
-    .btn.disabled{
-      opacity:.45;
-      cursor:not-allowed;
-      filter:saturate(.6);
-    }
-
-    .panel{
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.05);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding:16px;
-    }
-    .date{color:var(--muted2); font-size:13px; margin-top:4px}
-
-    /* lead = pierwszy fragment (wstęp) */
-    .lead{
-      margin:0;
-      font-size:16px;
-      font-weight:500;
-      line-height:1.55;
-      color:rgba(234,240,255,.92);
-      white-space:pre-wrap;
-    }
-
-    .sec{margin-top:18px}
-    .sec h2{
-      margin:0 0 10px 0; font-size:16px;
-      display:flex; align-items:center; gap:10px;
-    }
-    .icon{
-      width:28px; height:28px;
-      display:inline-flex; align-items:center; justify-content:center;
-      border-radius:10px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.06);
-      box-shadow: var(--shadow);
-      font-size:16px;
-      flex:0 0 auto;
-    }
-
-    /* ====== Layout tekst+media (60/40) ====== */
-    .row{
-      display:grid;
-      grid-template-columns: 1.55fr 1fr; /* ~60/40 */
-      gap:14px;
-      align-items:start;
-    }
-    @media (max-width: 760px){
-      .row{ grid-template-columns: 1fr; }
-    }
-
-    /* sekcje: białe, normalne */
-    .text{
-      margin:0;
-      color: rgba(234,240,255,.92);
-      line-height:1.6;
-      font-size:14px;
-      font-style: normal;
-      white-space:pre-wrap;
-    }
-
-    .mediaCol{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      align-items:flex-end;
-    }
-    @media (max-width: 760px){
-      .mediaCol{ align-items:stretch; }
-    }
-
-    .imgCard{
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.04);
-      border-radius:14px;
-      padding:8px;
-      box-shadow: var(--shadow);
-      max-width: 360px;
-      width:100%;
-    }
-    .imgCard img{
-      width:100%;
-      height:auto;
-      display:block;
-      border-radius:10px;
-      cursor: zoom-in;
-    }
-
-    .archive{
-      margin-top:16px;
-      border-top:1px solid rgba(255,255,255,.10);
-      padding-top:14px;
-    }
-    .archive h3{margin:0 0 10px 0; font-size:20px; color:rgba(234,240,255,.9)}
-    .archgrid{display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:10px}
-    .architem{
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.04);
-      border-radius:14px;
-      padding:12px;
-      cursor:pointer;
-      transition: transform .08s ease, border-color .08s ease;
-    }
-    .architem:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.18); }
-    .archmeta{display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; color:var(--muted2); font-size:12px; margin-top:6px}
-
-    /* wyróżnienie daty/godziny w archiwum */
-    .archdate{
-      color: rgba(234,240,255,.92);
-      font-weight:700;
-    }
-
-    .footer{
-      margin-top:20px;
-      padding-top:14px;
-      border-top:1px solid rgba(255,255,255,.10);
-      font-size:12px;
-      color:rgba(234,240,255,.55);
-    }
-    code{background: rgba(255,255,255,.06); padding:2px 6px; border-radius:10px; border:1px solid rgba(255,255,255,.10)}
-    .error{
-      margin-top:14px;
-      border:1px solid rgba(255,120,120,.25);
-      background: rgba(255,120,120,.08);
-      padding:12px 14px; border-radius:14px; color:rgba(255,220,220,.92);
-      box-shadow: var(--shadow);
-      font-size:13px;
-      white-space:pre-wrap;
-    }
-
-    /* ====== Lightbox (klik w obraz) ====== */
-    .lb{
-      position:fixed; inset:0;
-      background: rgba(0,0,0,.72);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding:24px;
-      z-index:9999;
-    }
-    .lb.open{ display:flex; }
-    .lbInner{
-      max-width:min(1100px, 96vw);
-      max-height:88vh;
-      position:relative;
-    }
-    .lbImg{
-      max-width:100%;
-      max-height:88vh;
-      display:block;
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.12);
-      box-shadow: 0 18px 60px rgba(0,0,0,.55);
-      cursor: zoom-out;
-    }
-    .lbClose{
-      position:absolute;
-      top:-12px; right:-12px;
-      width:36px; height:36px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.18);
-      background: rgba(255,255,255,.10);
-      color: rgba(234,240,255,.95);
-      display:flex; align-items:center; justify-content:center;
-      cursor:pointer;
-      box-shadow: var(--shadow);
-      font-size:18px;
-    }
-
-    /* ====== BLOK KOMENTARZA PORANNEGO ====== */
-    .reportBlock{
-      padding: 22px;
-      border-radius: 18px;
-      border: 1px solid rgba(125,211,252,.35);
-      background: linear-gradient(145deg,
-                  rgba(125,211,252,.10),
-                  rgba(167,139,250,.06));
-      box-shadow: 0 18px 45px rgba(0,0,0,.35);
-      margin-bottom: 22px;
-    }
-
-    /* Tytuł + data w reportHeader mają być BIAŁE */
-    .reportHeader{
-      color: rgba(234,240,255,.95);
-      font-style: normal;
-      font-weight: 600;
-      letter-spacing: .3px;
-      margin-bottom: 14px;
-    }
-    .reportHeader .date{
-      color: rgba(234,240,255,.70);
-      font-style: normal;
-    }
-    .reportHeader .pill{
-      background: rgba(125,211,252,.12);
-      border-color: rgba(125,211,252,.35);
-      color: rgba(234,240,255,.95);
-      box-shadow:none;
-    }
-
-    /* TYLKO lead (pierwszy fragment) ma być niebieski + kursywa */
-    .leadBlue{
-      color: var(--accent) !important;
-      font-style: italic;
-    }
-  </style>
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=4">
+  <link rel="stylesheet" href="../../assets/css/scan.css?v=1">
 </head>
 
 <body>
@@ -294,7 +24,7 @@
       </div>
     </div>
 
-    <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap">
+    <div class="headerActions">
       <a class="btn" id="btnHome" href="../../index.html" title="Wróć do panelu">← Panel główny</a>
       <div class="pill" id="asof">Aktualizacja: —</div>
       <div class="pill" id="next">Kolejne wydanie: —</div>
@@ -310,7 +40,7 @@
   </div>
 
   <section class="panel" id="main"></section>
-  <div id="err" class="error" style="display:none"></div>
+  <div id="err" class="error" hidden></div>
 
   <section class="panel archive" id="archive"></section>
 
@@ -488,11 +218,11 @@
 
     const leadHtml = isNonEmptyText(lead)
       ? (leadMedia.length
-          ? `<div class="row" style="margin-top:12px">
+          ? `<div class="row leadRow">
                <div><p class="lead leadBlue">${esc(lead)}</p></div>
                ${renderMediaColumn(leadMedia)}
              </div>`
-          : `<p class="lead leadBlue" style="margin-top:12px">${esc(lead)}</p>`
+          : `<p class="lead leadBlue leadSpacing">${esc(lead)}</p>`
         )
       : "";
 
@@ -544,9 +274,9 @@
       <div>
         <div class="reportBlock">
           <div class="reportHeader">
-            <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap">
+            <div class="reportHeaderRow">
               <div>
-                <div style="font-weight:700; font-size:18px">${esc(title)}</div>
+                <div class="reportTitle">${esc(title)}</div>
                 <div class="date">${esc(dateLine)}</div>
               </div>
               <div class="pill">ID: <strong>${esc(item.id)}</strong></div>
@@ -590,7 +320,7 @@
       <div class="architem" data-id="${esc(today.id)}" data-today="1">
         <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap">
           <div style="font-weight:700">${esc(((today[LANG]||{})?.title) || (LANG==="pl"?"Poranny Skan":"Morning Scan"))}</div>
-          <div class="pill" style="padding:4px 8px; font-size:11px; box-shadow:none; background: rgba(125,211,252,.10); border-color: rgba(125,211,252,.35); color: rgba(234,240,255,.9)">
+          <div class="pill todayPill">
             ${t.today}
           </div>
         </div>
@@ -605,7 +335,7 @@
       <h3>${t.h}</h3>
       ${todayTile}
       ${archItems.length ? `
-        <div class="archgrid" style="margin-top:10px">
+        <div class="archgrid archgridSpacing">
           ${archItems.map(it => {
             const tt = it[LANG] || {};
             return `
@@ -694,7 +424,7 @@
       render();
     } catch(e){
       const err = document.getElementById("err");
-      err.style.display = "block";
+      err.hidden = false;
       err.textContent = "Błąd: " + (e && e.message ? e.message : e);
     }
   }
