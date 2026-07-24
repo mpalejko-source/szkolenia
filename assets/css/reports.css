@@ -853,3 +853,114 @@ body {
     font-size: 24px;
   }
 }
+
+/* =========================================================
+   16. ETAP 3 — NATURALNY PRZEPŁYW STRON RAPORTU
+
+   Usuwa wymuszoną wysokość całego ekranu.
+   Stopka znajduje się bezpośrednio pod zawartością.
+   Dzięki temu strony z mniejszą liczbą wykresów nie mają
+   dużych pustych przestrzeni.
+   ========================================================= */
+
+body {
+  scroll-snap-type: none;
+}
+
+.cover,
+.page {
+  min-height: auto;
+  padding: 12px 0;
+  scroll-snap-align: none;
+}
+
+.cover {
+  margin-bottom: 8px;
+}
+
+.sheet {
+  display: flex;
+  flex-direction: column;
+
+  min-height: 0;
+
+  margin: 8px auto 20px;
+  padding: 16px;
+
+  background:
+    linear-gradient(
+      180deg,
+      var(--ace-surface-soft),
+      rgba(232, 239, 228, 0.72)
+    );
+}
+
+.tiles,
+.report-grid {
+  align-items: start;
+}
+
+.footer {
+  position: static;
+
+  right: auto;
+  bottom: auto;
+  left: auto;
+
+  width: 100%;
+  margin-top: 16px;
+  padding-top: 10px;
+}
+
+.page:last-child .sheet {
+  margin-bottom: 0;
+}
+
+
+/* Okładka również dopasowuje się do zawartości */
+
+.coverInner {
+  padding-bottom: 6px;
+}
+
+.tocBox,
+.noteBox,
+.dateBox {
+  box-shadow: var(--ace-shadow-small);
+}
+
+
+/* Mniejsze odstępy na stronach z małą liczbą wykresów */
+
+.layout-grid-1 .sheet,
+.layout-grid-2 .sheet,
+.layout-grid-3 .sheet,
+.layout-grid-4 .sheet {
+  height: auto;
+}
+
+
+/* Telefon */
+
+@media (max-width: 700px) {
+  .cover,
+  .page {
+    padding: 8px 0;
+  }
+
+  .sheet {
+    margin: 6px auto 14px;
+    padding: 12px 10px;
+  }
+
+  .footer {
+    position: static;
+
+    right: auto;
+    bottom: auto;
+    left: auto;
+
+    margin-top: 12px;
+    padding-top: 8px;
+  }
+}
