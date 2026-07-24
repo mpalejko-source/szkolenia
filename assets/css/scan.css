@@ -235,13 +235,21 @@ h1 {
 
 .sec h2 {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 10px;
   margin: 0 0 11px;
   color: var(--scan-text-strong);
   font-size: 17px;
   font-weight: 950;
   line-height: 1.25;
+}
+
+.icons {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: nowrap;
 }
 
 .icon {
@@ -255,6 +263,12 @@ h1 {
   border-radius: 10px;
   background: rgba(8, 122, 61, 0.075);
   font-size: 16px;
+  line-height: 1;
+}
+
+.sectionTitle {
+  min-width: 0;
+  padding-top: 4px;
 }
 
 .row {

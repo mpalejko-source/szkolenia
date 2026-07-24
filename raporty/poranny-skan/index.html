@@ -17,7 +17,7 @@
 <div class="wrap">
   <header>
     <div class="brand">
-      <img src="logo.png" alt="ACE Group" class="logo">
+      <img src="logo.png" alt="#Fundusze Promocji" class="logo">
       <div>
         <h1>ACE – Poranny Skan Rynku</h1>
         <p class="sub">Szybkie newsy ze świata i Polski</p>
@@ -145,15 +145,52 @@
     return `<div class="mediaCol">${cards}</div>`;
   }
 
+  function splitIconTokens(iconValue){
+    const raw = (iconValue || "").toString().trim();
+    if(!raw) return [];
+
+    // Ikony można oddzielać spacją, przecinkiem, średnikiem lub pionową kreską.
+    const explicit = raw
+      .split(/[|,;]+|\s+/u)
+      .map(x => x.trim())
+      .filter(Boolean);
+
+    if(explicit.length > 1) return explicit.slice(0, 4);
+
+    // Tekstowe skróty pozostają jednym znacznikiem.
+    if(/[\p{L}\p{N}]/u.test(raw)) return [raw];
+
+    // Poprawne dzielenie emoji, także z modyfikatorami i łącznikami ZWJ.
+    if(typeof Intl !== "undefined" && Intl.Segmenter){
+      const segmenter = new Intl.Segmenter(undefined, {granularity: "grapheme"});
+      return Array.from(segmenter.segment(raw), x => x.segment)
+        .filter(x => x.trim())
+        .slice(0, 4);
+    }
+
+    return Array.from(raw).filter(x => x.trim()).slice(0, 4);
+  }
+
+  function renderIcons(iconValue){
+    const icons = splitIconTokens(iconValue);
+    if(!icons.length) return "";
+
+    return `
+      <span class="icons" aria-hidden="true">
+        ${icons.map(icon => `<span class="icon">${esc(icon)}</span>`).join("")}
+      </span>
+    `;
+  }
+
   function section(icon, title, text, mediaArr){
-    const hasIcon = (icon||"").toString().trim().length > 0;
+    const iconsHtml = renderIcons(icon);
     const textHtml = isNonEmptyText(text) ? `<p class="text">${esc(text)}</p>` : `<p class="text">—</p>`;
     const mediaHtml = renderMediaColumn(mediaArr);
 
     if(!mediaHtml){
       return `
         <div class="sec">
-          <h2>${hasIcon ? `<span class="icon">${esc(icon)}</span>` : ``}${esc(title)}</h2>
+          <h2>${iconsHtml}<span class="sectionTitle">${esc(title)}</span></h2>
           ${textHtml}
         </div>
       `;
@@ -161,7 +198,7 @@
 
     return `
       <div class="sec">
-        <h2>${hasIcon ? `<span class="icon">${esc(icon)}</span>` : ``}${esc(title)}</h2>
+        <h2>${iconsHtml}<span class="sectionTitle">${esc(title)}</span></h2>
         <div class="row">
           <div>${textHtml}</div>
           ${mediaHtml}
