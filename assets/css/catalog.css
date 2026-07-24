@@ -162,17 +162,6 @@ body {
   min-width: 0;
 }
 
-.catalogEyebrow {
-  margin-bottom: 8px;
-
-  color: var(--catalog-primary);
-
-  font-size: 12px;
-  font-weight: 950;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
 .catalogHero h1 {
   margin: 0;
 
@@ -345,8 +334,8 @@ body {
   flex-direction: column;
 
   min-width: 0;
-  min-height: 174px;
-  padding: 15px;
+  min-height: 128px;
+  padding: 14px;
 
   border: 1px solid var(--catalog-border);
   border-top:
@@ -394,7 +383,7 @@ body {
 }
 
 .catalogCard h3 {
-  margin: 10px 0 7px;
+  margin: 8px 0 6px;
 
   color: var(--catalog-text-strong);
 
@@ -414,24 +403,6 @@ body {
 
 .catalogCardMuted {
   color: var(--catalog-text-subtle) !important;
-}
-
-.catalogCardAction {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-
-  margin-top: auto;
-  padding-top: 13px;
-
-  border-top:
-    1px solid rgba(23, 52, 38, 0.11);
-
-  color: var(--catalog-primary);
-
-  font-size: 12px;
-  font-weight: 900;
 }
 
 
