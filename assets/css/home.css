@@ -1818,3 +1818,439 @@ code {
     font-size: 11px;
   }
 }
+
+/* =========================================================
+   22. ETAP 2 — DOPRACOWANIE STRONY GŁÓWNEJ
+
+   Zmiany obejmują:
+   - spokojniejszą hierarchię powierzchni,
+   - uproszczenie kalendarza,
+   - spójne karty i panele,
+   - lepsze odstępy między sekcjami,
+   - czytelniejsze monity tygodniowe i miesięczne.
+
+   Ustawienia logo i jego kontenera pozostają bez zmian.
+   ========================================================= */
+
+
+/* Główny obszar strony */
+
+.wrap {
+  max-width: 1180px;
+  padding-top: 24px;
+  padding-bottom: 34px;
+}
+
+header {
+  margin-bottom: 16px;
+}
+
+
+/* Nagłówki sekcji */
+
+.sectionDivider {
+  margin: 22px 0 8px;
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(var(--home-green-rgb), 0.20) 18%,
+      rgba(var(--home-green-rgb), 0.20) 82%,
+      transparent
+    );
+}
+
+.sectionHead {
+  align-items: flex-end;
+  margin-top: 18px;
+  padding: 0 2px 7px;
+
+  border-bottom:
+    1px solid rgba(var(--home-green-rgb), 0.12);
+}
+
+.h2 {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  font-size: 20px;
+  line-height: 1.15;
+}
+
+.h2::before {
+  display: block;
+  flex: 0 0 auto;
+
+  width: 4px;
+  height: 22px;
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      180deg,
+      var(--home-green),
+      rgba(var(--home-green-rgb), 0.42)
+    );
+
+  content: "";
+}
+
+.hint {
+  max-width: 560px;
+
+  line-height: 1.35;
+  text-align: right;
+}
+
+
+/* Kalendarz publikacji */
+
+.calLine2 {
+  gap: 8px;
+  padding: 10px 12px 12px;
+
+  border-color: rgba(var(--home-green-rgb), 0.14);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.78),
+      rgba(250, 251, 248, 0.72)
+    );
+
+  box-shadow:
+    0 8px 24px rgba(var(--home-shadow-rgb), 0.08);
+}
+
+.calHdr {
+  padding: 0 2px;
+}
+
+.calIco {
+  box-shadow: none;
+}
+
+.calRow {
+  gap: 8px;
+  padding: 8px;
+
+  border-color: rgba(var(--home-green-rgb), 0.13);
+
+  background:
+    rgba(var(--home-green-rgb), 0.055);
+}
+
+.calPill {
+  min-height: 59px;
+  padding: 9px 11px;
+
+  border-color: rgba(var(--home-green-rgb), 0.13);
+
+  box-shadow:
+    0 3px 12px rgba(var(--home-shadow-rgb), 0.045);
+}
+
+.calPill:hover {
+  box-shadow:
+    0 7px 18px rgba(var(--home-shadow-rgb), 0.09);
+}
+
+.calPill.today {
+  border-width: 1px;
+  border-color: rgba(var(--home-green-rgb), 0.58);
+
+  box-shadow:
+    0 8px 20px rgba(var(--home-shadow-rgb), 0.10),
+    inset 0 0 0 1px rgba(var(--home-green-rgb), 0.13);
+}
+
+
+/* Trzy główne karty */
+
+.topRowGrid {
+  gap: 14px;
+  margin-top: 14px;
+}
+
+a.featured,
+div.featured,
+a.analysisFeatured {
+  border-width: 1px;
+  border-color: rgba(var(--home-green-rgb), 0.28);
+  border-top-width: 3px;
+
+  background:
+    linear-gradient(
+      155deg,
+      rgba(255, 255, 255, 0.93),
+      rgba(244, 248, 242, 0.90)
+    );
+
+  box-shadow:
+    0 10px 28px rgba(var(--home-shadow-rgb), 0.09);
+}
+
+a.featured:hover,
+a.analysisFeatured:hover {
+  border-color: rgba(var(--home-green-rgb), 0.54);
+
+  box-shadow:
+    0 16px 36px rgba(var(--home-shadow-rgb), 0.13);
+}
+
+.portfolioFeatured {
+  border-color: rgba(var(--home-orange-rgb), 0.38);
+  border-top-color: rgba(var(--home-orange-rgb), 0.72);
+
+  background:
+    linear-gradient(
+      155deg,
+      rgba(255, 255, 255, 0.94),
+      rgba(252, 246, 238, 0.90)
+    );
+}
+
+.portfolioFeatured:hover {
+  border-color: rgba(var(--home-orange-rgb), 0.64);
+}
+
+.fHero,
+.analysisHeroMini,
+.pHero {
+  box-shadow:
+    0 6px 18px rgba(var(--home-shadow-rgb), 0.075);
+}
+
+.fTitle,
+.analysisTitle {
+  letter-spacing: -0.1px;
+}
+
+.updateLine {
+  margin-top: 14px;
+  padding-top: 11px;
+}
+
+.updateBadge {
+  box-shadow: none;
+}
+
+
+/* Panele cenowe i linki */
+
+.pricesGrid {
+  grid-template-columns:
+    minmax(0, 2fr)
+    minmax(300px, 0.94fr);
+
+  gap: 16px;
+}
+
+.panel {
+  border-color: rgba(var(--home-green-rgb), 0.14);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.88),
+      rgba(248, 250, 247, 0.88)
+    );
+
+  box-shadow:
+    0 10px 28px rgba(var(--home-shadow-rgb), 0.085);
+}
+
+.panelHead {
+  margin-bottom: 12px;
+  padding-bottom: 9px;
+
+  border-bottom:
+    1px solid rgba(var(--home-green-rgb), 0.10);
+}
+
+table.prTable {
+  border-spacing: 0 7px;
+}
+
+table.prTable td {
+  border-color: rgba(var(--home-green-rgb), 0.13);
+
+  background:
+    rgba(var(--home-green-rgb), 0.065);
+}
+
+.qLinks {
+  gap: 7px;
+}
+
+.qLink {
+  border-color: rgba(var(--home-green-rgb), 0.14);
+
+  background:
+    rgba(var(--home-green-rgb), 0.055);
+
+  box-shadow: none;
+}
+
+.qLink:hover {
+  box-shadow:
+    0 6px 16px rgba(var(--home-shadow-rgb), 0.08);
+}
+
+
+/* Monity tygodniowe i miesięczne */
+
+.quickGrid,
+.monthlyGrid {
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.quickGrid a.card,
+.monthlyGrid a.card {
+  border-color: rgba(var(--home-green-rgb), 0.14);
+  border-top:
+    3px solid rgba(var(--home-green-rgb), 0.34);
+
+  background:
+    linear-gradient(
+      160deg,
+      rgba(255, 255, 255, 0.90),
+      rgba(246, 249, 244, 0.88)
+    );
+
+  box-shadow:
+    0 8px 22px rgba(var(--home-shadow-rgb), 0.075);
+}
+
+.quickGrid a.card:hover,
+.monthlyGrid a.card:hover {
+  border-color: rgba(var(--home-green-rgb), 0.40);
+
+  box-shadow:
+    0 13px 28px rgba(var(--home-shadow-rgb), 0.11);
+}
+
+.quickCard {
+  min-height: 150px;
+  padding: 14px 15px;
+}
+
+.quickCard .title {
+  font-size: 13.5px;
+  line-height: 1.18;
+}
+
+.quickCard .desc {
+  min-height: 0;
+
+  font-size: 12.5px;
+  line-height: 1.38;
+
+  -webkit-line-clamp: 4;
+}
+
+.monthlyGrid a.card {
+  min-height: 154px;
+  padding: 15px;
+}
+
+.monthlyGrid .title {
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.monthlyGrid .desc {
+  min-height: 0;
+
+  font-size: 12.5px;
+  line-height: 1.38;
+
+  -webkit-line-clamp: 4;
+}
+
+.quickGrid .topMeta,
+.monthlyGrid .topMeta {
+  min-height: 29px;
+  margin-bottom: 9px;
+}
+
+.quickGrid .badge,
+.monthlyGrid .badge {
+  box-shadow: none;
+}
+
+
+/* Stopka strony głównej */
+
+footer {
+  margin-top: 24px;
+  padding-top: 12px;
+
+  border-top:
+    1px solid rgba(var(--home-green-rgb), 0.12);
+}
+
+
+/* Responsywność zmian z etapu 2 */
+
+@media (max-width: 1100px) {
+  .wrap {
+    max-width: 100%;
+  }
+
+  .hint {
+    max-width: 460px;
+  }
+}
+
+@media (max-width: 720px) {
+  .sectionHead {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .hint {
+    max-width: none;
+    text-align: left;
+  }
+
+  .h2 {
+    font-size: 18px;
+  }
+
+  .pricesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .calLine2,
+  .panel {
+    border-radius: 15px;
+  }
+}
+
+@media (max-width: 520px) {
+  .wrap {
+    padding-top: 18px;
+    padding-bottom: 26px;
+  }
+
+  .sectionDivider {
+    margin-top: 18px;
+  }
+
+  .calLine2 {
+    padding: 9px;
+  }
+
+  .calRow {
+    padding: 7px;
+  }
+
+  .quickCard,
+  .monthlyGrid a.card {
+    min-height: auto;
+  }
+}
