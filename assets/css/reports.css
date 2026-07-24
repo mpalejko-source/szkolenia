@@ -1247,3 +1247,32 @@ body {
     margin-bottom: 9px;
   }
 }
+
+/* =========================================================
+   19. ETAP 5 — KOMENTARZE RAPORTOWE Z UNIWERSALNEGO VBA
+   ========================================================= */
+
+.tiles > .report-row,
+.report-note {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
+.tiles > .report-row {
+  margin-bottom: 0;
+}
+
+.report-note .noteBox {
+  background: var(--ace-surface-card);
+  box-shadow: var(--ace-shadow-small);
+}
+
+.report-media img {
+  cursor: zoom-in;
+}
+
+@media (max-width: 1100px) {
+  .layout-media-text .report-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
