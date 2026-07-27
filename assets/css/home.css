@@ -2359,42 +2359,164 @@ a.analysisFeatured > * {
 }
 
 /* =========================================================
-   24. DOPRACOWANIE WIDOKU MOBILNEGO
-   - portfele zakupowe: 3 miniatury obok siebie na telefonie
-   - tabele cenowe: przewijanie poziome zamiast nadmiernego ścisku
+   24. DOPRACOWANIE WIDOKU MOBILNEGO — WERSJA KARTOWA
+   - portfele zakupowe: 3 miniatury obok siebie
+   - cenniki: każdy surowiec jako osobna karta bez przewijania
    ========================================================= */
 
 @media (max-width: 720px) {
+  /* Bez poziomego przewijania tabel. */
   .tableScroll {
-    overflow-x: auto;
-    overflow-y: hidden;
+    overflow: visible;
 
-    padding-bottom: 6px;
-
-    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    padding-bottom: 0;
   }
 
   table.prTable {
-    min-width: 650px;
-    table-layout: fixed;
+    display: block;
+
+    width: 100%;
+    min-width: 0;
+
+    border-spacing: 0;
+    table-layout: auto;
   }
 
-  table.prTable th,
-  table.prTable td {
-    padding-right: 6px;
-    padding-left: 6px;
+  table.prTable tbody {
+    display: grid;
+    gap: 10px;
+
+    width: 100%;
+  }
+
+  /* Klasyczny nagłówek tabeli nie jest potrzebny w układzie kartowym. */
+  table.prTable tbody > tr:first-child {
+    display: none;
+  }
+
+  /* Każdy wiersz danych staje się osobną kartą. */
+  table.prTable tbody > tr:not(:first-child) {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px;
+
+    width: 100%;
+    padding: 10px;
+
+    border: 1px solid rgba(var(--home-green-rgb), 0.16);
+    border-radius: 14px;
+
+    background:
+      linear-gradient(
+        155deg,
+        rgba(255, 255, 255, 0.92),
+        rgba(var(--home-green-rgb), 0.055)
+      );
+
+    box-shadow:
+      0 5px 14px rgba(var(--home-shadow-rgb), 0.055);
+  }
+
+  table.prTable tbody > tr:not(:first-child):hover {
+    transform: none;
+    filter: none;
+  }
+
+  table.prTable td,
+  table.prTable td:first-child,
+  table.prTable td:last-child {
+    width: auto !important;
+    padding: 0;
+
+    border: 0;
+    border-radius: 0;
+
+    background: transparent;
 
     font-size: 11px;
+    line-height: 1.25;
+  }
+
+  /* Nazwa surowca / instrumentu na całą szerokość. */
+  table.prTable td:first-child {
+    grid-column: 1 / -1;
+
+    min-height: 0;
+    margin-bottom: 2px;
+    padding: 0 2px 9px;
+
+    border-bottom:
+      1px solid rgba(var(--home-green-rgb), 0.12);
+
+    color: var(--home-text-strong);
+
+    font-size: 12px;
+    font-weight: 900;
+    text-align: left;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  /* Wartość i zmiany pod nazwą. */
+  table.prTable td:not(:first-child) {
+    position: relative;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+
+    min-width: 0;
+    min-height: 42px;
+    padding: 18px 2px 2px;
+
+    text-align: center !important;
     white-space: nowrap;
   }
 
-  table.prTable th:first-child,
-  table.prTable td:first-child {
-    white-space: normal;
+  table.prTable td:not(:first-child)::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+
+    color: var(--home-text-subtle);
+
+    font-size: 9px;
+    font-weight: 850;
+    line-height: 1;
+    text-align: center;
+  }
+
+  /* Podpisy parametrów — cennik spot. */
+  #cashTable td:nth-child(2)::before {
+    content: "Cena";
+  }
+
+  /* Podpisy parametrów — ceny giełdowe. */
+  #futuresTable td:nth-child(2)::before {
+    content: "Close";
+  }
+
+  #cashTable td:nth-child(3)::before,
+  #futuresTable td:nth-child(3)::before {
+    content: "1 dzień";
+  }
+
+  #cashTable td:nth-child(4)::before,
+  #futuresTable td:nth-child(4)::before {
+    content: "1 tydzień";
+  }
+
+  #cashTable td:nth-child(5)::before,
+  #futuresTable td:nth-child(5)::before {
+    content: "1 miesiąc";
   }
 }
 
 @media (max-width: 520px) {
+  /* Portfele pozostają w jednym, zwartym rzędzie. */
   .thumbGridBig {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 6px;
@@ -2428,5 +2550,19 @@ a.analysisFeatured > * {
 
   .thumbGridBig .thumb .cap .small {
     font-size: 9px;
+  }
+
+  /* Na bardzo wąskim ekranie wartości dostają odrobinę mniej miejsca. */
+  table.prTable tbody > tr:not(:first-child) {
+    gap: 4px;
+    padding: 9px 7px;
+  }
+
+  table.prTable td:not(:first-child) {
+    font-size: 10.5px;
+  }
+
+  table.prTable td:not(:first-child)::before {
+    font-size: 8.5px;
   }
 }
