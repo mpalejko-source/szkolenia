@@ -42,8 +42,8 @@
 
   },
   "Portfele-ACE": {
-    "name": "Portfele-ACE",
-    "description": "Szybkie podsumowanie i ruchy zakupowe ACE w trakcie tygodnia.",
+    "name": "Portfele zakupowe",
+    "description": "Szybkie podsumowanie i ruchy zakupowe w trakcie tygodnia.",
     "path": "raporty/benchmark-tygodnia/",
     "updated": "2026-07-15",
     "frequency": "tygodniowo",
