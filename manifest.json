@@ -10,8 +10,8 @@
     "alert_comment": "W dzisiejszym Porannym Skanie o rosnącym ryzyku El Niño, eskalacji na Morzu Czarnym, prognozach IGC oraz coraz ciaśniejszych bilansach zbóż, które mogą wspierać ceny i zwiększać szanse eksportowe Polski."
   },
 
-  "ACE Market View": {
-  "name": "ACE Market View",
+  "Market View": {
+  "name": "Market View",
   "description": "Autorska analiza rynkowa ACE.",
   "path": "raporty/analiza-ace/",
   "updated": "2026-06-15",
