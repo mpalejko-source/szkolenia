@@ -2292,48 +2292,68 @@ a.analysisFeatured > * {
 }
 
 /* =========================================================
-   23. WYRÓWNANIE POLA „AKTUALIZACJA” W GÓRNYCH KARTACH
+   23. WYRÓWNANIE INFORMACJI W GÓRNYCH KARTACH
 
-   Poranny Skan ma pod aktualizacją dodatkowy wiersz
-   „Kolejne wydanie”. W dwóch pozostałych kartach rezerwujemy
-   taką samą przestrzeń, dzięki czemu wszystkie badge
-   aktualizacji znajdują się na jednej wysokości.
+   - „Kolejne wydanie” w Porannym Skanie znajduje się nad datą;
+   - wszystkie badge „Aktualizacja” stoją na wspólnej dolnej linii;
+   - usunięto sztuczne, niewidoczne odstępy.
    ========================================================= */
 
-#portfolioWrap .featured,
-#analysisAceWrap .analysisFeatured {
-  padding-bottom: 16px;
+/* Poranny Skan — dolna część karty */
+
+#featuredWrap .featured .nextIssueLine {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: auto;
+  padding-top: 10px;
+
+  color: var(--home-text-subtle);
+
+  font-size: 11px;
+  line-height: 1.25;
+  text-align: center;
 }
+
+#featuredWrap .featured .nextIssueLine strong {
+  color: var(--home-text-muted);
+
+  font-weight: 850;
+}
+
+/* Wspólna linia aktualizacji */
+
+#featuredWrap .featured .updateLine,
+#portfolioWrap .featured .updateLine,
+#analysisAceWrap .analysisFeatured .updateLine {
+  flex: 0 0 auto;
+
+  margin-top: 8px;
+  padding-top: 11px;
+}
+
+/* Dwie karty bez „Kolejnego wydania” wypychają aktualizację na dół. */
 
 #portfolioWrap .featured .updateLine,
 #analysisAceWrap .analysisFeatured .updateLine {
   margin-top: auto;
 }
 
-/* Rezerwa odpowiadająca dolnemu wierszowi Porannego Skanu. */
-#portfolioWrap .featured::after,
-#analysisAceWrap .analysisFeatured::after {
-  display: block;
-  flex: 0 0 30px;
+/* Poranny Skan ma nad aktualizacją wiersz „Kolejne wydanie”. */
 
-  width: 100%;
-  height: 30px;
-
-  content: "";
-  pointer-events: none;
+#featuredWrap .featured .updateLine {
+  margin-top: 8px;
 }
 
-/* Pseudo-element ma być nad tłem karty, ale bez wpływu wizualnego. */
-#portfolioWrap .featured::after,
-#analysisAceWrap .analysisFeatured::after {
-  position: relative;
-  z-index: 1;
+/* Stary bottomMeta nie jest już używany w Porannym Skanie. */
+
+#featuredWrap .featured .bottomMeta {
+  display: none;
 }
 
-/* Na telefonie nie potrzebujemy sztucznej rezerwy. */
 @media (max-width: 720px) {
-  #portfolioWrap .featured::after,
-  #analysisAceWrap .analysisFeatured::after {
-    display: none;
+  #featuredWrap .featured .nextIssueLine {
+    font-size: 10.5px;
   }
 }
