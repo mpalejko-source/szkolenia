@@ -147,25 +147,14 @@ body.blogPage {
   gap: 16px;
 }
 
-.brandLogoBox {
-  display: flex;
-  flex: 0 0 auto;
-  align-items: center;
-  justify-content: center;
-
-  width: 128px;
-  height: 104px;
-
-  overflow: hidden;
-}
-
 .brandLogo {
   display: block;
+  flex: 0 0 auto;
 
-  width: 170%;
-  height: 170%;
-  max-width: none;
-  max-height: none;
+  width: 126px;
+  height: 106px;
+  max-width: 126px;
+  max-height: 106px;
 
   object-fit: contain;
   object-position: center;
@@ -174,6 +163,26 @@ body.blogPage {
     drop-shadow(
       0 8px 18px rgba(var(--ace-shadow-rgb), 0.14)
     );
+}
+
+/* Przycinanie przezroczystych marginesów działa tylko w kontenerze. */
+.brandLogoBox {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+
+  width: 126px;
+  height: 102px;
+
+  overflow: hidden;
+}
+
+.brandLogoBox > .brandLogo {
+  width: 145%;
+  height: 145%;
+  max-width: none;
+  max-height: none;
 }
 
 .brandText {
@@ -636,14 +645,23 @@ body.blogPage {
     align-items: flex-start;
   }
 
-  .brandLogoBox {
-    width: 100px;
-    height: 82px;
+  .brandLogo {
+    width: 92px;
+    height: 78px;
+    max-width: 92px;
+    max-height: 78px;
   }
 
-  .brandLogo {
-    width: 170%;
-    height: 170%;
+  .brandLogoBox {
+    width: 92px;
+    height: 76px;
+  }
+
+  .brandLogoBox > .brandLogo {
+    width: 142%;
+    height: 142%;
+    max-width: none;
+    max-height: none;
   }
 
   .brandTitle {
