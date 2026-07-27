@@ -1257,11 +1257,12 @@ a.analysisFeatured {
   border: 1px solid var(--home-border);
   border-radius: 14px;
 
+  background-color: var(--home-surface-soft);
   background-image:
-    url("../../szkolenia/analiza-ace/analiza-ace-chart.jpg");
+    url("/szkolenia/analiza-ace/analiza-ace-chart.jpg?v=7");
 
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: center center;
   background-size: cover;
 
   box-shadow: var(--home-shadow-small);
