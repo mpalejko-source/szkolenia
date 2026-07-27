@@ -206,7 +206,7 @@ header {
   align-items: center;
 }
 
-.logoBox {
+  .logoBox {
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -537,54 +537,6 @@ a.card.today {
   font-weight: 900;
 }
 
-.bottomMeta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  flex-wrap: nowrap;
-
-  margin-top: auto;
-  padding-top: 12px;
-
-  border-top: 1px solid var(--home-border);
-
-  color: var(--home-text-subtle);
-
-  font-size: 12px;
-}
-
-.bottomMeta .left {
-  display: flex;
-  flex: 1 1 auto;
-  align-items: center;
-  gap: 8px;
-
-  min-width: 0;
-}
-
-.bottomMeta .right {
-  display: flex;
-  flex: 0 0 auto;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 8px;
-
-  min-width: 0;
-  margin-left: auto;
-
-  text-align: right;
-}
-
-.bottomMeta strong {
-  color: var(--home-text-strong);
-  font-weight: 900;
-}
-
-.bottomMeta .nextText {
-  color: var(--home-text-subtle);
-  white-space: nowrap;
-}
 
 .updateLine {
   display: flex;
@@ -1209,7 +1161,7 @@ a.analysisFeatured > * {
 
 
 /* =========================================================
-   12. ACE MARKET VIEW
+   12. RYNEK POD LUPĄ
    ========================================================= */
 
 a.analysisFeatured {
@@ -1263,7 +1215,7 @@ a.analysisFeatured {
 
   /* Awaryjne tło — widoczne także przy starszym index.html. */
   background-color: #ffffff;
-  background-image: url("https://szkolenia.ace-group.pl/raporty/analiza-ace/analiza-ace-chart.jpg?v=10") !important;
+  background-image: url("../../raporty/analiza-ace/analiza-ace-chart.png") !important;
   background-repeat: no-repeat !important;
   background-position: center center !important;
   background-size: cover !important;
@@ -1693,9 +1645,6 @@ code {
   flex: 0 0 auto;
 }
 
-#featuredWrap .featured .fNext {
-  margin-top: auto;
-}
 
 #portfolioWrap .featured,
 #analysisAceWrap .analysisFeatured {
@@ -1783,44 +1732,12 @@ code {
   .panel {
     padding: 12px;
   }
-
-  table.prTable th,
-  table.prTable td {
-    padding-right: 4px;
-    padding-left: 4px;
-    font-size: 10px;
-  }
 }
 
 @media (max-width: 520px) {
   .wrap {
     padding-right: 12px;
     padding-left: 12px;
-  }
-
-  .thumbGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .thumbGridBig {
-    grid-template-columns: 1fr;
-  }
-
-  .pHeroTight {
-    height: auto;
-  }
-
-  .thumbGridBig .thumb {
-    min-height: 120px;
-  }
-
-  .bottomMeta {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .bottomMeta .right {
-    margin-left: 0;
   }
 
   .ticker {
@@ -1834,7 +1751,7 @@ code {
 }
 
 /* =========================================================
-   22. ETAP 2 — DOPRACOWANIE STRONY GŁÓWNEJ
+   22. FINALNE DOPRACOWANIE STRONY GŁÓWNEJ
 
    Zmiany obejmują:
    - spokojniejszą hierarchię powierzchni,
@@ -2346,11 +2263,6 @@ a.analysisFeatured > * {
   margin-top: 8px;
 }
 
-/* Stary bottomMeta nie jest już używany w Porannym Skanie. */
-
-#featuredWrap .featured .bottomMeta {
-  display: none;
-}
 
 @media (max-width: 720px) {
   #featuredWrap .featured .nextIssueLine {

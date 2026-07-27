@@ -10,7 +10,7 @@
   <meta http-equiv="Expires" content="0" />
 
   <link rel="stylesheet" href="assets/css/theme.css" />
-  <link rel="stylesheet" href="assets/css/home.css" />
+  <link rel="stylesheet" href="assets/css/home.css?v=15" />
 
   <script>
     const BASE = location.hostname.endsWith("github.io")
@@ -32,7 +32,7 @@
 
       <div class="headerRow">
         <div class="logoBox">
-          <img src="" alt="ACE Group" class="logo" id="logoImg">
+          <img src="" alt="Fundusze Promocji" class="logo" id="logoImg">
         </div>
 
         <div class="userBar">
@@ -51,11 +51,6 @@
             <span>Olsztyn —</span>
           </div>
         </div> 
-
-        <!-- <p class="rightSlogan">
-          <span class="l1">Nasza współpraca</span>
-          <span class="l2">buduje sukces!</span>
-        </p> -->
                <p class="rightSlogan">
           <span class="l1">#FUNDUSZE PROMOCJI</span>
         </p>
@@ -201,8 +196,7 @@
     <div id="err" class="error" style="display:none"></div>
 
     <footer>
-      <!-- Agri Commodity Experts Sp. z o.o. • <code>biuro@ace-group.pl</code> • <code>ACE Reserved 2026</code> -->
-      #FUNDUSZEPROMOCJI
+      #FUNDUSZE PROMOCJI
     </footer>
   </div>
 
@@ -229,21 +223,12 @@
       "Pogoda"
     ];
 
-    const MONTHLY_KEYS = ["wasde","igc","fao","Indexy-światowe"];
-
-    const EXTRA_MONTHLY_CARD = {
-      id: "wskazniki",
-      name: "Wskaźniki",
-      description: "Analiza relacji cenowych między surowcami i wskaźników względem ceny.",
-      path: "raporty-fundamentalne/wskazniki/",
-      updated: "",
-      next_issue: ""
-    };
+    const MONTHLY_KEYS = ["wasde","igc","fao","Indexy-światowe","Wskaźniki"];
 
     const CAL = [
       { dow:1, short:"PN", key:"Pozycje Funduszy" },
       { dow:2, short:"WT", key:"Analizy statystyczno-techniczne" },
-      { dow:3, short:"ŚR", key:"Portfele zakupowe" },
+      { dow:3, short:"ŚR", key:"Portfele-ACE" },
       { dow:4, short:"CZ", key:"Rynek na wykresach - Surowce i Waluty" },
       { dow:5, short:"PT", key:"Pogoda" }
     ];
@@ -545,7 +530,7 @@
 
             <div class="analysisHeroMini">
               <img
-                src="https://szkolenia.ace-group.pl/raporty/analiza-ace/analiza-ace-chart.png"
+                src="${url("raporty/analiza-ace/analiza-ace-chart.png?ts=" + Date.now())}"
                 alt="Analiza rynku"
                 loading="eager"
                 decoding="async"
@@ -780,46 +765,15 @@
       const mapByName = Object.fromEntries(items.map(x => [x.name, x]));
       const pick = (key) => mapById[key] || mapByName[key];
 
-      const listRaw = MONTHLY_KEYS.map(k => pick(k)).filter(Boolean);
+      const list = MONTHLY_KEYS
+        .map(key => pick(key))
+        .filter(Boolean)
+        .sort((a,b)=>parseISO(b.updated)-parseISO(a.updated));
 
-      const wskaznikiFromManifest = items.find(r => {
-        const id = (r.id || "").toString().toLowerCase();
-        const name = (r.name || "").toString().toLowerCase();
-        const path = (r.path || "").toString().replace(/^\/+|\/+$/g, "").toLowerCase();
-
-        return (
-          id === "wskazniki" ||
-          id === "wskaźniki" ||
-          name === "wskazniki" ||
-          name === "wskaźniki" ||
-          path === "raporty-fundamentalne/wskazniki"
-        );
-      });
-
-      const alreadyExistsInList = listRaw.some(r => {
-        const id = (r.id || "").toString().toLowerCase();
-        const name = (r.name || "").toString().toLowerCase();
-        const path = (r.path || "").toString().replace(/^\/+|\/+$/g, "").toLowerCase();
-
-        return (
-          id === "wskazniki" ||
-          id === "wskaźniki" ||
-          name === "wskazniki" ||
-          name === "wskaźniki" ||
-          path === "raporty-fundamentalne/wskazniki"
-        );
-      });
-
-      if(!alreadyExistsInList){
-        listRaw.push(wskaznikiFromManifest || EXTRA_MONTHLY_CARD);
-      }
-
-      if(!listRaw.length){
+      if(!list.length){
         wrap.innerHTML = `<div class="error">Brak pozycji z <code>MONTHLY_KEYS</code> w <code>manifest.json</code>.</div>`;
         return;
       }
-
-      const list = [...listRaw].sort((a,b)=>parseISO(b.updated)-parseISO(a.updated));
 
       wrap.innerHTML = list.map(r => {
         const updISO = (r.updated || "").trim();
@@ -990,8 +944,8 @@
         try { renderTodayTicker(items, scan); } catch(e) { showErr("Błąd tickera: " + (e?.message || e)); }
         try { renderCalendarLine(items); } catch(e) { showErr("Błąd kalendarza (linia): " + (e?.message || e)); }
         try { renderFeatured(items, scan); } catch(e) { showErr("Błąd porannego skanu: " + (e?.message || e)); }
-        try { renderPortfolioFeatured(items); } catch(e) { showErr("Błąd portfeli ACE (góra): " + (e?.message || e)); }
-        try { renderAnalysisAceFeatured(items); } catch(e) { showErr("Błąd Analizy wg ACE: " + (e?.message || e)); }
+        try { renderPortfolioFeatured(items); } catch(e) { showErr("Błąd Portfeli zakupowych: " + (e?.message || e)); }
+        try { renderAnalysisAceFeatured(items); } catch(e) { showErr("Błąd sekcji Rynek pod lupą: " + (e?.message || e)); }
         try { renderQuick(items); } catch(e) { showErr("Błąd raportów tygodniowych: " + (e?.message || e)); }
         try { renderMonthly(items); } catch(e) { showErr("Błąd raportów miesięcznych: " + (e?.message || e)); }
 
