@@ -1262,7 +1262,7 @@ a.analysisFeatured {
       rgba(var(--home-shadow-rgb), 0.10),
       rgba(var(--home-shadow-rgb), 0.20)
     ),
-    url("../../raporty/analiza-ace/analiza-ace-chart.jpg");
+    url("../../szkolenia/analiza-ace/analiza-ace-chart.jpg");
 
   background-repeat: no-repeat;
   background-position: center;
