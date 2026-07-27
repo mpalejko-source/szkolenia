@@ -2357,3 +2357,76 @@ a.analysisFeatured > * {
     font-size: 10.5px;
   }
 }
+
+/* =========================================================
+   24. DOPRACOWANIE WIDOKU MOBILNEGO
+   - portfele zakupowe: 3 miniatury obok siebie na telefonie
+   - tabele cenowe: przewijanie poziome zamiast nadmiernego ścisku
+   ========================================================= */
+
+@media (max-width: 720px) {
+  .tableScroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    padding-bottom: 6px;
+
+    -webkit-overflow-scrolling: touch;
+  }
+
+  table.prTable {
+    min-width: 650px;
+    table-layout: fixed;
+  }
+
+  table.prTable th,
+  table.prTable td {
+    padding-right: 6px;
+    padding-left: 6px;
+
+    font-size: 11px;
+    white-space: nowrap;
+  }
+
+  table.prTable th:first-child,
+  table.prTable td:first-child {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 520px) {
+  .thumbGridBig {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .pHeroTight {
+    height: 180px;
+    padding: 8px;
+  }
+
+  .thumbGridBig .thumb {
+    min-height: 0;
+  }
+
+  .thumbGridBig .thumb img {
+    height: calc(100% - 42px);
+  }
+
+  .thumbGridBig .thumb .cap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 42px;
+    padding: 6px 4px;
+
+    font-size: 10px;
+    line-height: 1.1;
+    text-align: center;
+  }
+
+  .thumbGridBig .thumb .cap .small {
+    font-size: 9px;
+  }
+}
