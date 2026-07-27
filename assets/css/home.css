@@ -1258,10 +1258,6 @@ a.analysisFeatured {
   border-radius: 14px;
 
   background-image:
-    linear-gradient(
-      rgba(var(--home-shadow-rgb), 0.10),
-      rgba(var(--home-shadow-rgb), 0.20)
-    ),
     url("../../szkolenia/analiza-ace/analiza-ace-chart.jpg");
 
   background-repeat: no-repeat;
