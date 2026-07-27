@@ -1,0 +1,997 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Panel monitorowania rynku</title>
+
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+
+  <link rel="stylesheet" href="assets/css/theme.css" />
+  <link rel="stylesheet" href="assets/css/home.css" />
+
+  <script>
+    const BASE = location.hostname.endsWith("github.io")
+      ? "/" + (location.pathname.split("/").filter(Boolean)[0] || "") + "/"
+      : "/";
+
+    function url(path){
+      return BASE + String(path || "").replace(/^\/+/, "");
+    }
+  </script>
+
+</head>
+
+<body>
+  <div class="wrap">
+
+    <header>
+      <h1 class="topTitle">Panel monitorowania rynku</h1>
+
+      <div class="headerRow">
+        <div class="logoBox">
+          <img src="" alt="ACE Group" class="logo" id="logoImg">
+        </div>
+
+        <div class="userBar">
+          <div class="pill" id="userEmail" title="Zalogowany użytkownik">
+            <span class="ico">👤</span>
+            <span>Zalogowany: —</span>
+          </div>
+
+          <a href="/cdn-cgi/access/logout" class="pill" title="Wyloguj się">
+            <span class="ico">🚪</span>
+            <span>Wyloguj</span>
+          </a>
+
+          <div class="pill" id="asof">
+            <span class="ico">📍</span>
+            <span>Olsztyn —</span>
+          </div>
+        </div> 
+
+        <!-- <p class="rightSlogan">
+          <span class="l1">Nasza współpraca</span>
+          <span class="l2">buduje sukces!</span>
+        </p> -->
+               <p class="rightSlogan">
+          <span class="l1">#FUNDUSZE PROMOCJI</span>
+        </p>
+      </div>
+    </header>
+
+    <div id="todayTicker" class="ticker" style="display:none"></div>
+
+    <div class="calLineWrap" id="calLineWrap"></div>
+
+    <section class="topRowGrid">
+      <div id="featuredWrap"></div>
+      <div id="portfolioWrap"></div>
+      <div id="analysisAceWrap"></div>
+    </section>
+
+    <div class="sectionHead" style="margin-top:16px;">
+      <p class="h2">Cenniki i notowania</p>
+      <p class="hint">Szybki podgląd cen spot i giełdowych + linki do notowań</p>
+    </div>
+
+    <section class="pricesGrid">
+      <section class="panel" id="pricesLeftPanel">
+        <div class="panelHead">
+          <div class="panelTitle">Ceny najważniejszych surowców rolniczych</div>
+          <div class="panelSub" id="pricesAsOf">Aktualizacja: —</div>
+        </div>
+        <div class="tableScroll">
+          <table id="cashTable" class="prTable"></table>
+        </div>
+        <div style="margin-top:8px;font-size:12px;color:var(--home-text-subtle)">Źródło: ACE Group • rynek spot</div>
+
+        <div class="sectionDivider" style="margin:14px 0 10px;"></div>
+
+        <div class="panelHead" style="min-height:auto; margin-bottom:10px;">
+          <div class="panelTitle">Ceny giełdowe (close)</div>
+          <div class="panelSub" id="futuresAsOf">&nbsp;</div>
+        </div>
+        <div class="tableScroll">
+          <table id="futuresTable" class="prTable"></table>
+        </div>
+        <div style="margin-top:8px;font-size:12px;color:var(--home-text-subtle)">Źródło: ACE Group • futures</div>
+      </section>
+
+      <section class="panel">
+        <div class="quotesBox">
+          <div>
+            <p class="qTitle">Link do notowań</p>
+            <p class="qSub">Oficjalne strony giełdowe – dane źródłowe.</p>
+          </div>
+
+          <div class="qLinks">
+            <a class="qLink" href="https://www.cmegroup.com/markets/agriculture/oilseeds/soybean-meal.html" target="_blank" rel="noreferrer">
+              <span class="qIco">🇺🇸</span>
+              <span class="qTxt">
+                <span class="qMain">Śruta sojowa – CBOT (CME)</span>
+                <span class="qSmall">USA • Chicago Board of Trade</span>
+              </span>
+            </a>
+
+            <a class="qLink" href="https://www.barchart.com/futures/prices-by-exchange/euronext-commodities?future=ML" target="_blank" rel="noreferrer">
+              <span class="qIco">🇪🇺</span>
+              <span class="qTxt">
+                <span class="qMain">Pszenica – MATIF (ML)</span>
+                <span class="qSmall">UE • Euronext Paris</span>
+              </span>
+            </a>
+
+            <a class="qLink" href="https://www.barchart.com/futures/prices-by-exchange/euronext-commodities?future=XB" target="_blank" rel="noreferrer">
+              <span class="qIco">🇪🇺</span>
+              <span class="qTxt">
+                <span class="qMain">Kukurydza – MATIF (XB)</span>
+                <span class="qSmall">UE • Euronext Paris</span>
+              </span>
+            </a>
+
+            <a class="qLink" href="https://www.barchart.com/futures/prices-by-exchange/euronext-commodities?future=XR" target="_blank" rel="noreferrer">
+              <span class="qIco">🇪🇺</span>
+              <span class="qTxt">
+                <span class="qMain">Rzepak – MATIF (XR)</span>
+                <span class="qSmall">UE • Euronext Paris</span>
+              </span>
+            </a>
+
+            <a class="qLink" href="https://www.rscom.nl/nl/prices/prices-rape" target="_blank" rel="noreferrer">
+              <span class="qIco">🇩🇪</span>
+              <span class="qTxt">
+                <span class="qMain">Rape meal – Neuss / Spyck</span>
+                <span class="qSmall">Niemcy • Dolny Ren</span>
+              </span>
+            </a>
+
+            <a class="qLink" href="https://www.barchart.com/futures/prices-by-exchange/ice-eu-energies?future=CB" target="_blank" rel="noreferrer">
+              <span class="qIco">🛢️</span>
+              <span class="qTxt">
+                <span class="qMain">ICE Brent Crude Oil</span>
+                <span class="qSmall">Benchmark ropy Brent</span>
+              </span>
+            </a>
+
+            <a class="qLink" href="https://stooq.pl/q/?s=usdpln" target="_blank" rel="noreferrer">
+              <span class="qIco">💱</span>
+              <span class="qTxt">
+                <span class="qMain">USD/PLN</span>
+                <span class="qSmall">Kurs dolara do złotego</span>
+              </span>
+            </a>
+
+            <a class="qLink" href="https://stooq.pl/q/?s=eurpln" target="_blank" rel="noreferrer">
+              <span class="qIco">💱</span>
+              <span class="qTxt">
+                <span class="qMain">EUR/PLN</span>
+                <span class="qSmall">Kurs euro do złotego</span>
+              </span>
+            </a>
+
+            <a class="qLink" href="https://stooq.pl/q/?s=eurusd" target="_blank" rel="noreferrer">
+              <span class="qIco">💱</span>
+              <span class="qTxt">
+                <span class="qMain">EUR/USD</span>
+                <span class="qSmall">Główna para walutowa FX</span>
+              </span>
+            </a>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <hr class="sectionDivider" />
+
+    <div class="sectionHead">
+      <p class="h2">Monit tygodniowy - ANALIZA | STATYSTYKA | TECHNIKA | PORTFEL ZAKUPÓW</p>
+    </div>
+    <section class="quickGrid" id="quickGrid"></section>
+
+    <hr class="sectionDivider" />
+
+    <div class="sectionHead">
+      <p class="h2">Monit miesięczny - FUNDAMENTY | BILANSE | PROGNOZY</p>
+    </div>
+    <section class="monthlyGrid" id="monthlyGrid"></section>
+
+    <div id="err" class="error" style="display:none"></div>
+
+    <footer>
+      <!-- Agri Commodity Experts Sp. z o.o. • <code>biuro@ace-group.pl</code> • <code>ACE Reserved 2026</code> -->
+      #FUNDUSZEPROMOCJI
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById("logoImg").src = url("assets/img/logo.png");
+    const CONFIG = { location: "Olsztyn" };
+
+    const FEATURED_KEY = "Poranny Skan Rynku";
+    const PORTFOLIO_KEY = "Portfele-ACE";
+    const ANALYSIS_ACE_KEY = "Market View";
+    const ANALYSIS_ACE_FALLBACK_PATH = "raporty/analiza-ace/";
+
+    const PORTFOLIO_THUMBS = [
+      { label:"Śruta sojowa",    img:"portfele/soymeal.png",  hash:"#soymeal" },
+      { label:"USD/PLN",         img:"portfele/usdpln.png",   hash:"#usdpln" },
+      { label:"Śruta rzepakowa", img:"portfele/rapemeal.png", hash:"#rapemeal" }
+    ];
+
+    const QUICK_KEYS  = [
+      "Rynek na wykresach - Surowce i Waluty",
+      "Pozycje Funduszy",
+      "Portfele-ACE",
+      "Analizy statystyczno-techniczne",
+      "Pogoda"
+    ];
+
+    const MONTHLY_KEYS = ["wasde","igc","fao","Indexy-światowe"];
+
+    const EXTRA_MONTHLY_CARD = {
+      id: "wskazniki",
+      name: "Wskaźniki",
+      description: "Analiza relacji cenowych między surowcami i wskaźników względem ceny.",
+      path: "raporty-fundamentalne/wskazniki/",
+      updated: "",
+      next_issue: ""
+    };
+
+    const CAL = [
+      { dow:1, short:"PN", key:"Pozycje Funduszy" },
+      { dow:2, short:"WT", key:"Analizy statystyczno-techniczne" },
+      { dow:3, short:"ŚR", key:"Portfele zakupowe" },
+      { dow:4, short:"CZ", key:"Rynek na wykresach - Surowce i Waluty" },
+      { dow:5, short:"PT", key:"Pogoda" }
+    ];
+
+    function fmtDatePL(iso){
+      if(!iso || typeof iso !== "string") return "—";
+      const p = iso.split("-");
+      if(p.length !== 3) return iso;
+      return `${p[2]}.${p[1]}.${p[0]}`;
+    }
+
+    function parseISO(iso){
+      if(!iso || typeof iso !== "string") return -Infinity;
+      const t = Date.parse(iso + "T00:00:00Z");
+      return isNaN(t) ? -Infinity : t;
+    }
+
+    function parseISODateLocal(iso){
+      const p = (iso || "").split("-");
+      if(p.length !== 3) return null;
+      const dt = new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+      return isNaN(dt.getTime()) ? null : dt;
+    }
+
+    function nextBusinessDay(dateObj){
+      const d = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate());
+      do { d.setDate(d.getDate() + 1); } while (d.getDay() === 0 || d.getDay() === 6);
+      return d;
+    }
+
+    function fmtDatePrettyPL(dt){
+      if(!(dt instanceof Date)) return "—";
+      return dt.toLocaleDateString("pl-PL", { day:"2-digit", month:"2-digit", year:"numeric" });
+    }
+
+    function todayISO(){
+      const d = new Date();
+      const y = d.getFullYear();
+      const m = String(d.getMonth()+1).padStart(2,"0");
+      const day = String(d.getDate()).padStart(2,"0");
+      return `${y}-${m}-${day}`;
+    }
+
+    function isToday(iso){
+      return (iso || "").trim() === todayISO();
+    }
+
+    function safePath(p){
+      const s = (p || "").toString();
+      if(/^https?:\/\//i.test(s)) return s;
+      return url(s);
+    }
+
+    function pickTodayFromScan(scan){
+      const items = scan && Array.isArray(scan.items) ? scan.items : [];
+      if(!items.length) return null;
+      return [...items].sort((a,b)=>parseISO(b.date)-parseISO(a.date))[0] || null;
+    }
+
+    function portfolioLink(baseHref, hash){
+      const href = baseHref || "";
+      const h = (hash || "").toString().trim();
+      if(!h) return href;
+      return href.replace(/#.*$/, "") + h;
+    }
+
+    async function loadManifest(){
+      const finalUrl = url("manifest.json?ts=" + Date.now());
+      const res = await fetch(finalUrl, { cache:"no-store" });
+      if(!res.ok) throw new Error("Nie mogę wczytać manifest.json (" + res.status + ")");
+      return await res.json();
+    }
+
+    async function loadPorannyScanJSON(){
+      const res = await fetch(url("raporty/poranny-skan/scan.json?ts=" + Date.now()), { cache:"no-store" });
+      if(!res.ok) return null;
+      return await res.json();
+    }
+
+    function toItems(manifest){
+      return Object.entries(manifest).map(([id, r]) => ({
+        id,
+        type: (r.type || "report").toString().toLowerCase(),
+        name: r.name || id,
+        description: r.description || "",
+        path: r.path || ("raporty/" + id + "/"),
+        updated: r.updated || "",
+        next_issue: (r.next_issue || "").toString(),
+        group: (r.group || "").toString()
+      }));
+    }
+
+    function renderTodayTicker(items, scan){
+      const box = document.getElementById("todayTicker");
+      const today = todayISO();
+
+      let porannyToday = false;
+      const todayScan = pickTodayFromScan(scan);
+      if(todayScan && todayScan.date === today) porannyToday = true;
+
+      const updatedToday = items.filter(x => (x.updated || "") === today);
+
+      const names = [];
+      const used = new Set();
+
+      if(porannyToday){
+        const ps = items.find(x=>x.id === FEATURED_KEY);
+        if(ps){ names.push(ps.name); used.add(ps.id); }
+      }
+      for(const it of updatedToday){
+        if(used.has(it.id)) continue;
+        names.push(it.name);
+        used.add(it.id);
+      }
+
+      if(!names.length){
+        box.style.display = "none";
+        box.innerHTML = "";
+        return;
+      }
+
+      const text = `DZISIEJSZE AKTUALIZACJE: <strong>${names.join(" • ")}</strong>`;
+      box.style.display = "flex";
+      box.innerHTML = `
+        <div class="label">NOWE DZISIAJ</div>
+        <div class="track">
+          <div class="marquee">${text} &nbsp;&nbsp;&nbsp; ${text}</div>
+        </div>
+      `;
+    }
+
+    function renderFeatured(items, scan){
+      const wrap = document.getElementById("featuredWrap");
+      const ps = items.find(x => x.id === FEATURED_KEY);
+
+      if(!ps){
+        wrap.innerHTML = `<div class="error">Brak wpisu <code>${FEATURED_KEY}</code> w <code>manifest.json</code>.</div>`;
+        return;
+      }
+
+      const todayScan = pickTodayFromScan(scan);
+
+      const updatedISO  = (todayScan && todayScan.date) ? todayScan.date : (ps.updated || "");
+      const updatedTime = (todayScan && todayScan.time) ? todayScan.time : "";
+      const updatedLabel = updatedISO
+        ? (updatedTime ? `${fmtDatePL(updatedISO)} | ${updatedTime}` : fmtDatePL(updatedISO))
+        : "—";
+
+      let nextTxt = "—";
+      if(todayScan && todayScan.date){
+        const dt = parseISODateLocal(todayScan.date);
+        if(dt) nextTxt = fmtDatePrettyPL(nextBusinessDay(dt));
+      } else if ((ps.next_issue || "").trim()){
+        nextTxt = fmtDatePL(ps.next_issue.trim());
+      }
+
+      wrap.innerHTML = `
+        <a class="featured" href="${safePath(ps.path)}">
+          <div class="fMetaLine">
+            <div class="leftBox">
+              <span class="badge primary">Poranny skan</span>
+            </div>
+          </div>
+
+          <p class="fTitle">${ps.name}</p>
+
+          <div class="fHero" id="psHero"></div>
+          <div class="fHeroNote">Skan newsów + szybki kontekst rynkowy (agro • FX)</div>
+
+          <div class="updateLine">
+            <span class="updateBadge ${isToday(updatedISO) ? "today" : ""}">
+              Aktualizacja: ${updatedLabel}
+            </span>
+          </div>
+
+          <div class="bottomMeta">
+            <div class="left"></div>
+            <div class="right">
+              ${nextTxt !== "—" ? `<span class="nextText"><strong>Kolejne wydanie:</strong> ${nextTxt}</span>` : ``}
+            </div>
+          </div>
+        </a>
+      `;
+
+      const hero = document.getElementById("psHero");
+      if(hero){
+        hero.style.backgroundImage =
+          `linear-gradient(180deg, rgba(18,48,31,.03), rgba(18,48,31,.18)), url("${url("poranny-skan.png")}")`;
+      }
+    }
+
+    function renderPortfolioFeatured(items){
+      const wrap = document.getElementById("portfolioWrap");
+      if(!wrap) return;
+
+      const mapById   = Object.fromEntries(items.map(x => [x.id, x]));
+      const mapByName = Object.fromEntries(items.map(x => [x.name, x]));
+      const pick = (key) => mapById[key] || mapByName[key];
+
+      const pf = pick(PORTFOLIO_KEY);
+
+      if(!pf){
+        wrap.innerHTML = `<div class="error">Brak wpisu <code>${PORTFOLIO_KEY}</code> w <code>manifest.json</code>.</div>`;
+        return;
+      }
+
+      const baseHref = safePath(pf.path);
+      const today = todayISO();
+
+      const portfolioChildren = PORTFOLIO_THUMBS
+        .map(t => {
+          const href = portfolioLink(baseHref, t.hash);
+          const cleanHref = (href || "").replace(/#.*$/, "");
+
+          return items.find(it => {
+            const itemPath = safePath(it.path || "").replace(/#.*$/, "");
+            return itemPath === cleanHref;
+          }) || null;
+        })
+        .filter(Boolean);
+
+      const updISO = (pf.updated || "").trim();
+      const updLabel = updISO ? fmtDatePL(updISO) : "—";
+      const isPortfolioToday = isToday(updISO);
+
+      const thumbs = PORTFOLIO_THUMBS.map(t => {
+        const imgSrc = url(t.img);
+        const href   = portfolioLink(baseHref, t.hash);
+
+        const child = portfolioChildren.find(x => {
+          const childPath = safePath(x.path || "").replace(/#.*$/, "");
+          const targetPath = href.replace(/#.*$/, "");
+          return childPath === targetPath;
+        });
+
+        const childUpd = child && child.updated ? child.updated.trim() : "";
+        const thumbTodayClass = childUpd === today ? " thumbToday" : "";
+
+        return `
+          <a class="thumb${thumbTodayClass}" href="${href}" title="Otwórz: ${t.label}">
+            <img src="${imgSrc}" alt="${t.label}">
+            <div class="cap">
+              <span>${t.label}</span>
+            </div>
+          </a>
+        `;
+      }).join("");
+
+      wrap.innerHTML = `
+        <div class="featured portfolioFeatured cardStatic">
+          <div class="fMetaLine">
+            <div class="leftBox">
+              <span class="badge primary">Portfele zakupowe</span>
+            </div>
+          </div>
+
+          <p class="fTitle">ZAKUPY<br>REKOMENDACJE<br>BENCHMARK</p>
+
+          <div class="pHero pHeroTight">
+            <div class="thumbGrid thumbGridBig">${thumbs}</div>
+          </div>
+
+          <div class="updateLine">
+            <span class="updateBadge ${isPortfolioToday ? "today" : ""}">
+              Aktualizacja: ${updLabel}
+            </span>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderAnalysisAceFeatured(items){
+      const wrap = document.getElementById("analysisAceWrap");
+      if(!wrap) return;
+
+      const mapById   = Object.fromEntries(items.map(x => [x.id, x]));
+      const mapByName = Object.fromEntries(items.map(x => [x.name, x]));
+      const pick = (key) => mapById[key] || mapByName[key];
+
+      const aa = pick(ANALYSIS_ACE_KEY);
+
+      const href = aa ? safePath(aa.path) : safePath(ANALYSIS_ACE_FALLBACK_PATH);
+      const updISO = aa ? (aa.updated || "").trim() : "";
+      const updLabel = updISO ? fmtDatePL(updISO) : "—";
+
+      wrap.innerHTML = `
+        <a class="analysisFeatured" href="${href}">
+          <div class="fMetaLine">
+            <div class="leftBox">
+              <span class="badge primary">Market View</span>
+            </div>
+          </div>
+
+          <div class="analysisBox">
+            <p class="analysisTitle">Nasze spojrzenie na rynek</p>
+            <p class="analysisDesc">
+              Autorski komentarz rynkowy: syntetyczne spojrzenie na rynek,
+              najważniejsze impulsy cenowe i praktyczne wnioski.
+            </p>
+
+            <div class="analysisHeroMini"></div>
+
+            <div class="updateLine">
+              <span class="updateBadge ${isToday(updISO) ? "today" : ""}">
+                Aktualizacja: ${updLabel}
+              </span>
+            </div>
+          </div>
+        </a>
+      `;
+    }
+
+    function renderCalendarLine(items){
+      const wrap = document.getElementById("calLineWrap");
+      if(!wrap) return;
+
+      const mapById   = Object.fromEntries(items.map(x => [x.id, x]));
+      const mapByName = Object.fromEntries(items.map(x => [x.name, x]));
+      const pick = (key) => mapById[key] || mapByName[key];
+
+      const nameOf = (key) => (pick(key) && pick(key).name) ? pick(key).name : (key || "—");
+      const pathOf = (key) => (pick(key) && pick(key).path) ? safePath(pick(key).path) : null;
+
+      const now = new Date();
+      const jsDay = now.getDay();
+      const isoDay = (jsDay === 0) ? 7 : jsDay;
+
+      const monday = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate() - (isoDay - 1)
+      );
+
+      function dateForDow(dow){
+        return new Date(
+          monday.getFullYear(),
+          monday.getMonth(),
+          monday.getDate() + (dow - 1)
+        );
+      }
+
+      function fmtDDMM(dt){
+        const dd = String(dt.getDate()).padStart(2,"0");
+        const mm = String(dt.getMonth()+1).padStart(2,"0");
+        return `${dd}.${mm}`;
+      }
+
+      function fmtRange(mon, fri){
+        const monDD = String(mon.getDate()).padStart(2,"0");
+        const monMM = String(mon.getMonth()+1).padStart(2,"0");
+        const friDD = String(fri.getDate()).padStart(2,"0");
+        const friMM = String(fri.getMonth()+1).padStart(2,"0");
+
+        if(monMM === friMM) return `${monDD}–${friDD}.${friMM}`;
+        return `${monDD}.${monMM}–${friDD}.${friMM}`;
+      }
+
+      const weekFrom = dateForDow(1);
+      const weekTo   = dateForDow(5);
+      const rangeTxt = fmtRange(weekFrom, weekTo);
+
+      const pillHTML = (r) => {
+        const dt = dateForDow(r.dow);
+        const ddmm = fmtDDMM(dt);
+
+        const titleText = nameOf(r.key);
+        const href = pathOf(r.key);
+
+        const cls = (r.dow === isoDay) ? "calPill today" : "calPill";
+        const dataHref = href ? `data-href="${href}"` : "";
+        const tab = href ? `tabindex="0"` : `tabindex="-1"`;
+
+        return `
+          <div class="${cls}" role="link" ${tab} ${dataHref}
+               title="${href ? `Otwórz: ${titleText}` : titleText}">
+            <div class="top">
+              <span class="d">${r.short}</span>
+              <span class="dt">${ddmm}</span>
+            </div>
+            <div class="n">${titleText}</div>
+          </div>
+        `;
+      };
+
+      const days = CAL.map(pillHTML).join("");
+
+      wrap.innerHTML = `
+        <div class="calLine2">
+          <div class="calHdr">
+            <div class="calHdrLeft">
+              <div class="calIco">📅</div>
+              <p class="calHdrTitle">Kalendarz publikacji tygodniowych</p>
+            </div>
+            <p class="calHdrRange">${rangeTxt}</p>
+          </div>
+
+          <div class="calRow">
+            ${days}
+          </div>
+        </div>
+      `;
+
+      wrap.querySelectorAll(".calPill[data-href]").forEach(el=>{
+        const go = () => {
+          const href = el.getAttribute("data-href");
+          if(href) window.location.href = href;
+        };
+        el.addEventListener("click", go);
+        el.addEventListener("keydown", (e)=>{
+          if(e.key === "Enter" || e.key === " "){
+            e.preventDefault();
+            go();
+          }
+        });
+      });
+    }
+
+    function renderQuick(items){
+      const wrap = document.getElementById("quickGrid");
+      if(!wrap) return;
+
+      const mapById   = Object.fromEntries(items.map(x => [x.id, x]));
+      const mapByName = Object.fromEntries(items.map(x => [x.name, x]));
+      const pick = (key) => mapById[key] || mapByName[key];
+
+      const listRaw = QUICK_KEYS.map(k => pick(k)).filter(Boolean);
+      if(!listRaw.length){
+        wrap.innerHTML = `<div class="error">Brak dopasowań dla <code>QUICK_KEYS</code> w <code>manifest.json</code>.</div>`;
+        return;
+      }
+
+      const list = [...listRaw].sort((a,b)=>parseISO(b.updated)-parseISO(a.updated));
+
+      function childrenOf(folder){
+        const folderPath = (folder.path || "").toString();
+
+        let children = [];
+        if(folderPath){
+          children = items.filter(it =>
+            it.type !== "folder" &&
+            it.id !== folder.id &&
+            (it.path || "").toString().startsWith(folderPath)
+          );
+        }
+
+        if(!children.length){
+          children = items.filter(it =>
+            it.type !== "folder" &&
+            it.id !== folder.id &&
+            it.group &&
+            it.group === folder.id
+          );
+        }
+
+        if(!children.length && folderPath.includes("analizy-stat-tech")){
+          children = items.filter(it => it.type !== "folder" && it.group === "analizy-stat-tech");
+        }
+
+        return children;
+      }
+
+      function folderMeta(folder){
+        const kids = childrenOf(folder);
+        if(!kids.length) return { updISO:"", nextISO:"", todayCount:0 };
+
+        const updISO = kids
+          .map(k => (k.updated || "").trim())
+          .filter(Boolean)
+          .sort((a,b)=>parseISO(b)-parseISO(a))[0] || "";
+
+        const today = todayISO();
+        const nextISO = kids
+          .map(k => (k.next_issue || "").trim())
+          .filter(Boolean)
+          .filter(d => parseISO(d) >= parseISO(today))
+          .sort((a,b)=>parseISO(a)-parseISO(b))[0] || "";
+
+        const todayCount = kids.filter(k => (k.updated || "") === today).length;
+
+        return { updISO, nextISO, todayCount };
+      }
+
+      wrap.innerHTML = list.map(r => {
+        const isFolderLike = (r.type || "").toLowerCase() === "folder";
+
+        let updISO = (r.updated || "").trim();
+        let nxtISO = (r.next_issue || "").trim();
+
+        if(isFolderLike){
+          const meta = folderMeta(r);
+          if(!updISO) updISO = meta.updISO;
+          if(!nxtISO) nxtISO = meta.nextISO;
+        }
+
+        const upd = updISO ? fmtDatePL(updISO) : "—";
+        const nxt = nxtISO ? fmtDatePL(nxtISO) : "—";
+
+        const clsToday = isToday(updISO) ? "today" : "";
+
+        const updBadge = updISO
+          ? (isToday(updISO)
+              ? `<span class="badge updToday">Aktualizacja: ${upd}</span>`
+              : `<span class="badge">Aktualizacja: ${upd}</span>`)
+          : "";
+
+        return `
+          <a class="card quickCard ${clsToday}" href="${safePath(r.path)}">
+            <div class="topMeta">
+              ${updBadge}
+            </div>
+            <p class="title">${r.name}</p>
+            <p class="desc">${r.description}</p>
+            <div class="metaLine">
+              <span><strong>Kolejne:</strong> ${nxt}</span>
+            </div>
+          </a>
+        `;
+      }).join("");
+    }
+
+    function renderMonthly(items){
+      const wrap = document.getElementById("monthlyGrid");
+      if(!wrap) return;
+
+      const mapById   = Object.fromEntries(items.map(x => [x.id, x]));
+      const mapByName = Object.fromEntries(items.map(x => [x.name, x]));
+      const pick = (key) => mapById[key] || mapByName[key];
+
+      const listRaw = MONTHLY_KEYS.map(k => pick(k)).filter(Boolean);
+
+      const wskaznikiFromManifest = items.find(r => {
+        const id = (r.id || "").toString().toLowerCase();
+        const name = (r.name || "").toString().toLowerCase();
+        const path = (r.path || "").toString().replace(/^\/+|\/+$/g, "").toLowerCase();
+
+        return (
+          id === "wskazniki" ||
+          id === "wskaźniki" ||
+          name === "wskazniki" ||
+          name === "wskaźniki" ||
+          path === "raporty-fundamentalne/wskazniki"
+        );
+      });
+
+      const alreadyExistsInList = listRaw.some(r => {
+        const id = (r.id || "").toString().toLowerCase();
+        const name = (r.name || "").toString().toLowerCase();
+        const path = (r.path || "").toString().replace(/^\/+|\/+$/g, "").toLowerCase();
+
+        return (
+          id === "wskazniki" ||
+          id === "wskaźniki" ||
+          name === "wskazniki" ||
+          name === "wskaźniki" ||
+          path === "raporty-fundamentalne/wskazniki"
+        );
+      });
+
+      if(!alreadyExistsInList){
+        listRaw.push(wskaznikiFromManifest || EXTRA_MONTHLY_CARD);
+      }
+
+      if(!listRaw.length){
+        wrap.innerHTML = `<div class="error">Brak pozycji z <code>MONTHLY_KEYS</code> w <code>manifest.json</code>.</div>`;
+        return;
+      }
+
+      const list = [...listRaw].sort((a,b)=>parseISO(b.updated)-parseISO(a.updated));
+
+      wrap.innerHTML = list.map(r => {
+        const updISO = (r.updated || "").trim();
+        const upd = updISO ? fmtDatePL(updISO) : "—";
+        const clsToday = isToday(updISO) ? "today" : "";
+
+        const updBadge = updISO
+          ? (isToday(updISO)
+              ? `<span class="badge updToday">Aktualizacja: ${upd}</span>`
+              : `<span class="badge">Aktualizacja: ${upd}</span>`)
+          : "";
+
+        return `
+          <a class="card quickCard ${clsToday}" href="${safePath(r.path)}">
+            <div class="topMeta">${updBadge}</div>
+            <p class="title">${r.name}</p>
+            <p class="desc">${r.description}</p>
+          </a>
+        `;
+      }).join("");
+    }
+
+    function arrowCell(n){
+      if(n === null || n === undefined || n === "" || Number.isNaN(Number(n))) {
+        return { sym:"—", col:"var(--home-text-subtle)", txt:"—" };
+      }
+      const v = Number(n);
+      if(v > 0) return { sym:"▲", col:"var(--home-green)", txt:`+${v}` };
+      if(v < 0) return { sym:"▼", col:"var(--home-red)", txt:`${v}` };
+      return { sym:"—", col:"var(--home-text-subtle)", txt:"0" };
+    }
+
+    function renderCashTable(rows){
+      const tbl = document.getElementById("cashTable");
+      const header = `
+        <tr>
+          <th>Surowiec</th>
+          <th class="right">Cena</th>
+          <th class="right">1 dzień</th>
+          <th class="right">1 tydzień</th>
+          <th class="right">1 miesiąc</th>
+        </tr>
+      `;
+      const body = rows.map(r=>{
+        const d = arrowCell(r.d);
+        const w = arrowCell(r.w);
+        const m = arrowCell(r.m);
+        return `
+          <tr>
+            <td>${r.name ?? ""}</td>
+            <td class="right" style="font-weight:900">${r.price ?? ""}</td>
+            <td class="right" style="color:${d.col}">${d.sym} ${d.txt}</td>
+            <td class="right" style="color:${w.col}">${w.sym} ${w.txt}</td>
+            <td class="right" style="color:${m.col}">${m.sym} ${m.txt}</td>
+          </tr>
+        `;
+      }).join("");
+      tbl.innerHTML = header + body;
+    }
+
+    function renderFuturesTable(rows){
+      const tbl = document.getElementById("futuresTable");
+      const header = `
+        <tr>
+          <th>Instrument</th>
+          <th class="right">Close</th>
+          <th class="right">1 dzień</th>
+          <th class="right">1 tydzień</th>
+          <th class="right">1 miesiąc</th>
+        </tr>
+      `;
+      const body = rows.map(r=>{
+        const d = arrowCell(r.d);
+        const w = arrowCell(r.w);
+        const m = arrowCell(r.m);
+        return `
+          <tr>
+            <td>${r.name ?? ""}</td>
+            <td class="right" style="font-weight:900">${r.close ?? ""}</td>
+            <td class="right" style="color:${d.col}">${d.sym} ${d.txt}</td>
+            <td class="right" style="color:${w.col}">${w.sym} ${w.txt}</td>
+            <td class="right" style="color:${m.col}">${m.sym} ${m.txt}</td>
+          </tr>
+        `;
+      }).join("");
+      tbl.innerHTML = header + body;
+    }
+
+    async function loadPrices(){
+      try{
+        const res = await fetch(url("prices.json?ts=" + Date.now()), { cache:"no-store" });
+        if(!res.ok) throw new Error("prices.json (" + res.status + ")");
+        const data = await res.json();
+
+        const asof = (data.asof || "—");
+        document.getElementById("pricesAsOf").textContent = "Aktualizacja: " + asof;
+        document.getElementById("futuresAsOf").innerHTML = "Aktualizacja: " + asof;
+
+        const cashRows = Array.isArray(data.cash) ? data.cash : [];
+        const futRows  = Array.isArray(data.futures) ? data.futures : [];
+
+        renderCashTable(cashRows);
+        renderFuturesTable(futRows);
+      } catch(e){
+        document.getElementById("pricesLeftPanel").innerHTML = `<div class="error">Błąd cenników: ${e.message}</div>`;
+      }
+    }
+
+    async function loadUserEmail(){
+      const box = document.getElementById("userEmail");
+      if(!box) return;
+
+      box.innerHTML = `<span class="ico">👤</span><span>Zalogowany: <strong>…</strong></span>`;
+
+      try{
+        const res = await fetch("/cdn-cgi/access/get-identity", {
+          cache: "no-store",
+          credentials: "same-origin"
+        });
+
+        if(!res.ok){
+          box.innerHTML = `<span class="ico">👤</span><span>Zalogowany: — <span style="opacity:.65">(HTTP ${res.status})</span></span>`;
+          return;
+        }
+
+        const data = await res.json();
+        const email = (data?.email || "").toString().trim();
+        const name  = (data?.name  || "").toString().trim();
+
+        if(email){
+          box.innerHTML = `<span class="ico">👤</span><span>Zalogowany: <strong>${email}</strong></span>`;
+          box.title = name ? `Zalogowany: ${name} (${email})` : `Zalogowany: ${email}`;
+        } else {
+          box.innerHTML = `<span class="ico">👤</span><span>Zalogowany: — <span style="opacity:.65">(brak email w JSON)</span></span>`;
+        }
+      } catch(e){
+        box.innerHTML = `<span class="ico">👤</span><span>Zalogowany: — <span style="opacity:.65">(błąd fetch)</span></span>`;
+      }
+    }
+
+    (async () => {
+      const errBox = document.getElementById("err");
+      const showErr = (msg) => {
+        if(!errBox) return;
+        errBox.style.display = "block";
+        errBox.textContent = msg;
+      };
+
+      try { loadUserEmail(); } catch(e) {}
+      try {
+        const now = new Date();
+        const date = now.toLocaleDateString("pl-PL");
+        const time = now.toLocaleTimeString("pl-PL", { hour: "2-digit", minute: "2-digit" });
+        const asofEl = document.getElementById("asof");
+        if(asofEl){
+          asofEl.innerHTML = `<span class="ico">📍</span><strong>${CONFIG.location}</strong> <span class="ico">🕒</span>${date} ${time}`;
+        }
+      } catch(e) {}
+
+      try { await loadPrices(); }
+      catch(e){ showErr("Błąd cenników: " + (e?.message || e)); }
+
+      try{
+        const manifest = await loadManifest();
+        const items = toItems(manifest);
+        const scan = await loadPorannyScanJSON();
+
+        try { renderTodayTicker(items, scan); } catch(e) { showErr("Błąd tickera: " + (e?.message || e)); }
+        try { renderCalendarLine(items); } catch(e) { showErr("Błąd kalendarza (linia): " + (e?.message || e)); }
+        try { renderFeatured(items, scan); } catch(e) { showErr("Błąd porannego skanu: " + (e?.message || e)); }
+        try { renderPortfolioFeatured(items); } catch(e) { showErr("Błąd portfeli ACE (góra): " + (e?.message || e)); }
+        try { renderAnalysisAceFeatured(items); } catch(e) { showErr("Błąd Analizy wg ACE: " + (e?.message || e)); }
+        try { renderQuick(items); } catch(e) { showErr("Błąd raportów tygodniowych: " + (e?.message || e)); }
+        try { renderMonthly(items); } catch(e) { showErr("Błąd raportów miesięcznych: " + (e?.message || e)); }
+
+      } catch(e){
+        showErr("Błąd manifest/scan: " + (e?.message || e));
+      }
+    })();
+  </script>
+
+</body>
+</html>

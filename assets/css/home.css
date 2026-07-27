@@ -1251,21 +1251,27 @@ a.analysisFeatured {
 }
 
 .analysisHeroMini {
+  position: relative;
+
   height: 96px;
   margin-top: 10px;
+  overflow: hidden;
 
   border: 1px solid var(--home-border);
   border-radius: 14px;
 
   background-color: var(--home-surface-soft);
-  background-image:
-    url("/raporty/analiza-ace/analiza-ace-chart.jpg?v=8");
-
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-
   box-shadow: var(--home-shadow-small);
+}
+
+.analysisHeroMini img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center center;
 }
 
 
