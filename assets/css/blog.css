@@ -1,0 +1,672 @@
+/* =========================================================
+   ACE — ANALIZA / BLOG
+   Plik: assets/css/blog.css
+
+   Wymaga wcześniejszego podłączenia:
+   assets/css/theme.css
+   ========================================================= */
+
+
+/* =========================================================
+   1. ZMIENNE
+   ========================================================= */
+
+:root {
+  --blog-bg:
+    var(--ace-background, #f3f5ee);
+
+  --blog-surface:
+    var(--ace-surface, #ffffff);
+
+  --blog-surface-soft:
+    var(--ace-surface-soft, #e8efe4);
+
+  --blog-surface-hover:
+    var(--ace-surface-hover, #dce8d7);
+
+  --blog-text:
+    var(--ace-text, #173426);
+
+  --blog-text-strong:
+    var(--ace-text-strong, #102a1e);
+
+  --blog-text-muted:
+    var(--ace-text-muted, #5d6f65);
+
+  --blog-text-subtle:
+    var(--ace-text-subtle, #7d8c84);
+
+  --blog-primary:
+    var(--ace-primary, #087a3d);
+
+  --blog-secondary:
+    var(--ace-secondary, #e96f2d);
+
+  --blog-border:
+    var(--ace-border, rgba(23, 52, 38, 0.14));
+
+  --blog-border-strong:
+    var(--ace-border-strong, rgba(23, 52, 38, 0.24));
+
+  --blog-radius-small:
+    var(--ace-radius-small, 12px);
+
+  --blog-radius-medium:
+    var(--ace-radius-medium, 16px);
+
+  --blog-radius-large:
+    var(--ace-radius-large, 18px);
+
+  --blog-shadow:
+    var(
+      --ace-shadow,
+      0 10px 30px rgba(30, 60, 42, 0.12)
+    );
+
+  --blog-shadow-small:
+    var(
+      --ace-shadow-small,
+      0 8px 20px rgba(30, 60, 42, 0.10)
+    );
+
+  --blog-font:
+    var(
+      --ace-font-family,
+      Arial,
+      system-ui,
+      -apple-system,
+      "Segoe UI",
+      Roboto,
+      sans-serif
+    );
+}
+
+
+/* =========================================================
+   2. PODSTAWY
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body.blogPage {
+  margin: 0;
+
+  color: var(--blog-text);
+
+  background:
+    radial-gradient(
+      1100px 560px at 8% 0%,
+      rgba(var(--ace-primary-rgb), 0.10),
+      transparent 60%
+    ),
+    radial-gradient(
+      850px 480px at 92% 8%,
+      rgba(var(--ace-secondary-rgb), 0.075),
+      transparent 58%
+    ),
+    var(--blog-bg);
+
+  font-family: var(--blog-font);
+}
+
+
+/* =========================================================
+   3. KONTENER I NAGŁÓWEK
+   ========================================================= */
+
+.wrap {
+  width: 100%;
+  max-width: 1320px;
+
+  margin: 0 auto;
+  padding: 24px 20px 42px;
+}
+
+.pageHead {
+  margin-bottom: 12px;
+  padding: 8px 4px 14px;
+
+  border-bottom:
+    1px solid rgba(var(--ace-primary-rgb), 0.14);
+}
+
+.brandRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.brandLogo {
+  display: block;
+  flex: 0 0 auto;
+
+  width: 92px;
+  height: 82px;
+
+  object-fit: contain;
+
+  filter:
+    drop-shadow(
+      0 8px 18px rgba(var(--ace-shadow-rgb), 0.14)
+    );
+}
+
+.brandText {
+  min-width: 0;
+}
+
+.brandTitle {
+  margin: 0 0 5px;
+
+  color: var(--blog-text-strong);
+
+  font-size: 27px;
+  font-weight: 950;
+  line-height: 1.08;
+}
+
+.brandSub {
+  margin: 0;
+
+  color: var(--blog-text-muted);
+
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+
+/* =========================================================
+   4. POWRÓT
+   ========================================================= */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  margin-bottom: 15px;
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 9px 12px;
+
+  border: 1px solid var(--blog-border);
+  border-radius: 999px;
+
+  color: var(--blog-text-strong);
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: var(--blog-shadow-small);
+
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+
+  transition:
+    transform 120ms ease,
+    border-color 120ms ease,
+    background 120ms ease;
+}
+
+.back:hover {
+  transform: translateY(-1px);
+
+  border-color: var(--blog-border-strong);
+  background: var(--blog-surface);
+}
+
+
+/* =========================================================
+   5. UKŁAD ARTYKUŁ + ARCHIWUM
+   ========================================================= */
+
+.layout {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(270px, 310px);
+  align-items: start;
+  gap: 18px;
+}
+
+.mainCol {
+  min-width: 0;
+}
+
+
+/* =========================================================
+   6. ARTYKUŁ
+   ========================================================= */
+
+.article {
+  padding: 28px 32px 32px;
+
+  border: 1px solid var(--blog-border);
+  border-top:
+    4px solid rgba(var(--ace-primary-rgb), 0.68);
+  border-radius: 20px;
+
+  background:
+    radial-gradient(
+      760px 220px at 0% 0%,
+      rgba(var(--ace-primary-rgb), 0.055),
+      transparent 65%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.96),
+      rgba(249, 251, 248, 0.94)
+    );
+
+  box-shadow: var(--blog-shadow);
+}
+
+.article + .article {
+  margin-top: 18px;
+}
+
+.title {
+  max-width: 980px;
+
+  margin: 0 0 10px;
+
+  color: var(--blog-text-strong);
+
+  font-size: clamp(32px, 4.2vw, 48px);
+  font-weight: 950;
+  letter-spacing: -0.4px;
+  line-height: 1.06;
+  overflow-wrap: anywhere;
+}
+
+.archiveEntryTitle {
+  max-width: 980px;
+
+  margin: 0 0 9px;
+
+  color: var(--blog-text-strong);
+
+  font-size: clamp(27px, 3.2vw, 36px);
+  font-weight: 950;
+  letter-spacing: -0.2px;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+.submeta {
+  margin-bottom: 22px;
+  padding-bottom: 12px;
+
+  border-bottom:
+    1px solid rgba(var(--ace-primary-rgb), 0.12);
+
+  color: var(--blog-text-subtle);
+
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.text {
+  color: var(--blog-text);
+
+  font-size: 17px;
+  line-height: 1.72;
+  white-space: normal;
+}
+
+
+/* Kolejne fragmenty tekstu po obrazach */
+
+.text + .text {
+  margin-top: 14px;
+}
+
+
+/* =========================================================
+   7. OBRAZY
+   ========================================================= */
+
+.imgFloatLeft,
+.imgFloatRight,
+.imgCenter {
+  max-width: 100%;
+  padding: 7px;
+
+  border: 1px solid var(--blog-border);
+  border-radius: 16px;
+
+  background: var(--blog-surface);
+  box-shadow: var(--blog-shadow-small);
+}
+
+.imgFloatLeft,
+.imgFloatRight {
+  display: block;
+
+  width: var(--imgw, 40%);
+  margin-bottom: 12px;
+}
+
+.imgFloatLeft {
+  float: left;
+
+  margin-right: 20px;
+}
+
+.imgFloatRight {
+  float: right;
+
+  margin-left: 20px;
+}
+
+.imgCenter {
+  display: block;
+
+  margin: 18px auto 22px;
+}
+
+.imgFloatLeft img,
+.imgFloatRight img,
+.imgCenter img {
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  border-radius: 11px;
+
+  cursor: zoom-in;
+}
+
+.caption {
+  padding: 9px 5px 2px;
+
+  color: var(--blog-text-subtle);
+
+  font-size: 12px;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.clearBoth {
+  clear: both;
+
+  height: 0;
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   8. ARCHIWUM
+   ========================================================= */
+
+.archive {
+  position: sticky;
+  top: 14px;
+
+  padding: 15px;
+
+  border: 1px solid var(--blog-border);
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.94),
+      rgba(246, 249, 244, 0.92)
+    );
+
+  box-shadow: var(--blog-shadow);
+}
+
+.archiveTitle {
+  margin: 0 0 11px;
+  padding-bottom: 10px;
+
+  border-bottom:
+    1px solid rgba(var(--ace-primary-rgb), 0.12);
+
+  color: var(--blog-text-strong);
+
+  font-size: 14px;
+  font-weight: 950;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.tile {
+  display: block;
+
+  padding: 11px 12px;
+
+  border: 1px solid var(--blog-border);
+  border-left:
+    3px solid rgba(var(--ace-primary-rgb), 0.20);
+  border-radius: 13px;
+
+  color: var(--blog-text);
+  background: rgba(255, 255, 255, 0.72);
+
+  text-decoration: none;
+
+  transition:
+    transform 120ms ease,
+    border-color 120ms ease,
+    background 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.tile:hover {
+  transform: translateY(-1px);
+
+  border-color: rgba(var(--ace-primary-rgb), 0.32);
+  background: var(--blog-surface);
+  box-shadow: var(--blog-shadow-small);
+}
+
+.tileDate {
+  margin-bottom: 5px;
+
+  color: var(--blog-text-subtle);
+
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.tileTitle {
+  color: var(--blog-text-strong);
+
+  font-size: 13px;
+  font-weight: 850;
+  line-height: 1.35;
+}
+
+.tile.isActive {
+  border-color: rgba(var(--ace-primary-rgb), 0.42);
+  border-left-color: var(--blog-primary);
+
+  background: rgba(var(--ace-primary-rgb), 0.075);
+}
+
+.entryPanel {
+  display: none;
+}
+
+.entryPanel.isActive {
+  display: block;
+}
+
+
+/* =========================================================
+   9. STOPKA
+   ========================================================= */
+
+.blogFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  margin-top: 18px;
+  padding: 13px 3px 0;
+
+  border-top:
+    1px solid rgba(var(--ace-primary-rgb), 0.14);
+
+  color: var(--blog-primary);
+
+  font-size: 12px;
+  font-weight: 950;
+}
+
+.blogFooter a {
+  color: var(--blog-text-muted);
+
+  font-weight: 800;
+  text-decoration: none;
+}
+
+
+/* =========================================================
+   10. LIGHTBOX
+   ========================================================= */
+
+#ov {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0;
+  padding: 0;
+
+  background: rgba(0, 0, 0, 0.92);
+}
+
+#ov img {
+  width: 99vw;
+  height: 99vh;
+
+  border-radius: 0;
+
+  object-fit: contain;
+}
+
+#ov .x {
+  position: fixed;
+  top: 12px;
+  right: 16px;
+
+  padding: 6px 10px;
+
+  border-radius: 10px;
+
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.38);
+
+  font-size: 26px;
+
+  cursor: pointer;
+  user-select: none;
+}
+
+
+/* =========================================================
+   11. RESPONSYWNOŚĆ
+   ========================================================= */
+
+@media (max-width: 1080px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .archive {
+    position: static;
+  }
+
+  .tiles {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .wrap {
+    padding: 18px 12px 30px;
+  }
+
+  .brandRow {
+    align-items: flex-start;
+  }
+
+  .brandLogo {
+    width: 72px;
+    height: 66px;
+  }
+
+  .brandTitle {
+    font-size: 23px;
+  }
+
+  .brandSub {
+    font-size: 13px;
+  }
+
+  .article {
+    padding: 20px 17px 22px;
+
+    border-radius: 16px;
+  }
+
+  .title {
+    font-size: 31px;
+  }
+
+  .archiveEntryTitle {
+    font-size: 27px;
+  }
+
+  .text {
+    font-size: 16px;
+    line-height: 1.66;
+  }
+
+  .imgFloatLeft,
+  .imgFloatRight {
+    float: none;
+
+    width: 100% !important;
+    margin: 16px 0 20px;
+  }
+
+  .imgCenter {
+    width: 100% !important;
+  }
+
+  .tiles {
+    grid-template-columns: 1fr;
+  }
+}
