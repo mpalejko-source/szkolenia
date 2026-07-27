@@ -1252,6 +1252,7 @@ a.analysisFeatured {
 
 .analysisHeroMini {
   position: relative;
+  z-index: 3;
 
   height: 96px;
   margin-top: 10px;
@@ -1260,11 +1261,21 @@ a.analysisFeatured {
   border: 1px solid var(--home-border);
   border-radius: 14px;
 
-  background-color: var(--home-surface-soft);
+  /* Awaryjne tło — widoczne także przy starszym index.html. */
+  background-color: #ffffff;
+  background-image: url("https://szkolenia.ace-group.pl/raporty/analiza-ace/analiza-ace-chart.jpg?v=10") !important;
+  background-repeat: no-repeat !important;
+  background-position: center center !important;
+  background-size: cover !important;
+
   box-shadow: var(--home-shadow-small);
 }
 
 .analysisHeroMini img {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+
   display: block;
 
   width: 100%;
@@ -2256,4 +2267,26 @@ footer {
   .monthlyGrid a.card {
     min-height: auto;
   }
+}
+
+/* =========================================================
+   MARKET VIEW — PEWNE WARSTWY OBRAZU
+   ========================================================= */
+
+a.analysisFeatured {
+  isolation: isolate;
+}
+
+a.analysisFeatured::before {
+  z-index: 0;
+}
+
+a.analysisFeatured > * {
+  z-index: 1;
+}
+
+#analysisAceWrap .analysisHeroMini {
+  z-index: 5;
+  opacity: 1;
+  visibility: visible;
 }
