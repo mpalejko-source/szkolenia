@@ -2290,3 +2290,50 @@ a.analysisFeatured > * {
   opacity: 1;
   visibility: visible;
 }
+
+/* =========================================================
+   23. WYRÓWNANIE POLA „AKTUALIZACJA” W GÓRNYCH KARTACH
+
+   Poranny Skan ma pod aktualizacją dodatkowy wiersz
+   „Kolejne wydanie”. W dwóch pozostałych kartach rezerwujemy
+   taką samą przestrzeń, dzięki czemu wszystkie badge
+   aktualizacji znajdują się na jednej wysokości.
+   ========================================================= */
+
+#portfolioWrap .featured,
+#analysisAceWrap .analysisFeatured {
+  padding-bottom: 16px;
+}
+
+#portfolioWrap .featured .updateLine,
+#analysisAceWrap .analysisFeatured .updateLine {
+  margin-top: auto;
+}
+
+/* Rezerwa odpowiadająca dolnemu wierszowi Porannego Skanu. */
+#portfolioWrap .featured::after,
+#analysisAceWrap .analysisFeatured::after {
+  display: block;
+  flex: 0 0 30px;
+
+  width: 100%;
+  height: 30px;
+
+  content: "";
+  pointer-events: none;
+}
+
+/* Pseudo-element ma być nad tłem karty, ale bez wpływu wizualnego. */
+#portfolioWrap .featured::after,
+#analysisAceWrap .analysisFeatured::after {
+  position: relative;
+  z-index: 1;
+}
+
+/* Na telefonie nie potrzebujemy sztucznej rezerwy. */
+@media (max-width: 720px) {
+  #portfolioWrap .featured::after,
+  #analysisAceWrap .analysisFeatured::after {
+    display: none;
+  }
+}
