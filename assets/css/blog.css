@@ -147,14 +147,28 @@ body.blogPage {
   gap: 16px;
 }
 
+.brandLogoBox {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+
+  width: 128px;
+  height: 104px;
+
+  overflow: hidden;
+}
+
 .brandLogo {
   display: block;
-  flex: 0 0 auto;
 
-  width: 126px;
-  height: 108px;
+  width: 170%;
+  height: 170%;
+  max-width: none;
+  max-height: none;
 
   object-fit: contain;
+  object-position: center;
 
   filter:
     drop-shadow(
@@ -622,9 +636,14 @@ body.blogPage {
     align-items: flex-start;
   }
 
-  .brandLogo {
-    width: 92px;
+  .brandLogoBox {
+    width: 100px;
     height: 82px;
+  }
+
+  .brandLogo {
+    width: 170%;
+    height: 170%;
   }
 
   .brandTitle {
