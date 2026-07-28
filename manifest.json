@@ -3,9 +3,9 @@
     "name": "Poranny Skan Rynku",
     "description": "Codzienny skan newsów i poranny komentarz (PL/EN) + archiwum.",
     "path": "raporty/poranny-skan/",
-    "updated": "2026-07-17",
+    "updated": "2026-07-28",
     "frequency": "dziennie",
-    "next_issue": "2026-07-18",
+    "next_issue": "2026-07-29",
     "category": "zboza",
     "alert_comment": "W dzisiejszym Porannym Skanie o rosnącym ryzyku El Niño, eskalacji na Morzu Czarnym, prognozach IGC oraz coraz ciaśniejszych bilansach zbóż, które mogą wspierać ceny i zwiększać szanse eksportowe Polski."
   },
