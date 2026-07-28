@@ -10,7 +10,7 @@
   <meta http-equiv="Expires" content="0" />
 
   <link rel="stylesheet" href="assets/css/theme.css" />
-  <link rel="stylesheet" href="assets/css/home.css?v=15" />
+  <link rel="stylesheet" href="assets/css/home.css?v=16" />
 
   <script>
     const BASE = location.hostname.endsWith("github.io")
@@ -386,7 +386,7 @@
       }
 
       wrap.innerHTML = `
-        <a class="featured" href="${safePath(ps.path)}">
+        <a class="featured ${isToday(updatedISO) ? "newToday" : ""}" href="${safePath(ps.path)}">
           <div class="fMetaLine">
             <div class="leftBox">
               <span class="badge primary">Poranny skan</span>
@@ -477,7 +477,7 @@
       }).join("");
 
       wrap.innerHTML = `
-        <div class="featured portfolioFeatured cardStatic">
+        <div class="featured portfolioFeatured cardStatic ${isPortfolioToday ? "newToday" : ""}">
           <div class="fMetaLine">
             <div class="leftBox">
               <span class="badge primary">Portfele zakupowe</span>
@@ -514,7 +514,7 @@
       const updLabel = updISO ? fmtDatePL(updISO) : "—";
 
       wrap.innerHTML = `
-        <a class="analysisFeatured" href="${href}">
+        <a class="analysisFeatured ${isToday(updISO) ? "newToday" : ""}" href="${href}">
           <div class="fMetaLine">
             <div class="leftBox">
               <span class="badge primary">Rynek pod lupą</span>
