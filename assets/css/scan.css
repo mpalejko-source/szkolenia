@@ -227,6 +227,8 @@ h1 {
 .leadRow,
 .leadSpacing { margin-top: 12px; }
 
+.leadRow .mediaCol { margin-top: 0; }
+
 .sec {
   margin-top: 18px;
   padding-top: 17px;
@@ -271,11 +273,17 @@ h1 {
   padding-top: 4px;
 }
 
-.row {
-  display: grid;
-  grid-template-columns: minmax(0, 1.55fr) minmax(280px, 1fr);
-  align-items: start;
-  gap: 16px;
+/* Prawdziwe opływanie:
+   obraz znajduje się po prawej stronie, a dalszy tekst przechodzi pod nim. */
+.flowWrap {
+  display: block;
+  width: 100%;
+}
+
+.flowWrap::after {
+  display: block;
+  clear: both;
+  content: "";
 }
 
 .text {
@@ -288,10 +296,19 @@ h1 {
 }
 
 .mediaCol {
+  float: right;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: stretch;
   gap: 10px;
+
+  width: min(38%, 410px);
+  min-width: 300px;
+  margin: 0 0 14px 24px;
+}
+
+.flowWrap .imgCard {
+  max-width: none;
 }
 
 .imgCard {
@@ -448,8 +465,27 @@ code {
 }
 
 @media (max-width: 900px) {
-  .row { grid-template-columns: 1fr; }
-  .mediaCol { align-items: stretch; }
+  /* Na telefonie i w wąskim oknie: najpierw tekst, potem obraz. */
+  .flowWrap {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .flowWrap .text,
+  .flowWrap .lead {
+    order: 1;
+  }
+
+  .flowWrap .mediaCol {
+    order: 2;
+    float: none;
+
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    margin: 14px 0 0;
+  }
+
   .imgCard { max-width: none; }
 }
 

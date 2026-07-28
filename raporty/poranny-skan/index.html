@@ -10,14 +10,14 @@
   <meta http-equiv="Expires" content="0" />
 
   <link rel="stylesheet" href="../../assets/css/theme.css?v=4">
-  <link rel="stylesheet" href="../../assets/css/scan.css?v=1">
+  <link rel="stylesheet" href="../../assets/css/scan.css?v=2">
 </head>
 
 <body>
 <div class="wrap">
   <header>
     <div class="brand">
-      <img src="logo.png" alt="#Fundusze Promocji" class="logo">
+      <img src="../../assets/img/logo.png" alt="#Fundusze Promocji" class="logo">
       <div>
         <h1>ACE – Poranny Skan Rynku</h1>
         <p class="sub">Szybkie newsy ze świata i Polski</p>
@@ -199,9 +199,9 @@
     return `
       <div class="sec">
         <h2>${iconsHtml}<span class="sectionTitle">${esc(title)}</span></h2>
-        <div class="row">
-          <div>${textHtml}</div>
+        <div class="flowWrap">
           ${mediaHtml}
+          ${textHtml}
         </div>
       </div>
     `;
@@ -255,9 +255,9 @@
 
     const leadHtml = isNonEmptyText(lead)
       ? (leadMedia.length
-          ? `<div class="row leadRow">
-               <div><p class="lead leadBlue">${esc(lead)}</p></div>
+          ? `<div class="flowWrap leadRow">
                ${renderMediaColumn(leadMedia)}
+               <p class="lead leadBlue">${esc(lead)}</p>
              </div>`
           : `<p class="lead leadBlue leadSpacing">${esc(lead)}</p>`
         )
