@@ -439,11 +439,45 @@
 
         const data = await response.json();
 
+        /*
+          Dane wspólne dla folderów/grup raportów.
+          Dzięki temu datę aktualizacji i datę kolejnego wydania
+          wpisujemy tylko raz przy folderze nadrzędnym w manifest.json.
+        */
+        const groupDefaults = Object.values(data)
+          .filter(item => item.type === "folder" && item.group_id)
+          .reduce((groups, item) => {
+            groups[String(item.group_id).toLowerCase()] = item;
+            return groups;
+          }, {});
+
         const all = Object.values(data)
           .filter(item =>
             (item.group || "").toLowerCase() ===
             "analizy-stat-tech"
-          );
+          )
+          .map(report => {
+            const parent =
+              groupDefaults[
+                String(report.group || "").toLowerCase()
+              ] || {};
+
+            return {
+              ...report,
+              updated:
+                report.updated ||
+                parent.updated ||
+                "",
+              next_issue:
+                report.next_issue ||
+                parent.next_issue ||
+                "",
+              frequency:
+                report.frequency ||
+                parent.frequency ||
+                ""
+            };
+          });
 
         const sections = {
           waluty: [],
@@ -475,7 +509,12 @@
             "Analiza statystyczno-techniczna rynku ropy.",
           path:
             "/raporty/analizy-stat-tech/energia/ropa/",
-          updated: ""
+          updated:
+            groupDefaults["analizy-stat-tech"]?.updated || "",
+          next_issue:
+            groupDefaults["analizy-stat-tech"]?.next_issue || "",
+          frequency:
+            groupDefaults["analizy-stat-tech"]?.frequency || ""
         });
 
         const sortByDateDesc = (first, second) =>

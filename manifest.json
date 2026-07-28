@@ -53,7 +53,11 @@
     "path": "raporty/analizy-stat-tech/",
     "type": "folder",
     "category": "foldery",
-    "alert_comment": ""
+    "alert_comment": "",
+    "group_id": "analizy-stat-tech",
+    "updated": "2026-07-21",
+    "frequency": "tygodniowo",
+    "next_issue": "2026-07-28"
   },
   "Pogoda": {
     "name": "Warunki pogodowe dla upraw kluczowych surowców",
@@ -76,8 +80,6 @@
     "name": "USD/PLN",
     "description": "Analiza statystyczno-techniczna pary USD/PLN.",
     "path": "raporty/analizy-stat-tech/waluty/usdpln/",
-    "updated": "2026-07-14",
-    "frequency": "tygodniowo",
     "group": "analizy-stat-tech",
     "section": "Waluty",
     "category": "fx"
@@ -86,8 +88,6 @@
     "name": "EUR/PLN",
     "description": "Analiza statystyczno-techniczna pary EUR/PLN.",
     "path": "raporty/analizy-stat-tech/waluty/eurpln/",
-    "updated": "2026-07-14",
-    "frequency": "tygodniowo",
     "group": "analizy-stat-tech",
     "section": "Waluty",
     "category": "fx"
@@ -96,8 +96,6 @@
     "name": "EUR/USD",
     "description": "Analiza statystyczno-techniczna pary EUR/USD.",
     "path": "raporty/analizy-stat-tech/waluty/eurusd/",
-    "updated": "2026-07-14",
-    "frequency": "tygodniowo",
     "group": "analizy-stat-tech",
     "section": "Waluty",
     "category": "fx"
@@ -106,8 +104,6 @@
     "name": "Pszenica",
     "description": "Analiza statystyczno-techniczna pszenicy.",
     "path": "raporty/analizy-stat-tech/zboza/pszenica/",
-    "updated": "2026-07-14",
-    "frequency": "tygodniowo",
     "group": "analizy-stat-tech",
     "section": "Zboża",
     "category": "zboza"
@@ -116,8 +112,6 @@
     "name": "Kukurydza",
     "description": "Analiza statystyczno-techniczna kukurydzy.",
     "path": "raporty/analizy-stat-tech/zboza/kukurydza/",
-    "updated": "2026-07-14",
-    "frequency": "tygodniowo",
     "group": "analizy-stat-tech",
     "section": "Zboża",
     "category": "zboza"
@@ -126,8 +120,6 @@
     "name": "Rzepak",
     "description": "Analiza statystyczno-techniczna rzepaku.",
     "path": "raporty/analizy-stat-tech/zboza/rzepak/",
-    "updated": "2026-07-14",
-    "frequency": "tygodniowo",
     "group": "analizy-stat-tech",
     "section": "Zboża",
     "category": "zboza"
@@ -136,8 +128,6 @@
     "name": "Śruta sojowa",
     "description": "Analiza statystyczno-techniczna śruty sojowej.",
     "path": "raporty/analizy-stat-tech/sruty/sojowa/",
-    "updated": "2026-07-14",
-    "frequency": "tygodniowo",
     "group": "analizy-stat-tech",
     "section": "Śruty",
     "category": "bialko"
@@ -146,8 +136,6 @@
     "name": "Śruta rzepakowa",
     "description": "Analiza statystyczno-techniczna śruty rzepakowej.",
     "path": "raporty/analizy-stat-tech/sruty/rzepakowa/",
-    "updated": "2026-07-14",
-    "frequency": "tygodniowo",
     "group": "analizy-stat-tech",
     "section": "Śruty",
     "category": "bialko"
@@ -156,8 +144,6 @@
     "name": "Gaz",
     "description": "Analiza statystyczno-techniczna rynku gazu.",
     "path": "raporty/analizy-stat-tech/energia/gaz/",
-    "updated": "2026-07-14",
-    "frequency": "tygodniowo",
     "group": "analizy-stat-tech",
     "section": "Energia",
     "category": "energia"
@@ -166,8 +152,6 @@
     "name": "Prąd",
     "description": "Analiza statystyczno-techniczna rynku energii elektrycznej.",
     "path": "raporty/analizy-stat-tech/energia/prad/",
-    "updated": "2026-07-14",
-    "frequency": "tygodniowo",
     "group": "analizy-stat-tech",
     "section": "Energia",
     "category": "energia"
@@ -176,8 +160,6 @@
     "name": "Ropa",
     "description": "Analiza statystyczno-techniczna rynku ropy naftowej.",
     "path": "raporty/analizy-stat-tech/energia/ropa/",
-    "updated": "2026-07-14",
-    "frequency": "tygodniowo",
     "group": "analizy-stat-tech",
     "section": "Energia",
     "category": "energia"
